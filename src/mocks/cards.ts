@@ -1,12 +1,8 @@
 import uuid from "react-uuid";
 import { CardsType } from "../constants/cards-types";
+import { TCard } from "../types/components-types";
 
-type T = {
-  id: string;
-  types: [CardsType, CardsType];
-}
-
-const CARDS: T[] = [
+const CARDS: TCard[] = [
   {
     id: uuid(),
     types: [CardsType.Maple, CardsType.Sun],

@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
+import { TGamePieceBlockProps } from "../../types/components-types";
 import "./game-piece.scss";
 
-export type TGamePiece = {
-  type: "red" | "black";
-  id: string;
-};
-
-function GamePiece({ type, id }: TGamePiece) {
-  const [countPiece, setCountPiece] = useState<number>(4);
-  const [collected, drag] = useDrag({
+function GamePiece({ type, id }: TGamePieceBlockProps) {
+  const [, drag] = useDrag({
     type: "piece",
     item: { id, type },
     collect: (monitor) => ({
@@ -17,19 +11,8 @@ function GamePiece({ type, id }: TGamePiece) {
     }),
   });
 
-  useEffect(() => {
-    if (collected.isDragged && countPiece > 0) {
-      setCountPiece((prev) => prev - 1);
-    }
-  }, [collected.isDragged, countPiece]);
-
-  return (
-    <div className="game-piece-container">
-      {drag(
-        <div id={id} draggable className={`game-piece game-piece_${type}`} />
-      )}
-      <span>Осталось: {countPiece}</span>
-    </div>
+  return drag(
+    <div id={id} draggable className={`game-piece game-piece_${type}`} />
   );
 }
 

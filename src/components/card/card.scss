@@ -14,4 +14,9 @@
     cursor: pointer;
     background-color: red;
   }
+
+  &_available {
+    border: 1px dotted green;
+    background-color: rgba(0, 128, 0, 0.41);
+  }
 }

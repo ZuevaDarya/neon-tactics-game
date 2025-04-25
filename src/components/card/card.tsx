@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useDrop } from "react-dnd";
 import { RU_CARDS_TYPES } from "../../constants/cards-types";
-import { setCardOnPiece } from "../../services/slices/game-field-slice";
+import { setCardOnPiece, setTargetCard } from "../../services/slices/game-field-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { TCardProps, TGamePieceBlockProps } from "../../types/components-types";
 import "./card.scss";
@@ -9,12 +9,18 @@ import "./card.scss";
 function Card({ card }: TCardProps) {
   const dispatch = useAppDispatch();
   const field = useAppSelector((state) => state.gameField.field);
-  const cardIdx = field.findIndex((fieldCard) => fieldCard.id === card?.id);
+  const cardIdx = field.findIndex(
+    (fieldCard) => "id" in fieldCard && fieldCard.id === card?.id
+  );
 
   const [, dropTarget] = useDrop<TGamePieceBlockProps>({
     accept: "piece",
     drop(props) {
       dispatch(setCardOnPiece({ idx: cardIdx, piece: props }));
+
+      if (card) {
+        dispatch(setTargetCard(card));
+      }
     },
     collect: (monitor) => ({
       isDroped: monitor.didDrop(),

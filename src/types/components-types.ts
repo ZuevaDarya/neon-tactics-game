@@ -15,8 +15,7 @@ export type TPieceTypes = "red" | "black";
 
 export type TGamePieceBlockProps = {
   type: TPieceTypes;
-  id: string;
-};
+}
 
 export type TPiecePosition = "left" | "right";
 

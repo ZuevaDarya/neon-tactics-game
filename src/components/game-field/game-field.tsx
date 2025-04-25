@@ -3,6 +3,7 @@ import { useAppSelector } from "../../services/store";
 import Card from "../card/card";
 import GamePiece from "../game-piece/game-piece";
 import "./game-field.scss";
+import uuid from 'react-uuid';
 
 function GameField() {
   const field = useAppSelector((state) => state.gameField.field);
@@ -13,7 +14,7 @@ function GameField() {
         if ("types" in card) {
           return <Card key={card.id} card={card} />;
         }
-        return <GamePiece id={card.id} type={card.type} />;
+        return <GamePiece key={uuid()} type={card.type} />;
       })}
     </div>
   );

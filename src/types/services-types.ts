@@ -2,6 +2,7 @@ import { TCard, TGamePieceBlockProps } from "./components-types";
 
 export type TGameFiledState = {
   field: (TCard | TGamePieceBlockProps)[];
+  targetCard: TCard | null;
 };
 
 export type TAddCardsAction = {

@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
 import { TPreloadedState } from "../types/services-types";
 import rootReducer from "./root-reducer";
-import { useDispatch, useSelector } from 'react-redux';
 
 const preloadedState: TPreloadedState = {
   gameField: {
     field: [],
+    targetCard: null,
   },
 };
 

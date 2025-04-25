@@ -12,11 +12,14 @@
 
   &:hover {
     cursor: pointer;
-    background-color: red;
   }
 
   &_available {
     border: 1px dotted green;
     background-color: rgba(0, 128, 0, 0.41);
+  }
+
+  &_locked {
+    background-color: rgba(255, 0, 0, 0.488);
   }
 }

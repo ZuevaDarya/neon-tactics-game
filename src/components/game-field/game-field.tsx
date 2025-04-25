@@ -14,7 +14,7 @@ function GameField() {
         if ("types" in card) {
           return <Card key={card.id} card={card} />;
         }
-        return <GamePiece key={uuid()} type={card.type} />;
+        return <GamePiece key={uuid()} type={card.type} isDraggible={false} />;
       })}
     </div>
   );

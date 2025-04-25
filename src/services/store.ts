@@ -8,6 +8,13 @@ const preloadedState: TPreloadedState = {
     field: [],
     targetCard: null,
   },
+  gameState: {
+    countTurn: 0,
+    activePlayer: null,
+  },
+  players: {
+    players: [],
+  },
 };
 
 export const store = configureStore({

@@ -1,8 +1,11 @@
 import { useDrag } from "react-dnd";
-import { TGamePieceBlockProps } from "../../types/components-types";
+import { useAppSelector } from "../../services/store";
+import { TGamePieceProps } from "../../types/components-types";
 import "./game-piece.scss";
 
-function GamePiece({ type }: TGamePieceBlockProps) {
+function GamePiece({ type, isDraggible }: TGamePieceProps) {
+  const activePlayer = useAppSelector((state) => state.gameState.activePlayer);
+
   const [, drag] = useDrag({
     type: "piece",
     item: { type },
@@ -11,8 +14,10 @@ function GamePiece({ type }: TGamePieceBlockProps) {
     }),
   });
 
-  return drag(
-    <div draggable className={`game-piece game-piece_${type}`} />
+  return activePlayer && activePlayer.pieceType === type && isDraggible ? (
+    drag(<div className={`game-piece game-piece_${type}`} />)
+  ) : (
+    <div className={`game-piece game-piece_${type}`} />
   );
 }
 

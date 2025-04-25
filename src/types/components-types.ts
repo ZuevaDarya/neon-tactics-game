@@ -1,4 +1,5 @@
 import { CardsType } from "../constants/cards-types";
+import { TPlayer } from './services-types';
 
 export type TCardTypes = [CardsType, CardsType];
 
@@ -9,16 +10,27 @@ export type TCard = {
 
 export type TCardProps = {
   card?: TCard;
+  isTargetCard?: boolean;
 };
 
 export type TPieceTypes = "red" | "black";
 
-export type TGamePieceBlockProps = {
+export type TGamePieceProps = {
   type: TPieceTypes;
-}
+  isDraggible: boolean;
+};
+
+export type TGamePieceBlockProps = TGamePieceProps & {
+  countPieces: number;
+};
 
 export type TPiecePosition = "left" | "right";
 
-export type TPlayerBlockProps = Pick<TGamePieceBlockProps, "type"> & {
+export type TPlayerBlockProps = {
+  player: TPlayer;
   position: TPiecePosition;
+};
+
+export type TPlayerIconProps = {
+  name: string;
 };

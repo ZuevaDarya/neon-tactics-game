@@ -6,58 +6,55 @@ import {
   setCardOnPiece,
   setTargetCard,
 } from "../../services/slices/game-field-slice";
-import {
-  increaseCountTurn,
-  setActivePlayer,
-} from "../../services/slices/game-state-slice";
-import { updatePlayer } from "../../services/slices/players-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import { TCardProps, TGamePieceBlockProps } from "../../types/components-types";
+import { TCardProps } from "../../types/components-types";
+import { TGameFieldPiece } from "../../types/services-types";
 import isAvailableCard from "../../utils/functions/is-available-card";
 import "./card.scss";
 
-function Card({ card, isTargetCard }: TCardProps) {
+function Card({
+  card,
+  isTargetCard,
+  setCurrentCardIdx,
+  setCurrentPieceType,
+  setIsDropped,
+}: TCardProps) {
   const dispatch = useAppDispatch();
   const { field, targetCard } = useAppSelector((state) => state.gameField);
-  const cardIdx = field.findIndex(
-    (fieldCard) => "id" in fieldCard && fieldCard.id === card?.id
-  );
-  const players = useAppSelector((state) => state.players.players);
-  const { activePlayer, countTurn } = useAppSelector((state) => state.gameState);
+  const cardIdx = field.findIndex((fieldCard) => fieldCard.id === card?.id);
+  const { countTurn } = useAppSelector((state) => state.gameState);
 
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [isLocked, setIsLocked] = useState<boolean>(false);
 
-  const [{ isPieceMoving }, dropTarget] = useDrop({
+  const [{ isPieceMoving, item }, dropTarget] = useDrop({
     accept: "piece",
-    drop(props: TGamePieceBlockProps) {
+    drop(props: TGameFieldPiece) {
       dispatch(setCardOnPiece({ idx: cardIdx, piece: props }));
+
+      if (setCurrentCardIdx) {
+        setCurrentCardIdx(cardIdx);
+      }
 
       if (card) {
         dispatch(setTargetCard(card));
       }
 
-      if (activePlayer) {
-        const nextTurnPlayer = players.find(
-          (player) => player.id !== activePlayer.id
-        );
-
-        if (nextTurnPlayer) {
-          dispatch(setActivePlayer(nextTurnPlayer));
-          dispatch(
-            updatePlayer({
-              ...activePlayer,
-              countPieces: activePlayer.countPieces - 1,
-            })
-          );
-          dispatch(increaseCountTurn());
-        }
+      if (setIsDropped) {
+        setIsDropped(true);
       }
     },
     collect: (monitor) => ({
       isPieceMoving: monitor.canDrop(),
+      item: monitor.getItem(),
     }),
   });
+
+  useEffect(() => {
+    if (item !== null && setCurrentPieceType) {
+      setCurrentPieceType(item.type);
+    }
+  }, [item, setCurrentPieceType]);
 
   useEffect(() => {
     if (targetCard && card) {

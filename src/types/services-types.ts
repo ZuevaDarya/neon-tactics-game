@@ -1,7 +1,11 @@
-import { TCard, TGamePieceBlockProps, TPieceTypes } from "./components-types";
+import { TCard, TGamePieceProps, TPieceTypes } from "./components-types";
+
+export type TGameFieldPiece = Pick<TGamePieceProps, "type"> & {
+  id: string;
+};
 
 export type TGameFiledState = {
-  field: (TCard | TGamePieceBlockProps)[];
+  field: (TCard | TGameFieldPiece)[];
   targetCard: TCard | null;
 };
 
@@ -17,7 +21,7 @@ export type TPreloadedState = {
 
 export type TSetCardOnPieceAction = {
   idx: number;
-  piece: TGamePieceBlockProps;
+  piece: TGameFieldPiece;
 };
 
 export type TPlayer = {
@@ -30,10 +34,9 @@ export type TPlayer = {
 export type TGameState = {
   countTurn: number;
   activePlayer: TPlayer | null;
+  winner: TPlayer | null;
 };
 
 export type TPlayersState = {
   players: [TPlayer, TPlayer] | [];
 };
-
-

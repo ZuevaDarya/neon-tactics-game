@@ -11,6 +11,7 @@ const preloadedState: TPreloadedState = {
   gameState: {
     countTurn: 0,
     activePlayer: null,
+    winner: null,
   },
   players: {
     players: [],

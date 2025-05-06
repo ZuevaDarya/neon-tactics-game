@@ -11,6 +11,9 @@ export type TCard = {
 export type TCardProps = {
   card?: TCard;
   isTargetCard?: boolean;
+  setCurrentCardIdx?: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPieceType?: React.Dispatch<React.SetStateAction<TPieceTypes | null>>;
+  setIsDropped?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type TPieceTypes = "red" | "black";
@@ -20,7 +23,7 @@ export type TGamePieceProps = {
   isDraggible: boolean;
 };
 
-export type TGamePieceBlockProps = TGamePieceProps & {
+export type TGamePieceBlockProps = Pick<TGamePieceProps, "type"> & {
   countPieces: number;
 };
 

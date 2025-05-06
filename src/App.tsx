@@ -9,6 +9,7 @@ import { addCards } from "./services/slices/game-field-slice";
 import { setActivePlayer } from "./services/slices/game-state-slice";
 import { addPlayers } from "./services/slices/players-slice";
 import { useAppDispatch, useAppSelector } from "./services/store";
+import shuffleField from "./utils/functions/shuffle-field";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -17,7 +18,7 @@ function App() {
   );
 
   useEffect(() => {
-    dispatch(addCards({ cards: CARDS }));
+    dispatch(addCards({ cards: shuffleField(CARDS) }));
     dispatch(addPlayers([PLAYER1, PLAYER2]));
     dispatch(setActivePlayer(PLAYER1));
   }, [dispatch]);

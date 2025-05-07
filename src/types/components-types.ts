@@ -1,5 +1,5 @@
 import { CardsType } from "../constants/cards-types";
-import { TPlayer } from './services-types';
+import { TPlayer } from "./services-types";
 
 export type TCardTypes = [CardsType, CardsType];
 
@@ -36,4 +36,37 @@ export type TPlayerBlockProps = {
 
 export type TPlayerIconProps = {
   name: string;
+};
+
+export type TModalOverlayProps = {
+  onClose: () => void;
+};
+
+export type TModalProps = TModalOverlayProps & {
+  children: React.ReactNode;
+};
+
+export type TStartModalProps = TModalOverlayProps;
+
+export type TFormItemProps = {
+  label: string;
+  name: string;
+  placeholder: string;
+  type: React.HTMLInputTypeAttribute;
+  readonly?: boolean;
+};
+
+export type TFormSectionProps = {
+  title: string;
+  children: React.ReactNode;
+};
+
+export type TFormBtnProps = {
+  children: React.ReactNode | string;
+  type?: "button" | "reset" | "submit";
+  classType: "default" | "started";
+};
+
+export type TCloseBtnProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 };

@@ -3,6 +3,8 @@ import "./app.scss";
 import GameField from "./components/game-field/game-field";
 import GameStatePanel from "./components/game-state-panel/game-state-panel";
 import PlayerBlock from "./components/player-block/player-block";
+import StartModal from "./components/start-modal/start-modal";
+import useModal from "./hooks/use-modal";
 import CARDS from "./mocks/cards";
 import { PLAYER1, PLAYER2 } from "./mocks/players";
 import { addCards } from "./services/slices/game-field-slice";
@@ -16,6 +18,7 @@ function App() {
   const [firstPlayer, secondPlayer] = useAppSelector(
     (state) => state.players.players
   );
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   useEffect(() => {
     dispatch(addCards({ cards: shuffleField(CARDS) }));
@@ -23,8 +26,13 @@ function App() {
     dispatch(setActivePlayer(PLAYER1));
   }, [dispatch]);
 
+  useEffect(() => {
+    openModal();
+  }, [openModal]);
+
   return (
     <div className="wrapper">
+      {isModalOpen && <StartModal onClose={closeModal} />}
       <GameStatePanel />
       <div className="game-field-container">
         {firstPlayer && <PlayerBlock player={firstPlayer} position="left" />}

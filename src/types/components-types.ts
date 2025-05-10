@@ -1,5 +1,7 @@
+import { UseFormRegister } from 'react-hook-form';
 import { CardsType } from "../constants/cards-types";
 import { TPlayer } from "./services-types";
+import { InputName } from '../constants/input-name';
 
 export type TCardTypes = [CardsType, CardsType];
 
@@ -50,10 +52,12 @@ export type TStartModalProps = TModalOverlayProps;
 
 export type TFormItemProps = {
   label: string;
-  name: string;
+  name: InputName;
   placeholder: string;
   type: React.HTMLInputTypeAttribute;
+  register: UseFormRegister<TStartForm>;
   readonly?: boolean;
+  required?: boolean;
 };
 
 export type TFormSectionProps = {
@@ -69,4 +73,9 @@ export type TFormBtnProps = {
 
 export type TCloseBtnProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+export type TStartForm = {
+  player1: string;
+  player2: string;
 };

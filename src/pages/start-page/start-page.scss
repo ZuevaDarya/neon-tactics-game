@@ -83,3 +83,10 @@
     }
   }
 }
+
+.form-error {
+  position: absolute;
+  font-size: 14px;
+  color: red;
+  transform: translateY(1.7em);
+}

@@ -1,16 +1,14 @@
 import { TFormItemProps } from '../../types/components-types';
 import "./form-item.scss";
 
-function FormItem({ label, name, placeholder, type, readonly}: TFormItemProps) {
+function FormItem({ label, name, placeholder, type, register, readonly, required}: TFormItemProps) {
   return (
     <label className="form-item">
       {label} :
       <input
-        name={name}
+        {...register(name, {required, maxLength: 30})}
         type={type}
         placeholder={placeholder}
-        required
-        maxLength={30}
         className="form-item__input"
         readOnly={readonly}
       />

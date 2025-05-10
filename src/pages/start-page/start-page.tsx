@@ -1,13 +1,12 @@
-import { TStartModalProps } from "../../types/components-types";
-import FormBtn from "../form-btn/form-btn";
-import FormItem from "../form-item/form-item";
-import FormSection from "../form-section/form-section";
-import Modal from "../modal/modal";
-import "./start-modal.scss";
+import FormBtn from "../../components/form-btn/form-btn";
+import FormItem from "../../components/form-item/form-item";
+import FormSection from "../../components/form-section/form-section";
+import "./start-page.scss";
 
-function StartModal({ onClose }: TStartModalProps) {
+function StartPage() {
   return (
-    <Modal onClose={onClose}>
+    <div className="container">
+      <h1 className="game-title">Okiya Game</h1>
       <form className="form">
         <FormSection title="Введите игроков">
           <div className="items-block items-block_ds-row">
@@ -30,8 +29,8 @@ function StartModal({ onClose }: TStartModalProps) {
           Начать игру
         </FormBtn>
       </form>
-    </Modal>
+    </div>
   );
 }
 
-export default StartModal;
+export default StartPage;

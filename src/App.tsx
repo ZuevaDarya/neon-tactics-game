@@ -1,45 +1,15 @@
-import { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./app.scss";
-import GameField from "./components/game-field/game-field";
-import GameStatePanel from "./components/game-state-panel/game-state-panel";
-import PlayerBlock from "./components/player-block/player-block";
-import StartModal from "./components/start-modal/start-modal";
-import useModal from "./hooks/use-modal";
-import CARDS from "./mocks/cards";
-import { PLAYER1, PLAYER2 } from "./mocks/players";
-import { addCards } from "./services/slices/game-field-slice";
-import { setActivePlayer } from "./services/slices/game-state-slice";
-import { addPlayers } from "./services/slices/players-slice";
-import { useAppDispatch, useAppSelector } from "./services/store";
-import shuffleField from "./utils/functions/shuffle-field";
+import { AppRoute } from "./constants/app-route";
+import GamePage from "./pages/game-page/game-page";
+import StartPage from "./pages/start-page/start-page";
 
 function App() {
-  const dispatch = useAppDispatch();
-  const [firstPlayer, secondPlayer] = useAppSelector(
-    (state) => state.players.players
-  );
-  const { isModalOpen, openModal, closeModal } = useModal();
-
-  useEffect(() => {
-    dispatch(addCards({ cards: shuffleField(CARDS) }));
-    dispatch(addPlayers([PLAYER1, PLAYER2]));
-    dispatch(setActivePlayer(PLAYER1));
-  }, [dispatch]);
-
-  useEffect(() => {
-    openModal();
-  }, [openModal]);
-
   return (
-    <div className="wrapper">
-      {isModalOpen && <StartModal onClose={closeModal} />}
-      <GameStatePanel />
-      <div className="game-field-container">
-        {firstPlayer && <PlayerBlock player={firstPlayer} position="left" />}
-        <GameField />
-        {secondPlayer && <PlayerBlock player={secondPlayer} position="right" />}
-      </div>
-    </div>
+    <Routes>
+      <Route path={AppRoute.StartPage} element={<StartPage />} />
+      <Route path={AppRoute.GamePage} element={<GamePage />} />
+    </Routes>
   );
 }
 

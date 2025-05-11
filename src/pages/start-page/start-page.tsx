@@ -5,19 +5,24 @@ import FormItem from "../../components/form-item/form-item";
 import FormSection from "../../components/form-section/form-section";
 import { AppRoute } from "../../constants/app-route";
 import { InputName } from "../../constants/input-name";
-import { addPlayers } from "../../services/slices/players-slice";
-import { useAppDispatch } from "../../services/store";
+import { SessionStorageKey } from "../../constants/storage-keys";
+import CARDS from "../../mocks/cards";
 import { TStartForm } from "../../types/components-types";
 import preparePlayers from "../../utils/functions/prepare-players";
+import shuffleField from "../../utils/functions/shuffle-field";
 import "./start-page.scss";
 
 function StartPage() {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit, formState } = useForm<TStartForm>();
 
   const onSubmit: SubmitHandler<TStartForm> = (data) => {
-    dispatch(addPlayers(preparePlayers(data)));
+    const [player1, player2] = preparePlayers(data);
+
+    sessionStorage.setItem(SessionStorageKey.Player1, JSON.stringify(player1));
+    sessionStorage.setItem(SessionStorageKey.Player2, JSON.stringify(player2));
+    sessionStorage.setItem(SessionStorageKey.Cards, JSON.stringify(shuffleField(CARDS)));
+
     navigate(AppRoute.GamePage);
   };
 

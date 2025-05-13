@@ -1,5 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import uuid from "react-uuid";
+import useModal from "../../hooks/use-modal";
 import {
   increaseCountTurn,
   resetActivePlayer,
@@ -12,6 +13,7 @@ import { TPieceTypes } from "../../types/components-types";
 import isWin from "../../utils/functions/is-win";
 import Card from "../card/card";
 import GamePiece from "../game-piece/game-piece";
+import WinnerModal from "../winner-modal/winner-modal";
 import "./game-field.scss";
 
 function GameField() {
@@ -23,6 +25,7 @@ function GameField() {
   const field = useAppSelector((state) => state.gameField.field);
   const { activePlayer, winner } = useAppSelector((state) => state.gameState);
   const players = useAppSelector((state) => state.players.players);
+  const { isModalOpen, closeModal, openModal } = useModal();
 
   useEffect(() => {
     setIsDropped(false);
@@ -36,13 +39,13 @@ function GameField() {
   useEffect(() => {
     if (!winner) {
       if (isDropped) {
+        // sessionStorage.setItem(SessionStorageKey.Cards, JSON.stringify(field));
         if (activePlayer) {
-          const nextTurnPlayer = players.find(
-            (player) => player.id !== activePlayer.id
-          );
+          const nextTurnPlayer = players.find((player) => player.id !== activePlayer.id);
 
           if (nextTurnPlayer) {
             dispatch(setActivePlayer(nextTurnPlayer));
+            // sessionStorage.setItem(SessionStorageKey.ActivePlayer, JSON.stringify(nextTurnPlayer));
             dispatch(
               updatePlayer({
                 ...activePlayer,
@@ -50,32 +53,38 @@ function GameField() {
               })
             );
             dispatch(increaseCountTurn());
+            openModal();
+            // sessionStorage.setItem(SessionStorageKey.CountTurn, JSON.stringify(countTurn));
           }
         }
       }
     } else {
       dispatch(resetActivePlayer());
-      alert(`${winner?.name} победил`);
+      // sessionStorage.removeItem(SessionStorageKey.ActivePlayer);
+      // alert(`${winner?.name} победил`);
     }
   }, [isDropped, winner, dispatch]);
 
   return (
-    <div className="game-field">
-      {field.map((card) => {
-        if ("types" in card) {
-          return (
-            <Card
-              key={card.id}
-              card={card}
-              setCurrentCardIdx={setCurrentCardIdx}
-              setCurrentPieceType={setCurrentPieceType}
-              setIsDropped={setIsDropped}
-            />
-          );
-        }
-        return <GamePiece key={uuid()} type={card.type} isDraggible={false} />;
-      })}
-    </div>
+    <>
+      {winner && isModalOpen && <WinnerModal onClose={closeModal} winner={winner} />}
+      <div className="game-field">
+        {field.map((card) => {
+          if ("types" in card) {
+            return (
+              <Card
+                key={card.id}
+                card={card}
+                setCurrentCardIdx={setCurrentCardIdx}
+                setCurrentPieceType={setCurrentPieceType}
+                setIsDropped={setIsDropped}
+              />
+            );
+          }
+          return <GamePiece key={uuid()} type={card.type} isDraggible={false} />;
+        })}
+      </div>
+    </>
   );
 }
 

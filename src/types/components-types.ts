@@ -2,6 +2,7 @@ import { UseFormRegister } from 'react-hook-form';
 import { CardsType } from "../constants/cards-types";
 import { TPlayer } from "./services-types";
 import { InputName } from '../constants/input-name';
+import React from 'react';
 
 export type TCardTypes = [CardsType, CardsType];
 
@@ -36,7 +37,7 @@ export type TPlayerBlockProps = {
   position: TPiecePosition;
 };
 
-export type TPlayerIconProps = {
+export type TPlayerIconProps = TAvatarProps & {
   name: string;
 };
 
@@ -69,6 +70,7 @@ export type TFormBtnProps = {
   children: React.ReactNode | string;
   type?: "button" | "reset" | "submit";
   classType: "default" | "started";
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export type TCloseBtnProps = {
@@ -78,4 +80,15 @@ export type TCloseBtnProps = {
 export type TStartForm = {
   player1: string;
   player2: string;
+};
+export type TAvatarProps = {
+  src: string;
+};
+
+export type TProtectedRoute = {
+  children: React.ReactNode;
+};
+
+export type TWinnerModalProps = Pick<TModalProps, "onClose"> & {
+  winner: TPlayer;
 };

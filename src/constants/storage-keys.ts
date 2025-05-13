@@ -5,4 +5,5 @@ export enum SessionStorageKey {
   Player2 = InputName.Player2,
   Cards = "cards",
   ActivePlayer = "active-player",
+  CountTurn = "count-turn",
 }

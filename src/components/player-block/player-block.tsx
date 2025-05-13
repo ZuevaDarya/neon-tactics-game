@@ -6,9 +6,13 @@ import "./player-block.scss";
 function PlayerBlock({ player, position }: TPlayerBlockProps) {
   return (
     <div className="player-block">
-      {position === "left" && <PlayerIcon name={player.name} />}
+      {position === "left" && (
+        <PlayerIcon src={`/assets/images/j-${player.pieceType}-1.png`} name={player.name} />
+      )}
       <GamePieceBlock countPieces={player.countPieces} type={player.pieceType} />
-      {position === "right" && <PlayerIcon name={player.name} />}
+      {position === "right" && (
+        <PlayerIcon src={`/assets/images/j-${player.pieceType}-1.png`} name={player.name} />
+      )}
     </div>
   );
 }

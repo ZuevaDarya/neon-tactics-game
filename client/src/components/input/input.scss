@@ -1,0 +1,22 @@
+.input {
+  min-width: 5vw;
+  width: 15vw;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  border-radius: 2px;
+
+  &_default {
+    border-bottom: 1px solid rgb(200, 10, 10);
+    &:hover {
+      background-color: rgba(200, 10, 10, 0.185);
+    }
+    &:focus {
+      background-color: rgba(200, 10, 10, 0.185);
+    }
+  }
+
+  &_disabled {
+    border-bottom: 1px solid grey;
+    background-color: rgb(212, 212, 212);
+  }
+}

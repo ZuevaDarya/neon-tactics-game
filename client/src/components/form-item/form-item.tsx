@@ -1,17 +1,13 @@
-import { TFormItemProps } from '../../types/components-types';
+import { FieldValues } from "react-hook-form";
+import { TFormItemProps } from "../../types/components-types";
+import Input from "../input/input";
 import "./form-item.scss";
 
-function FormItem({ label, name, placeholder, type, register, readonly, required}: TFormItemProps) {
+function FormItem<T extends FieldValues>({ label, ...props }: TFormItemProps<T>) {
   return (
     <label className="form-item">
-      {label} :
-      <input
-        {...register(name, {required, maxLength: 30})}
-        type={type}
-        placeholder={placeholder}
-        className="form-item__input"
-        readOnly={readonly}
-      />
+      {label}:
+      <Input<T> {...props} />
     </label>
   );
 }

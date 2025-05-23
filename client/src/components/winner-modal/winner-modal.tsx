@@ -1,5 +1,5 @@
 import { TWinnerModalProps } from "../../types/components-types";
-import FormBtn from "../form-btn/form-btn";
+import Button from "../button/button";
 import Modal from "../modal/modal";
 import PlayerIcon from "../player-icon/player-icon";
 import "./winner-modal.scss";
@@ -11,8 +11,8 @@ function WinnerModal({ onClose, winner }: TWinnerModalProps) {
         <h1 className="winner-modal__title">Победа!</h1>
         <PlayerIcon src={`/assets/images/j-${winner.pieceType}-1.png`} name={winner.name} />
         <div className="winner-modal__buttons">
-          <FormBtn classType="default">Сыграть еще раз</FormBtn>
-          <FormBtn classType="default">Выход</FormBtn>
+          <Button>Сыграть еще раз</Button>
+          <Button>Выход</Button>
         </div>
       </div>
     </Modal>

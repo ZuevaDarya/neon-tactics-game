@@ -1,8 +1,8 @@
-import { InputName } from "./input-name";
+import { StartFormInputName } from "./input-name";
 
 export enum SessionStorageKey {
-  Player1 = InputName.Player1,
-  Player2 = InputName.Player2,
+  Player = StartFormInputName.Player,
+  RoomId = StartFormInputName.RoomId,
   Cards = "cards",
   ActivePlayer = "active-player",
   CountTurn = "count-turn",

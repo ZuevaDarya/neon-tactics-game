@@ -1,63 +1,57 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import FormBtn from "../../components/form-btn/form-btn";
 import FormItem from "../../components/form-item/form-item";
 import FormSection from "../../components/form-section/form-section";
-import { AppRoute } from "../../constants/app-route";
-import { InputName } from "../../constants/input-name";
-import { addPlayers } from "../../services/slices/players-slice";
-import { useAppDispatch } from "../../services/store";
+
+import Button from "../../components/button/button";
+import Form from "../../components/form/form";
+import { StartFormInputName } from "../../constants/input-name";
 import { TStartForm } from "../../types/components-types";
-import preparePlayers from "../../utils/functions/prepare-players";
 import "./start-page.scss";
 
 function StartPage() {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
   const { register, handleSubmit, formState } = useForm<TStartForm>();
 
   const onSubmit: SubmitHandler<TStartForm> = (data) => {
-    // const [player1, player2] = preparePlayers(data);
-
+    // const [player, RoomId] = preparePlayers(data);
+    console.log(data);
     // sessionStorage.setItem(SessionStorageKey.Player1, JSON.stringify(player1));
     // sessionStorage.setItem(SessionStorageKey.Player2, JSON.stringify(player2));
     // sessionStorage.setItem(SessionStorageKey.Cards, JSON.stringify(shuffleField(CARDS)));
-    dispatch(addPlayers(preparePlayers(data)));
-    navigate(AppRoute.GamePage, { replace: true });
+    // dispatch(addPlayers(preparePlayers(data)));
+    // navigate(AppRoute.GamePage, { replace: true });
   };
 
   return (
     <div className="container">
       <h1 className="game-title">Okiya Game</h1>
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <FormSection title="Введите игроков">
-          <div className="items-block items-block_ds-row">
-            <FormItem
-              label="Игрок 1"
-              name={InputName.Player1}
-              placeholder="игрок 1"
-              type="text"
-              register={register}
-              required
-            />
-            <FormItem
-              label="Игрок 2"
-              name={InputName.Player2}
-              placeholder="игрок 2"
-              type="text"
-              register={register}
-              required
-            />
-            {(formState.errors.player1 || formState.errors.player2) && (
-              <span className="form-error">Заполните обязательные поля</span>
-            )}
-          </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <FormSection title="Введите игрокa" variant="ds_row">
+          <FormItem<TStartForm>
+            label="Игрок"
+            name={StartFormInputName.Player}
+            placeholder="игрок 1"
+            type="text"
+            register={register}
+            required
+            variant="default"
+          />
+          <FormItem<TStartForm>
+            label="Номер комнаты"
+            name={StartFormInputName.RoomId}
+            type="text"
+            register={register}
+            required
+            disabled
+            variant="disabled"
+          />
+          {formState.errors.player && (
+            <span className="form-error">Заполните обязательные поля</span>
+          )}
         </FormSection>
-
-        <FormBtn type="submit" classType="started">
-          Начать игру
-        </FormBtn>
-      </form>
+        <Button type="submit">Начать игру</Button>
+      </Form>
     </div>
   );
 }

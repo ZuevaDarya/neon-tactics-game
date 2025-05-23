@@ -1,7 +1,7 @@
 import React from "react";
-import { UseFormRegister } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
+import { TInputProps } from "../components/input/input";
 import { CardsType } from "../constants/cards-types";
-import { InputName } from "../constants/input-name";
 import { TPlayer } from "./services-types";
 
 export type TCardTypes = [CardsType, CardsType];
@@ -51,19 +51,8 @@ export type TModalProps = TModalOverlayProps & {
 
 export type TStartModalProps = TModalOverlayProps;
 
-export type TFormItemProps = {
+export type TFormItemProps<T extends FieldValues> = TInputProps<T> & {
   label: string;
-  name: InputName;
-  placeholder: string;
-  type: React.HTMLInputTypeAttribute;
-  register: UseFormRegister<TStartForm>;
-  readonly?: boolean;
-  required?: boolean;
-};
-
-export type TFormSectionProps = {
-  title: string;
-  children: React.ReactNode;
 };
 
 export type TFormBtnProps = {
@@ -78,9 +67,10 @@ export type TCloseBtnProps = {
 };
 
 export type TStartForm = {
-  player1: string;
-  player2: string;
+  player: string;
+  roomId: string;
 };
+
 export type TAvatarProps = {
   src: string;
 };
@@ -92,3 +82,7 @@ export type TProtectedRoute = {
 export type TWinnerModalProps = Pick<TModalProps, "onClose"> & {
   winner: TPlayer;
 };
+
+export type TFormProps = {
+  children: React.ReactNode;
+} & React.FormHTMLAttributes<HTMLFormElement>;

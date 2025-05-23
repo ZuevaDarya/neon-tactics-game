@@ -1,0 +1,31 @@
+.form-section {
+  &_ds-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__title {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: rgb(200, 10, 10);
+  }
+}
+
+.items-block {
+  display: flex;
+  gap: 15px;
+
+  &_ds-row {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  &_ds-column {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+}

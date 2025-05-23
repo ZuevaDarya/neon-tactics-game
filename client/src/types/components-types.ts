@@ -1,8 +1,8 @@
-import { UseFormRegister } from 'react-hook-form';
+import React from "react";
+import { UseFormRegister } from "react-hook-form";
 import { CardsType } from "../constants/cards-types";
+import { InputName } from "../constants/input-name";
 import { TPlayer } from "./services-types";
-import { InputName } from '../constants/input-name';
-import React from 'react';
 
 export type TCardTypes = [CardsType, CardsType];
 

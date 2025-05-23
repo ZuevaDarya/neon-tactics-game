@@ -1,8 +1,8 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { TPieceType } from 'src/types/types';
 
-@Table
-export class Players extends Model {
+@Table({ tableName: 'player' })
+export class Player extends Model {
   @Column({ type: DataType.STRING, primaryKey: true, allowNull: false })
   playerId: string;
 

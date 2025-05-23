@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { ChangePlayer } from './dto/change-player.dto';
 import { CreatePlayer } from './dto/create-player.dto';
-import { Players } from './models/player.model';
+import { Player } from './models/player.model';
 
 @Injectable()
 export class PlayerService {
   constructor(
-    @InjectModel(Players)
-    private playersModel: typeof Players,
+    @InjectModel(Player)
+    private playersModel: typeof Player,
   ) {}
 
   async createPlayer(player: CreatePlayer) {

@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FormItem from "../../components/form-item/form-item";
 import FormSection from "../../components/form-section/form-section";
 
+import { useState } from "react";
 import Button from "../../components/button/button";
 import Form from "../../components/form/form";
 import { StartFormInputName } from "../../constants/input-name";
@@ -12,6 +13,7 @@ function StartPage() {
   // const dispatch = useAppDispatch();
   // const navigate = useNavigate();
   const { register, handleSubmit, formState } = useForm<TStartForm>();
+  const [isAddRoomBtnClick, setIsAddRoomBtnClick] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<TStartForm> = (data) => {
     // const [player, RoomId] = preparePlayers(data);
@@ -37,20 +39,27 @@ function StartPage() {
             required
             variant="default"
           />
-          <FormItem<TStartForm>
-            label="Номер комнаты"
-            name={StartFormInputName.RoomId}
-            type="text"
-            register={register}
-            required
-            disabled
-            variant="disabled"
-          />
+          {!isAddRoomBtnClick && (
+            <Button type="button" variant="btnForAdd" onClick={() => setIsAddRoomBtnClick(true)}>
+              Создать комнату
+            </Button>
+          )}
+          {isAddRoomBtnClick && (
+            <FormItem<TStartForm>
+              label="Номер комнаты"
+              name={StartFormInputName.RoomId}
+              type="text"
+              register={register}
+              required
+              disabled
+              variant="disabled"
+            />
+          )}
           {formState.errors.player && (
             <span className="form-error">Заполните обязательные поля</span>
           )}
         </FormSection>
-        <Button type="submit">Начать игру</Button>
+        <Button type="submit" variant="started">Начать игру</Button>
       </Form>
     </div>
   );

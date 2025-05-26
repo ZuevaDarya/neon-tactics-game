@@ -7,6 +7,7 @@ const buttonVariants = cva("button", {
     variant: {
       default: "button_default",
       started: "button_started",
+      btnForAdd: "add-button"
     },
   },
   defaultVariants: {

@@ -1,74 +1,71 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { ChangePlayer } from './dto/change-player.dto';
-import { CreatePlayer } from './dto/create-player.dto';
+import { CreatePlayerDTO } from './dto/create-player.dto';
+import { UpdatePlayerDTO } from './dto/update-player.dto';
 import { Player } from './models/player.model';
 
 @Injectable()
 export class PlayerService {
   constructor(
     @InjectModel(Player)
-    private playersModel: typeof Player,
+    private readonly playerModel: typeof Player,
   ) {}
 
-  async createPlayer(player: CreatePlayer) {
-    return this.playersModel.create({ ...player });
+  async create(player: CreatePlayerDTO): Promise<Player> {
+    return this.playerModel.create({ ...player }, { returning: true });
   }
 
-  async getPlayerById(playerId: string) {
-    if (!playerId) {
-      throw new Error('Player ID is required');
-    }
-
-    return this.playersModel.findOne({
-      where: { playerId },
-    });
-  }
-
-  async getAllPlayersInRoom(roomId: string) {
-    if (!roomId) {
-      throw new Error('Room ID is required');
-    }
-
-    return this.playersModel.findAll({
-      where: { roomId },
-    });
-  }
-
-  async updatePlayer(playerId: string, player: ChangePlayer) {
-    if (!playerId) {
-      throw new Error('Player ID is required');
-    }
-
-    const [affectedCount, affectedRows] = await this.playersModel.update(
-      { ...player },
-      {
-        where: { playerId },
-        returning: true,
-      },
-    );
-
-    if (affectedCount === 0) {
-      throw new Error('Player not found');
-    }
-
-    return affectedRows[0];
-  }
-
-  async deletePlayerById(playerId: string) {
-    if (!playerId) {
-      throw new Error('Player ID is required');
-    }
-
-    const player = await this.playersModel.findOne({
-      where: { playerId },
-    });
+  async findById(playerId: string): Promise<Player> {
+    const player = await this.playerModel.findByPk(playerId);
 
     if (!player) {
-      throw new Error('Player not found');
+      throw new NotFoundException(`Player with ID ${playerId} not found`);
     }
 
-    await player.destroy();
     return player;
+  }
+
+  async getAllInRoom(roomId: string): Promise<Player[]> {
+    return this.playerModel.findAll({
+      where: { roomId },
+      order: [['createdAt', 'ASC']],
+    });
+  }
+
+  async update(playerId: string, player: UpdatePlayerDTO): Promise<Player> {
+    const playerInDb = await this.findById(playerId);
+    return playerInDb.update(player);
+  }
+
+  async deleteById(playerId: string): Promise<Player> {
+    const player = await this.findById(playerId);
+    await player.destroy();
+
+    return player;
+  }
+
+  async changeActiveStatus(
+    playerId: string,
+    isActive: boolean,
+  ): Promise<Player> {
+    return this.update(playerId, { isActive });
+  }
+
+  async getPieceCount(playerId: string): Promise<number> {
+    const player = await this.findById(playerId);
+    return player.countPiece;
+  }
+
+  async decrementPieceCount(playerId: string): Promise<number> {
+    const player = await this.findById(playerId);
+
+    if (player.countPiece <= 0) {
+      throw new Error('Piece count cannot be negative');
+    }
+
+    player.countPiece -= 1;
+    await player.save();
+
+    return player.countPiece;
   }
 }

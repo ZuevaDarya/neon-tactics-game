@@ -10,8 +10,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ChangePlayer } from './dto/change-player.dto';
-import { CreatePlayer } from './dto/create-player.dto';
+import { CreatePlayerDTO } from './dto/create-player.dto';
+import { UpdatePlayerDTO } from './dto/update-player.dto';
 import { PlayerService } from './player.service';
 
 @Controller()
@@ -21,27 +21,47 @@ export class PlayerController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Content-Type', 'application/json')
-  createPlayer(@Body() player: CreatePlayer) {
-    return this.playerService.createPlayer(player);
+  async create(@Body() player: CreatePlayerDTO) {
+    return this.playerService.create(player);
   }
 
   @Get()
-  getPlayerById(id: string) {
-    return this.playerService.getPlayerById(id);
+  async findById(id: string) {
+    return this.playerService.findById(id);
   }
 
   @Get(':roomId')
-  getAllPlayersInRoom(@Param('roomId') id: string) {
-    return this.playerService.getAllPlayersInRoom(id);
+  async getAllInRoom(@Param('roomId') id: string) {
+    if (!id) {
+      throw new Error('Room ID is required');
+    }
+
+    return this.playerService.getAllInRoom(id);
   }
 
   @Patch()
-  updatePlayer(id: string, @Body() player: ChangePlayer) {
-    return this.playerService.updatePlayer(id, player);
+  async update(id: string, @Body() player: UpdatePlayerDTO) {
+    return this.playerService.update(id, player);
   }
 
   @Delete()
-  deletePlayerById(id: string) {
-    return this.playerService.deletePlayerById(id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteById(id: string) {
+    return this.playerService.deleteById(id);
+  }
+
+  @Patch()
+  async changeActiveStatus(id: string, isActive: boolean) {
+    return this.playerService.changeActiveStatus(id, isActive);
+  }
+
+  @Get()
+  async getPieceCount(id: string) {
+    return this.playerService.getPieceCount(id);
+  }
+
+  @Patch()
+  async decrementPieceCount(id: string) {
+    return this.playerService.decrementPieceCount(id);
   }
 }

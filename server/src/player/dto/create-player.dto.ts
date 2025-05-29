@@ -5,8 +5,11 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  IsUUID,
+  Length,
+  Max,
+  Min,
 } from 'class-validator';
-import { IsUUID, Length, Max, Min } from 'sequelize-typescript';
 import { DEFAULT_PIECE_COUNT } from 'src/constants/game-constants';
 import { PieceType } from 'src/constants/piece-type';
 import { TPieceType } from 'src/types/types';
@@ -18,11 +21,11 @@ export class CreatePlayerDTO {
 
   @IsString()
   @IsNotEmpty()
-  @Length({ min: 3, max: 20 })
-  readonly name: string;
+  @Length(3, 20)
+  name: string;
 
   @IsString()
-  @Length({ min: 8, max: 8 })
+  @Length(8, 8)
   @IsNotEmpty()
   readonly roomId: string;
 

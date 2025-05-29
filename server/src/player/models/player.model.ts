@@ -1,7 +1,15 @@
 import { UUIDV4 } from 'sequelize';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { DEFAULT_PIECE_COUNT } from 'src/constants/game-constants';
 import { PieceType } from 'src/constants/piece-type';
+import { Room } from 'src/room/models/room.model';
 import { TPieceType } from 'src/types/types';
 
 @Table({
@@ -33,6 +41,14 @@ export class Player extends Model {
   })
   name: string;
 
+  @ForeignKey(() => Room)
+  @BelongsTo(() => Room, {
+    foreignKey: 'roomId',
+    targetKey: 'roomId',
+    as: 'room',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @Column({
     type: DataType.STRING(8),
     allowNull: false,

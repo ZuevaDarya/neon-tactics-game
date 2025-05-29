@@ -15,7 +15,7 @@ import { CreateRoomDTO } from './models/dto/create-room.dto';
 import { UpdateRoomDTO } from './models/dto/update-room.dto';
 import { RoomService } from './room.service';
 
-@Controller()
+@Controller('rooms')
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
@@ -27,28 +27,28 @@ export class RoomController {
   }
 
   @Get(':roomId')
-  async findById(@Param('roomId') id: string) {
-    return this.roomService.findById(id);
+  async findById(@Param('roomId') roomId: string) {
+    return this.roomService.findById(roomId);
   }
 
-  @Patch()
-  async update(id: string, room: UpdateRoomDTO) {
-    return this.roomService.update(id, room);
+  @Patch(':roomId')
+  async update(@Param('roomId') roomId: string, @Body() room: UpdateRoomDTO) {
+    return this.roomService.update(roomId, room);
   }
 
-  @Delete()
+  @Delete('roomId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteById(id: string) {
-    return this.roomService.deleteById(id);
+  async deleteById(@Param('roomId') roomId: string) {
+    return this.roomService.deleteById(roomId);
   }
 
-  @Patch()
-  async updatePlayerId(roomId: string, playerId: string) {
+  @Patch(':roomId/player')
+  async updatePlayerId(@Param('roomId') roomId: string, playerId: string) {
     return this.roomService.updatePlayerId(roomId, playerId);
   }
 
-  @Patch()
-  async resetPlayerId(roomId: string) {
+  @Patch(':roomId/reset-player')
+  async resetPlayerId(@Param('roomId') roomId: string) {
     return this.roomService.resetPlayerId(roomId);
   }
 }

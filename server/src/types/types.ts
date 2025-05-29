@@ -1,4 +1,9 @@
-export type TPieceType = 'red' | 'black';
+import { PieceType } from 'src/constants/piece-type';
+import { RoomStatus } from 'src/constants/room-status';
+
+export type TPieceType = `${PieceType}`;
+
+export type TRoomStatus = `${RoomStatus}`;
 
 export type TDatabaseConfigAttributes = {
   username?: string;

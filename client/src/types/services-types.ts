@@ -1,3 +1,5 @@
+import { API_PATHS } from "../constants/api-constants";
+import { RoomStatus } from "../constants/room-status";
 import { TCard, TGamePieceProps, TPieceTypes } from "./components-types";
 
 export type TGameFieldPiece = Pick<TGamePieceProps, "type"> & {
@@ -17,6 +19,7 @@ export type TPreloadedState = {
   gameField: TGameFiledState;
   gameState: TGameState;
   players: TPlayersState;
+  room: TRoomState;
 };
 
 export type TSetCardOnPieceAction = {
@@ -25,10 +28,12 @@ export type TSetCardOnPieceAction = {
 };
 
 export type TPlayer = {
-  id: string;
+  playerId: string;
   name: string;
   countPieces: number;
-  pieceType: TPieceTypes;
+  pieceType: TPieceTypes | null;
+  roomId: string | null;
+  isAcive: boolean;
 };
 
 export type TGameState = {
@@ -38,5 +43,43 @@ export type TGameState = {
 };
 
 export type TPlayersState = {
-  players: [TPlayer, TPlayer] | [];
+  creator: TPlayer | null;
+  player: TPlayer | null;
+} & TThunkState;
+
+export type TRoomStatus = `${RoomStatus}`;
+
+export type TRoomBase = {
+  roomId: string;
+  creatorId: string;
+  playerId: string | null;
+  status: TRoomStatus;
 };
+
+export type TRoomState = {
+  [k in keyof TRoomBase]: TRoomBase[k] | null;
+} & TThunkState;
+
+export type TApiPaths = (typeof API_PATHS)[keyof typeof API_PATHS];
+
+export type TCreateRoom = {
+  creatorId: string;
+};
+
+export type TRoomResponse = TRoomBase;
+
+export type TThunkState = {
+  isRequest: boolean;
+  isSuccess: boolean;
+};
+
+export type TCreatePlayer = {
+  name: string;
+};
+
+export type TPlayerWithRoomResponse = {
+  player: TPlayer;
+  room: TRoomResponse;
+}
+
+

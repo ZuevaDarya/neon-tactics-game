@@ -2,12 +2,12 @@ import { memo, useEffect, useState } from "react";
 import uuid from "react-uuid";
 import useModal from "../../hooks/use-modal";
 import {
-  increaseCountTurn,
-  resetActivePlayer,
-  setActivePlayer,
+  // increaseCountTurn,
+  // resetActivePlayer,
+  // setActivePlayer,
   setWinner,
 } from "../../services/slices/game-state-slice";
-import { updatePlayer } from "../../services/slices/players-slice";
+// import { updatePlayer } from "../../services/slices/players-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { TPieceTypes } from "../../types/components-types";
 import isWin from "../../utils/functions/is-win";
@@ -36,34 +36,34 @@ function GameField() {
     }
   }, [field, curentCardIdx, currentPieceType, dispatch]);
 
-  useEffect(() => {
-    if (!winner) {
-      if (isDropped) {
-        // sessionStorage.setItem(SessionStorageKey.Cards, JSON.stringify(field));
-        if (activePlayer) {
-          const nextTurnPlayer = players.find((player) => player.id !== activePlayer.id);
+  // useEffect(() => {
+  //   if (!winner) {
+  //     if (isDropped) {
+  //       // sessionStorage.setItem(SessionStorageKey.Cards, JSON.stringify(field));
+  //       if (activePlayer) {
+  //         const nextTurnPlayer = players.find((player) => player.id !== activePlayer.id);
 
-          if (nextTurnPlayer) {
-            dispatch(setActivePlayer(nextTurnPlayer));
-            // sessionStorage.setItem(SessionStorageKey.ActivePlayer, JSON.stringify(nextTurnPlayer));
-            dispatch(
-              updatePlayer({
-                ...activePlayer,
-                countPieces: activePlayer.countPieces - 1,
-              })
-            );
-            dispatch(increaseCountTurn());
-            openModal();
-            // sessionStorage.setItem(SessionStorageKey.CountTurn, JSON.stringify(countTurn));
-          }
-        }
-      }
-    } else {
-      dispatch(resetActivePlayer());
-      // sessionStorage.removeItem(SessionStorageKey.ActivePlayer);
-      // alert(`${winner?.name} победил`);
-    }
-  }, [isDropped, winner, dispatch]);
+  //         if (nextTurnPlayer) {
+  //           dispatch(setActivePlayer(nextTurnPlayer));
+  //           // sessionStorage.setItem(SessionStorageKey.ActivePlayer, JSON.stringify(nextTurnPlayer));
+  //           dispatch(
+  //             updatePlayer({
+  //               ...activePlayer,
+  //               countPieces: activePlayer.countPieces - 1,
+  //             })
+  //           );
+  //           dispatch(increaseCountTurn());
+  //           openModal();
+  //           // sessionStorage.setItem(SessionStorageKey.CountTurn, JSON.stringify(countTurn));
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     dispatch(resetActivePlayer());
+  //     // sessionStorage.removeItem(SessionStorageKey.ActivePlayer);
+  //     // alert(`${winner?.name} победил`);
+  //   }
+  // }, [isDropped, winner, dispatch]);
 
   return (
     <>

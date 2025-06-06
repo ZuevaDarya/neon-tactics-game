@@ -14,7 +14,18 @@ const preloadedState: TPreloadedState = {
     winner: null,
   },
   players: {
-    players: [],
+    creator: null,
+    player: null,
+    isRequest: false,
+    isSuccess: false,
+  },
+  room: {
+    roomId: null,
+    creatorId: null,
+    playerId: null,
+    status: null,
+    isRequest: false,
+    isSuccess: false,
   },
 };
 

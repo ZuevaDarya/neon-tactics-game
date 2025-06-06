@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { TransactionOptions } from 'sequelize';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';
 import { Player } from './models/player.model';
@@ -11,8 +12,14 @@ export class PlayerService {
     private readonly playerModel: typeof Player,
   ) {}
 
-  async create(player: CreatePlayerDTO): Promise<Player> {
-    return this.playerModel.create({ ...player }, { returning: true });
+  async create(
+    player: CreatePlayerDTO,
+    options?: TransactionOptions,
+  ): Promise<Player> {
+    return this.playerModel.create(
+      { ...player },
+      { returning: true, ...options },
+    );
   }
 
   async findById(playerId: string): Promise<Player> {
@@ -32,12 +39,17 @@ export class PlayerService {
     });
   }
 
-  async update(playerId: string, player: UpdatePlayerDTO): Promise<Player> {
+  async update(
+    playerId: string,
+    player: UpdatePlayerDTO,
+    options?: TransactionOptions,
+  ): Promise<Player> {
     const [affectedCount, [updatedPlayer]] = await this.playerModel.update(
       player,
       {
         where: { playerId },
         returning: true,
+        ...options,
       },
     );
 

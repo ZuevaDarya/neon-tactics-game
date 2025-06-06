@@ -15,14 +15,12 @@ import { TRoomStatus } from 'src/types/types';
 
 const roomIdGenerator = customAlphabet('23456789ABCDEFGHJKLMNPQRSTUVWXYZ', 8);
 
-@Table({ tableName: 'room', paranoid: true })
+@Table({ tableName: 'room', timestamps: true })
 export class Room extends Model {
   @HasMany(() => Player, {
     foreignKey: 'roomId',
     sourceKey: 'roomId',
     as: 'players',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   })
   @Column({
     type: DataType.STRING(8),
@@ -30,8 +28,9 @@ export class Room extends Model {
     allowNull: false,
     unique: true,
     comment: 'Уникальный код комнаты',
+    defaultValue: () => roomIdGenerator(),
   })
-  roomId: string;
+  declare roomId: string;
 
   @ForeignKey(() => Player)
   @BelongsTo(() => Player, {
@@ -45,7 +44,7 @@ export class Room extends Model {
     allowNull: false,
     comment: 'Идентификатор игрока - создателя комнаты',
   })
-  creatorId: string;
+  declare creatorId: string;
 
   @ForeignKey(() => Player)
   @BelongsTo(() => Player, {
@@ -59,7 +58,7 @@ export class Room extends Model {
     allowNull: true,
     comment: 'Идентификатор игрока, присоединившегося к комнате',
   })
-  playerId: string;
+  declare playerId: string;
 
   @Column({
     type: DataType.ENUM(
@@ -71,7 +70,7 @@ export class Room extends Model {
     defaultValue: 'waiting',
     comment: 'Статус комнаты: waiting, playing, finished',
   })
-  status: TRoomStatus;
+  declare status: TRoomStatus;
 
   @BeforeCreate
   static generateRoomId(instance: Room) {

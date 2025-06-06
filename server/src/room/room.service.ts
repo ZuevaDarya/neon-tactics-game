@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { TransactionOptions } from 'sequelize';
 import { CreateRoomDTO } from './models/dto/create-room.dto';
 import { UpdateRoomDTO } from './models/dto/update-room.dto';
 import { Room } from './models/room.model';
@@ -11,8 +12,11 @@ export class RoomService {
     private roomModel: typeof Room,
   ) {}
 
-  async create(room: CreateRoomDTO): Promise<Room> {
-    return this.roomModel.create({ ...room }, { returning: true });
+  async create(
+    room: CreateRoomDTO,
+    options?: TransactionOptions,
+  ): Promise<Room> {
+    return this.roomModel.create({ ...room }, { returning: true, ...options });
   }
 
   async findById(roomId: string): Promise<Room> {

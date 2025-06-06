@@ -10,13 +10,19 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { RoomService } from 'src/room/room.service';
+import { TransactionService } from 'src/transaction/transaction.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';
 import { PlayerService } from './player.service';
 
 @Controller('players')
 export class PlayerController {
-  constructor(private readonly playerService: PlayerService) {}
+  constructor(
+    private readonly playerService: PlayerService,
+    private readonly roomService: RoomService,
+    private readonly transactionService: TransactionService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -63,5 +69,26 @@ export class PlayerController {
   @Patch(':id/decrement-piece')
   async decrementPieceCount(id: string) {
     return this.playerService.decrementPieceCount(id);
+  }
+
+  @Post('create-with-room')
+  @HttpCode(HttpStatus.CREATED)
+  @Header('Content-Type', 'application/json')
+  async createWithRoom(@Body() playerData: CreatePlayerDTO) {
+    return this.transactionService.useTransaction(async (transaction) => {
+      const player = await this.playerService.create(playerData, {
+        transaction,
+      });
+      const room = await this.roomService.create(
+        { creatorId: player.playerId },
+        { transaction },
+      );
+      await this.playerService.update(
+        player.playerId,
+        { roomId: room.roomId },
+        { transaction },
+      );
+      return { player, room };
+    });
   }
 }

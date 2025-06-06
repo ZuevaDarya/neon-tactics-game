@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   IsUUID,
   Length,
@@ -26,19 +27,18 @@ export class CreatePlayerDTO {
 
   @IsString()
   @Length(8, 8)
-  @IsNotEmpty()
-  readonly roomId: string;
+  roomId: string | null;
 
   @IsNumber()
   @Min(0)
   @Max(DEFAULT_PIECE_COUNT)
   @IsNotEmpty()
   @Type(() => Number)
-  countPiece: number;
+  countPiece: number = DEFAULT_PIECE_COUNT;
 
   @IsEnum(PieceType)
-  @IsNotEmpty()
-  readonly pieceType: TPieceType;
+  @IsOptional()
+  pieceType: TPieceType | null;
 
   @IsBoolean()
   @IsNotEmpty()

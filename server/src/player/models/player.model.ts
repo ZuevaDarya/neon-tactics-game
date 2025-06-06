@@ -25,7 +25,7 @@ export class Player extends Model {
     defaultValue: UUIDV4,
     comment: 'Уникальный идентификатор игрока',
   })
-  playerId: string;
+  declare playerId: string;
 
   @Column({
     type: DataType.STRING,
@@ -39,22 +39,20 @@ export class Player extends Model {
     },
     comment: 'Имя игрока',
   })
-  name: string;
+  declare name: string;
 
   @ForeignKey(() => Room)
   @BelongsTo(() => Room, {
     foreignKey: 'roomId',
     targetKey: 'roomId',
     as: 'room',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   })
   @Column({
     type: DataType.STRING(8),
-    allowNull: false,
+    allowNull: true,
     comment: 'Идентификатор комнаты',
   })
-  roomId: string;
+  declare roomId: string | null;
 
   @Column({
     type: DataType.INTEGER,
@@ -69,14 +67,14 @@ export class Player extends Model {
     },
     comment: 'Количество оставшихся фишек',
   })
-  countPiece: number;
+  declare countPiece: number;
 
   @Column({
     type: DataType.ENUM(PieceType.Red, PieceType.Black),
-    allowNull: false,
+    allowNull: true,
     comment: 'Тип фишки игрока',
   })
-  pieceType: TPieceType;
+  declare pieceType: TPieceType | null;
 
   @Column({
     type: DataType.BOOLEAN,
@@ -84,5 +82,5 @@ export class Player extends Model {
     defaultValue: false,
     comment: 'Флаг активного игрока',
   })
-  isActive: boolean;
+  declare isActive: boolean;
 }

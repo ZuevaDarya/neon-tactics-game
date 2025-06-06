@@ -36,7 +36,7 @@ export class RoomController {
     return this.roomService.update(roomId, room);
   }
 
-  @Delete('roomId')
+  @Delete(':roomId')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteById(@Param('roomId') roomId: string) {
     return this.roomService.deleteById(roomId);

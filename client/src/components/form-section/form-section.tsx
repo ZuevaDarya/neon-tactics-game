@@ -16,14 +16,14 @@ const sectionVariants = cva("items-block", {
 });
 
 type TFormSectionProps = VariantProps<typeof sectionVariants> & {
-  title: string;
+  title?: string;
   children: React.ReactNode;
 };
 
 function FormSection({ variant, title, children }: TFormSectionProps) {
   return (
     <div className="form__section">
-      <h2 className="form-section__title">{title}</h2>
+      {title && <h2 className="form-section__title">{title}</h2>}
       <div className={clsx(sectionVariants({ variant }))}>{children}</div>
     </div>
   );

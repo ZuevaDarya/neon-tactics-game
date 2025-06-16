@@ -17,9 +17,9 @@ const buttonVariants = cva("button", {
 
 type TButton = VariantProps<typeof buttonVariants> & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-function Button({ variant, children, ...props }: TButton) {
+function Button({ variant, children, className, ...props }: TButton) {
   return (
-    <button {...props} className={clsx(buttonVariants({ variant }))}>
+    <button {...props} className={clsx(buttonVariants({ variant }), className)}>
       {children}
     </button>
   );

@@ -86,3 +86,21 @@ export type TWinnerModalProps = Pick<TModalProps, "onClose"> & {
 export type TFormProps = {
   children: React.ReactNode;
 } & React.FormHTMLAttributes<HTMLFormElement>;
+
+export type TTabsProps = {
+  children: React.ReactNode;
+  defaultActiveTab?: number;
+};
+
+export type TTabProps = {
+  isActive?: boolean;
+  setActiveTabIdx?: () => void;
+  idx?: number;
+  children?: React.ReactNode;
+  label: string;
+};
+
+export type TTabContentProps = {
+  children: React.ReactNode;
+  activeTabIdx: number;
+};

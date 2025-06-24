@@ -80,6 +80,9 @@ export type TCreatePlayer = {
 export type TPlayerWithRoomResponse = {
   player: TPlayer;
   room: TRoomResponse;
-}
+};
 
-
+export type TCreatePlayerWithJoinInRoom = {
+  name: string;
+  roomId: string;
+};

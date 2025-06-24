@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
 import { TRoomState } from "../../types/services-types";
-import { addPlayerWithRoom, createRoom, getRoom } from "../thunks";
+import { addPlayerWithCreateRoom, addPlayerWithJoinInRoom, createRoom, deleteRoom, getRoom } from "../thunks";
 
 const initialState: TRoomState = {
   roomId: null,
@@ -34,15 +34,15 @@ const roomSlice = createSlice({
         state.playerId = payload.playerId;
         state.status = payload.status;
       })
-      .addCase(addPlayerWithRoom.pending, (state) => {
+      .addCase(addPlayerWithCreateRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
       })
-      .addCase(addPlayerWithRoom.rejected, (state) => {
+      .addCase(addPlayerWithCreateRoom.rejected, (state) => {
         state.isRequest = false;
         state.isSuccess = false;
       })
-      .addCase(addPlayerWithRoom.fulfilled, (state, { payload }) => {
+      .addCase(addPlayerWithCreateRoom.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
         state.roomId = payload.room.roomId;
@@ -65,6 +65,35 @@ const roomSlice = createSlice({
         state.creatorId = payload.creatorId;
         state.playerId = payload.playerId;
         state.status = payload.status;
+      })
+      .addCase(addPlayerWithJoinInRoom.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+      })
+      .addCase(addPlayerWithJoinInRoom.rejected, (state) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+      })
+      .addCase(addPlayerWithJoinInRoom.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.playerId = payload.room.playerId;
+      })
+      .addCase(deleteRoom.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+      })
+      .addCase(deleteRoom.rejected, (state) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+      })
+      .addCase(deleteRoom.fulfilled, (state) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.playerId = null;
+        state.roomId = null;
+        state.creatorId = null;
+        state.status = null;
       });
   },
 });

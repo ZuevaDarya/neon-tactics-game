@@ -4,31 +4,36 @@ import {
   Delete,
   Get,
   Header,
+  Headers,
   HttpCode,
   HttpStatus,
   Param,
   Patch,
   Post,
+  UseFilters,
 } from '@nestjs/common';
-import { RoomService } from 'src/room/room.service';
-import { TransactionService } from 'src/transaction/transaction.service';
+import { SocketEvent } from 'src/constants/socket-event';
+import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
+import { SocketService } from 'src/socket/socket.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
+import { JoinRoomDTO } from './dto/join-room.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';
+import { PlayerRoomService } from './player-room.service';
 import { PlayerService } from './player.service';
 
 @Controller('players')
 export class PlayerController {
   constructor(
     private readonly playerService: PlayerService,
-    private readonly roomService: RoomService,
-    private readonly transactionService: TransactionService,
+    private readonly playerRoomService: PlayerRoomService,
+    private readonly socketService: SocketService,
   ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Content-Type', 'application/json')
-  async create(@Body() player: CreatePlayerDTO) {
-    return this.playerService.create(player);
+  async create(@Body() playerData: CreatePlayerDTO) {
+    return this.playerService.create(playerData);
   }
 
   @Get(':id')
@@ -41,7 +46,6 @@ export class PlayerController {
     if (!id) {
       throw new Error('Room ID is required');
     }
-
     return this.playerService.getAllInRoom(id);
   }
 
@@ -71,24 +75,39 @@ export class PlayerController {
     return this.playerService.decrementPieceCount(id);
   }
 
-  @Post('create-with-room')
+  @Post('create-room')
+  @UseFilters(new HttpExceptionFilter())
   @HttpCode(HttpStatus.CREATED)
   @Header('Content-Type', 'application/json')
-  async createWithRoom(@Body() playerData: CreatePlayerDTO) {
-    return this.transactionService.useTransaction(async (transaction) => {
-      const player = await this.playerService.create(playerData, {
-        transaction,
-      });
-      const room = await this.roomService.create(
-        { creatorId: player.playerId },
-        { transaction },
-      );
-      await this.playerService.update(
-        player.playerId,
-        { roomId: room.roomId },
-        { transaction },
-      );
-      return { player, room };
-    });
+  async createWithRoom(
+    @Body() playerData: CreatePlayerDTO,
+    @Headers('x-socket-id') socketId: string,
+  ) {
+    const data = await this.playerRoomService.createWithRoom(playerData);
+
+    await this.socketService.joinRoom(socketId, data.room.roomId);
+    this.socketService.emitToRoom(
+      data.room.roomId,
+      SocketEvent.CreateRoom,
+      data,
+    );
+
+    return data;
+  }
+
+  @Post('join-room')
+  @UseFilters(new HttpExceptionFilter())
+  @HttpCode(HttpStatus.CREATED)
+  @Header('Content-Type', 'application/json')
+  async createWithJoinInRoom(
+    @Body() playerData: JoinRoomDTO,
+    @Headers('x-socket-id') socketId: string,
+  ) {
+    const data = await this.playerRoomService.createWithJoinInRoom(playerData);
+
+    await this.socketService.joinRoom(socketId, data.room.roomId);
+    this.socketService.emitToRoom(data.room.roomId, SocketEvent.JoinRoom, data);
+
+    return data;
   }
 }

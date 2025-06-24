@@ -19,8 +19,8 @@ export class RoomService {
     return this.roomModel.create({ ...room }, { returning: true, ...options });
   }
 
-  async findById(roomId: string): Promise<Room> {
-    const room = await this.roomModel.findByPk(roomId);
+  async findById(roomId: string, options?: TransactionOptions): Promise<Room> {
+    const room = await this.roomModel.findByPk(roomId, { ...options });
 
     if (!room) {
       throw new NotFoundException(`Room with ID ${roomId} not found`);
@@ -52,14 +52,18 @@ export class RoomService {
     }
   }
 
-  async updatePlayerId(roomId: string, playerId: string): Promise<Room> {
-    const room = await this.findById(roomId);
+  async updatePlayerId(
+    roomId: string,
+    playerId: string,
+    options?: TransactionOptions,
+  ): Promise<Room> {
+    const room = await this.findById(roomId, options);
 
     if (room.playerId) {
       throw new Error('Room is full (max 2 players)');
     }
 
-    return room.update({ playerId });
+    return room.update({ playerId }, { transaction: options?.transaction });
   }
 
   async resetPlayerId(roomId: string): Promise<Room> {

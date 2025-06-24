@@ -72,6 +72,7 @@ export class Player extends Model {
   @Column({
     type: DataType.ENUM(PieceType.Red, PieceType.Black),
     allowNull: true,
+    defaultValue: null,
     comment: 'Тип фишки игрока',
   })
   declare pieceType: TPieceType | null;

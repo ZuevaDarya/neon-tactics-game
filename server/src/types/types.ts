@@ -1,5 +1,7 @@
 import { PieceType } from 'src/constants/piece-type';
 import { RoomStatus } from 'src/constants/room-status';
+import { SocketEvent } from 'src/constants/socket-event';
+import { CreatePlayerDTO } from 'src/player/dto/create-player.dto';
 
 export type TPieceType = `${PieceType}`;
 
@@ -23,3 +25,10 @@ export type TDatabaseConfig = {
   test: TDatabaseConfigAttributes;
   production: TDatabaseConfigAttributes;
 };
+
+export type TCreatePlayerWithJoinInRoom = {
+  roomId: string;
+  playerData: CreatePlayerDTO;
+};
+
+export type TSocketEvent = `${SocketEvent}`;

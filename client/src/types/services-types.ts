@@ -86,3 +86,12 @@ export type TCreatePlayerWithJoinInRoom = {
   name: string;
   roomId: string;
 };
+
+export type TGetCountPieceResponse = {
+  playerId: string;
+  countPiece: number;
+};
+
+export type TRejectValue = {
+  rejectValue: string;
+};

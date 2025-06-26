@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
 import { TRoomState } from "../../types/services-types";
-import { addPlayerWithCreateRoom, addPlayerWithJoinInRoom, createRoom, deleteRoom, getRoom } from "../thunks";
+import {
+  createPlayerWithCreateRoom,
+  createPlayerWithJoinInRoom,
+  createRoom,
+  deleteRoom,
+  getRoom,
+} from "../thunks";
 
 const initialState: TRoomState = {
   roomId: null,
@@ -34,15 +40,15 @@ const roomSlice = createSlice({
         state.playerId = payload.playerId;
         state.status = payload.status;
       })
-      .addCase(addPlayerWithCreateRoom.pending, (state) => {
+      .addCase(createPlayerWithCreateRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
       })
-      .addCase(addPlayerWithCreateRoom.rejected, (state) => {
+      .addCase(createPlayerWithCreateRoom.rejected, (state) => {
         state.isRequest = false;
         state.isSuccess = false;
       })
-      .addCase(addPlayerWithCreateRoom.fulfilled, (state, { payload }) => {
+      .addCase(createPlayerWithCreateRoom.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
         state.roomId = payload.room.roomId;
@@ -66,15 +72,15 @@ const roomSlice = createSlice({
         state.playerId = payload.playerId;
         state.status = payload.status;
       })
-      .addCase(addPlayerWithJoinInRoom.pending, (state) => {
+      .addCase(createPlayerWithJoinInRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
       })
-      .addCase(addPlayerWithJoinInRoom.rejected, (state) => {
+      .addCase(createPlayerWithJoinInRoom.rejected, (state) => {
         state.isRequest = false;
         state.isSuccess = false;
       })
-      .addCase(addPlayerWithJoinInRoom.fulfilled, (state, { payload }) => {
+      .addCase(createPlayerWithJoinInRoom.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
         state.playerId = payload.room.playerId;

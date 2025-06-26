@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { StartFormInputName } from "../../constants/input-name";
 import { useAppDispatch } from "../../services/store";
+import { createPlayerWithJoinInRoom } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
@@ -11,7 +12,9 @@ function FormJoinRoom() {
   const dispatch = useAppDispatch();
   const { register, handleSubmit, formState } = useForm<TStartForm>();
 
-  const onSubmit: SubmitHandler<TStartForm> = async (data) => {};
+  const onSubmit: SubmitHandler<TStartForm> = async (data) => {
+    await dispatch(createPlayerWithJoinInRoom({ name: data.player, roomId: data.roomId })).unwrap();
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

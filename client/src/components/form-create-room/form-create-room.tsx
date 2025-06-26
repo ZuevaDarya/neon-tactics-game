@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { StartFormInputName } from "../../constants/input-name";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import { addPlayerWithRoom } from "../../services/thunks";
+import { createPlayerWithCreateRoom } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
@@ -28,7 +28,7 @@ function FormCreateRoom() {
   }, [creator, setValue]);
 
   const onSubmit: SubmitHandler<TStartForm> = async (data) => {
-    await dispatch(addPlayerWithRoom({ name: data.player })).unwrap();
+    await dispatch(createPlayerWithCreateRoom({ name: data.player })).unwrap();
   };
 
   return (

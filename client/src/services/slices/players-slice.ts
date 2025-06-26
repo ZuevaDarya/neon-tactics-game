@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
 import { TPlayersState } from "../../types/services-types";
-import { addPlayer, addPlayerWithRoom, getPlayer } from "../thunks";
+import {
+  createPlayer,
+  createPlayerWithCreateRoom,
+  createPlayerWithJoinInRoom,
+  getPlayer,
+} from "../thunks";
 
 const initialState: TPlayersState = {
   creator: null,
@@ -13,32 +18,31 @@ const initialState: TPlayersState = {
 const playersSlice = createSlice({
   name: SliceNamespace.Players,
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addPlayer.pending, (state) => {
+      .addCase(createPlayer.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
       })
-      .addCase(addPlayer.rejected, (state) => {
+      .addCase(createPlayer.rejected, (state) => {
         state.isRequest = false;
         state.isSuccess = false;
       })
-      .addCase(addPlayer.fulfilled, (state, { payload }) => {
+      .addCase(createPlayer.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
         state.player = payload;
       })
-      .addCase(addPlayerWithRoom.pending, (state) => {
+      .addCase(createPlayerWithCreateRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
       })
-      .addCase(addPlayerWithRoom.rejected, (state) => {
+      .addCase(createPlayerWithCreateRoom.rejected, (state) => {
         state.isRequest = false;
         state.isSuccess = false;
       })
-      .addCase(addPlayerWithRoom.fulfilled, (state, { payload }) => {
+      .addCase(createPlayerWithCreateRoom.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
         state.creator = payload.player;
@@ -55,6 +59,19 @@ const playersSlice = createSlice({
         state.isRequest = false;
         state.isSuccess = true;
         state.creator = payload;
+      })
+      .addCase(createPlayerWithJoinInRoom.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+      })
+      .addCase(createPlayerWithJoinInRoom.rejected, (state) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+      })
+      .addCase(createPlayerWithJoinInRoom.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.player = payload.player;
       });
   },
 });

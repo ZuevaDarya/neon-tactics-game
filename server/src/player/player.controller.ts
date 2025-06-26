@@ -41,6 +41,7 @@ export class PlayerController {
     return this.playerService.findById(id);
   }
 
+  //!TODO перенести в room.controller
   @Get('room/:roomId')
   async getAllInRoom(@Param('roomId') id: string) {
     if (!id) {

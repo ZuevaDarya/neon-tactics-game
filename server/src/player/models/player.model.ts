@@ -84,4 +84,12 @@ export class Player extends Model {
     comment: 'Флаг активного игрока',
   })
   declare isActive: boolean;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: 'Флаг создателя комнаты',
+  })
+  declare isCreator: boolean;
 }

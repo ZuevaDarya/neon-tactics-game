@@ -32,3 +32,8 @@ export type TCreatePlayerWithJoinInRoom = {
 };
 
 export type TSocketEvent = `${SocketEvent}`;
+
+export type TGetCountPieceResponse = {
+  playerId: string;
+  countPiece: number;
+};

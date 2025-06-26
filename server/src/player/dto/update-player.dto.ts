@@ -35,4 +35,8 @@ export class UpdatePlayerDTO {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  isCreator?: boolean;
 }

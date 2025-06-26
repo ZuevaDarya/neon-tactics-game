@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TransactionOptions } from 'sequelize';
+import { TGetCountPieceResponse } from 'src/types/types';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';
 import { Player } from './models/player.model';
@@ -77,9 +78,9 @@ export class PlayerService {
     return this.update(playerId, { isActive });
   }
 
-  async getPieceCount(playerId: string): Promise<number> {
+  async getPieceCount(playerId: string): Promise<TGetCountPieceResponse> {
     const player = await this.findById(playerId);
-    return player.countPiece;
+    return { playerId: player.playerId, countPiece: player.countPiece };
   }
 
   async decrementPieceCount(playerId: string): Promise<number> {

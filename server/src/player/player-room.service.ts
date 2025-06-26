@@ -15,9 +15,10 @@ export class PlayerRoomService {
 
   async createWithRoom(playerData: CreatePlayerDTO) {
     return this.transactionService.useTransaction(async (transaction) => {
-      const player = await this.playerService.create(playerData, {
-        transaction,
-      });
+      const player = await this.playerService.create(
+        { ...playerData, isCreator: true },
+        { transaction },
+      );
       const room = await this.roomService.create(
         { creatorId: player.playerId },
         { transaction },

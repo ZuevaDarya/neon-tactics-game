@@ -3,4 +3,5 @@ export enum SliceNamespace {
   GameSate = "game-state",
   Players = "players",
   Room = "room",
+  Socket = "socket",
 }

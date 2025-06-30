@@ -4,4 +4,5 @@ export enum SessionStorageKey {
   Cards = "cards",
   ActivePlayer = "active-player",
   CountTurn = "count-turn",
+  SocketId = "socketId"
 }

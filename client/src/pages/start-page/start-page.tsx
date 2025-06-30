@@ -1,12 +1,23 @@
+import { useEffect } from "react";
 import FormCreateRoom from "../../components/form-create-room/form-create-room";
 import FormJoinRoom from "../../components/form-join-room/form-join-room";
 import Tab from "../../components/tab/tab";
 import Tabs from "../../components/tabs/tabs";
-import useSocket from "../../hooks/use-socket";
+import { DEV_URL } from "../../constants/api-constants";
+import { connect, disconnected } from "../../services/slices/socket-slice";
+import { useAppDispatch } from "../../services/store";
 import "./start-page.scss";
 
 function StartPage() {
-  useSocket();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(connect({ url: DEV_URL }));
+
+    return () => {
+      dispatch(disconnected());
+    }
+  }, []);
 
   return (
     <div className="container">

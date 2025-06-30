@@ -20,6 +20,7 @@ export type TPreloadedState = {
   gameState: TGameState;
   players: TPlayersState;
   room: TRoomState;
+  socket: TSocketState;
 };
 
 export type TSetCardOnPieceAction = {
@@ -94,4 +95,10 @@ export type TGetCountPieceResponse = {
 
 export type TRejectValue = {
   rejectValue: string;
+};
+
+export type TSocketState = {
+  isConnected: boolean;
+  error: string | null;
+  socketId: string | null;
 };

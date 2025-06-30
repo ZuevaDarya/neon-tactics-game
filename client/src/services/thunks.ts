@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { socketApi } from "../api/socket-api";
 import { API_PATHS } from "../constants/api-constants";
 import { SliceNamespace } from "../constants/slice-namespace";
+import { SessionStorageKey } from "../constants/storage-keys";
 import {
   TCreatePlayer,
   TCreatePlayerWithJoinInRoom,
@@ -34,7 +34,7 @@ export const createPlayerWithCreateRoom = createAsyncThunk<
   TCreatePlayer,
   TRejectValue
 >(`${SliceNamespace.Players}/createPlayerWithCreateRoom`, async (player, { rejectWithValue }) => {
-  const socketId = socketApi.getSocketId();
+  const socketId = sessionStorage.getItem(SessionStorageKey.SocketId);
 
   if (!socketId) {
     return rejectWithValue("Подключение к сокету не установлено");
@@ -57,7 +57,7 @@ export const createPlayerWithJoinInRoom = createAsyncThunk<
   TCreatePlayerWithJoinInRoom,
   TRejectValue
 >(`${SliceNamespace.Players}/createPlayerWithJoinInRoom`, async (player, { rejectWithValue }) => {
-  const socketId = socketApi.getSocketId();
+  const socketId = sessionStorage.getItem(SessionStorageKey.SocketId);
 
   if (!socketId) {
     return rejectWithValue("Подключение к сокету не установлено");

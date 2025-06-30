@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { TPreloadedState } from "../types/services-types";
+import { createSocketMiddleware } from "./middlewares/socket-middleware";
 import rootReducer from "./root-reducer";
 
 const preloadedState: TPreloadedState = {
@@ -27,11 +28,20 @@ const preloadedState: TPreloadedState = {
     isRequest: false,
     isSuccess: false,
   },
+  socket: {
+    isConnected: false,
+    error: null,
+    socketId: null,
+  },
 };
+
+const socketMiddleware = createSocketMiddleware();
 
 export const store = configureStore({
   reducer: rootReducer,
   preloadedState,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }).concat(socketMiddleware),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

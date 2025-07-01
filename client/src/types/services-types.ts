@@ -35,6 +35,7 @@ export type TPlayer = {
   pieceType: TPieceTypes | null;
   roomId: string | null;
   isAcive: boolean;
+  isCreator: boolean;
 };
 
 export type TGameState = {
@@ -101,4 +102,8 @@ export type TSocketState = {
   isConnected: boolean;
   error: string | null;
   socketId: string | null;
+};
+
+export type TGetAllPlayersInRoomResponse = {
+  players: TPlayer[];
 };

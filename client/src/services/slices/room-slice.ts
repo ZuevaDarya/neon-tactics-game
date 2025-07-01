@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { TRoomState } from "../../types/services-types";
+import { TPlayerWithRoomResponse, TRoomState } from "../../types/services-types";
 import {
   createPlayerWithCreateRoom,
   createPlayerWithJoinInRoom,
@@ -21,7 +21,14 @@ const initialState: TRoomState = {
 const roomSlice = createSlice({
   name: SliceNamespace.Room,
   initialState,
-  reducers: {},
+  reducers: {
+    setRoomState: (state, { payload }: PayloadAction<TPlayerWithRoomResponse>) => {
+      state.playerId = payload.room.playerId;
+      state.creatorId = payload.room.creatorId;
+      state.roomId = payload.room.roomId;
+      state.status = payload.room.status;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createRoom.pending, (state) => {
@@ -84,6 +91,9 @@ const roomSlice = createSlice({
         state.isRequest = false;
         state.isSuccess = true;
         state.playerId = payload.room.playerId;
+        state.creatorId = payload.room.creatorId;
+        state.roomId = payload.room.roomId;
+        state.status = payload.room.status;
       })
       .addCase(deleteRoom.pending, (state) => {
         state.isRequest = true;
@@ -104,4 +114,5 @@ const roomSlice = createSlice({
   },
 });
 
+export const { setRoomState } = roomSlice.actions;
 export default roomSlice.reducer;

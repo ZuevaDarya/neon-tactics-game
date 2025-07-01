@@ -2,10 +2,13 @@ import { Middleware } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
 import { SocketEvent } from "../../constants/socket-event";
 import { SessionStorageKey } from "../../constants/storage-keys";
+import { TPlayerWithRoomResponse } from "../../types/services-types";
+import { setPlayersState } from "../slices/players-slice";
+import { setRoomState } from "../slices/room-slice";
 import { connect, connected, disconnected, getError } from "../slices/socket-slice";
 import { RootState } from "../store";
 
-export function createSocketMiddleware(): Middleware<{}, RootState> {
+export function createSocketMiddleware(): Middleware<unknown, RootState> {
   let socket: Socket | null = null;
 
   return (({ dispatch }) =>
@@ -47,6 +50,18 @@ export function createSocketMiddleware(): Middleware<{}, RootState> {
         socket.on(SocketEvent.Error, (error: Error) => {
           console.error("Socket error:", error.message);
           dispatch(getError({ error: error.message }));
+        });
+
+        socket.on(SocketEvent.JoinRoom, (data: TPlayerWithRoomResponse) => {
+          console.log(`Player: ${data.player.name} join in room`);
+          dispatch(setRoomState(data));
+          dispatch(setPlayersState(data));
+        });
+
+        socket.on(SocketEvent.CreateRoom, (data: TPlayerWithRoomResponse) => {
+          console.log(`Set players`);
+          dispatch(setPlayersState(data));
+          dispatch(setRoomState(data));
         });
       }
 

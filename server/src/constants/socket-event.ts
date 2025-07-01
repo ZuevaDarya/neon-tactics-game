@@ -1,4 +1,4 @@
 export enum SocketEvent {
-  JoinRoom = 'joined-room',
-  CreateRoom = 'created-room',
+  JoinRoom = 'joined_room',
+  CreateRoom = 'created_room',
 }

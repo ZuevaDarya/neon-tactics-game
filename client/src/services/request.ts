@@ -2,8 +2,7 @@ import { BASE_URL } from "../constants/api-constants";
 import { TApiPaths } from "../types/services-types";
 
 const checkRequest = async (res: Response) => {
-    if (res.ok) {
-
+  if (res.ok) {
     if (res.status === 204) {
       return undefined;
     }

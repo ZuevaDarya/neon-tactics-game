@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { StartFormInputName } from "../../constants/input-name";
-import { useAppDispatch } from "../../services/store";
-import { createPlayerWithJoinInRoom } from "../../services/thunks";
+import { useAppDispatch, useAppSelector } from "../../services/store";
+import { createPlayerWithJoinInRoom, getAllPlayersInRoom } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
@@ -10,7 +11,27 @@ import Form from "../form/form";
 
 function FormJoinRoom() {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, formState } = useForm<TStartForm>();
+  const { roomId, isRequest } = useAppSelector((state) => state.room);
+  const { creator, player } = useAppSelector((state) => state.players);
+  const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
+
+  useEffect(() => {
+    if (roomId) {
+      setValue(StartFormInputName.RoomId, roomId);
+    }
+  }, [roomId, setValue]);
+
+  useEffect(() => {
+    if (player) {
+      setValue(StartFormInputName.Player, player.name);
+    }
+  }, [player, setValue]);
+
+  useEffect(() => {
+    if (roomId) {
+      dispatch(getAllPlayersInRoom({ id: roomId }));
+    }
+  }, [roomId, dispatch]);
 
   const onSubmit: SubmitHandler<TStartForm> = async (data) => {
     await dispatch(createPlayerWithJoinInRoom({ name: data.player, roomId: data.roomId })).unwrap();
@@ -46,9 +67,17 @@ function FormJoinRoom() {
         </Button>
         {formState.errors.roomId && <span className="form-error">Заполните обязательные поля</span>}
       </FormSection>
-      <Button type="button" className="button_m-t" variant="started">
-        Начать игру
-      </Button>
+      {isRequest && (
+        <div className="waiting-message">
+          <span className="text">Подключение к комнате</span>
+          <span className="loader"></span>
+        </div>
+      )}
+      {roomId && creator && (
+        <p>
+          Подключились к игроку: <span>{creator.name}</span>
+        </p>
+      )}
     </Form>
   );
 }

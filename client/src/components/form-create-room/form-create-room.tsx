@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { StartFormInputName } from "../../constants/input-name";
+import { RoomStatus } from "../../constants/room-status";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { createPlayerWithCreateRoom } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
@@ -12,8 +13,8 @@ import Form from "../form/form";
 function FormCreateRoom() {
   const dispatch = useAppDispatch();
   const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
-  const roomId = useAppSelector((state) => state.room.roomId);
-  const creator = useAppSelector((state) => state.players.creator);
+  const { roomId, status, playerId } = useAppSelector((state) => state.room);
+  const { creator, player } = useAppSelector((state) => state.players);
 
   useEffect(() => {
     if (roomId) {
@@ -59,9 +60,17 @@ function FormCreateRoom() {
           disabled
         />
       </FormSection>
-      <Button type="button" className="button_m-t" variant="started">
-        Начать игру
-      </Button>
+      {status === RoomStatus.Waiting && !playerId && (
+        <div className="waiting-message">
+          <span className="text">Ожидание подключения второго игрока</span>
+          <span className="loader"></span>
+        </div>
+      )}
+      {roomId && player && (
+        <p>
+          Игрок <span>{player.name}</span> присоединился к комнате
+        </p>
+      )}
     </Form>
   );
 }

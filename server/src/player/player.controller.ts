@@ -41,13 +41,13 @@ export class PlayerController {
     return this.playerService.findById(id);
   }
 
-  //!TODO перенести в room.controller
-  @Get('room/:roomId')
+  @Get('by-room/:roomId')
   async getAllInRoom(@Param('roomId') id: string) {
     if (!id) {
       throw new Error('Room ID is required');
     }
-    return this.playerService.getAllInRoom(id);
+    const players = await this.playerService.getAllInRoom(id);
+    return { players };
   }
 
   @Patch(':id')

@@ -1,10 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { TPlayersState } from "../../types/services-types";
+import { TPlayersState, TPlayerWithRoomResponse } from "../../types/services-types";
 import {
   createPlayer,
   createPlayerWithCreateRoom,
   createPlayerWithJoinInRoom,
+  getAllPlayersInRoom,
   getPlayer,
 } from "../thunks";
 
@@ -18,7 +19,15 @@ const initialState: TPlayersState = {
 const playersSlice = createSlice({
   name: SliceNamespace.Players,
   initialState,
-  reducers: {},
+  reducers: {
+    setPlayersState: (state, { payload }: PayloadAction<TPlayerWithRoomResponse>) => {
+      if (payload.player.isCreator) {
+        state.creator = payload.player;
+      } else {
+        state.player = payload.player;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createPlayer.pending, (state) => {
@@ -72,8 +81,29 @@ const playersSlice = createSlice({
         state.isRequest = false;
         state.isSuccess = true;
         state.player = payload.player;
+      })
+      .addCase(getAllPlayersInRoom.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+      })
+      .addCase(getAllPlayersInRoom.rejected, (state) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+      })
+      .addCase(getAllPlayersInRoom.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+
+        payload.players.forEach(player => {
+          if (player.isCreator) {
+            state.creator = player;
+          }
+          state.player = player;
+        });
+
       });
   },
 });
 
+export const { setPlayersState } = playersSlice.actions;
 export default playersSlice.reducer;

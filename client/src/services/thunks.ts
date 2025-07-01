@@ -6,6 +6,7 @@ import {
   TCreatePlayer,
   TCreatePlayerWithJoinInRoom,
   TCreateRoom,
+  TGetAllPlayersInRoomResponse,
   TGetCountPieceResponse,
   TPlayer,
   TPlayerWithRoomResponse,
@@ -136,5 +137,12 @@ export const getPieceCount = createAsyncThunk<TGetCountPieceResponse, { id: stri
   `${SliceNamespace.Players}/getPieceCount`,
   async ({ id }) => {
     return await request(`${API_PATHS.players}/${id}/${API_PATHS.pieceCount}`);
+  }
+);
+
+export const getAllPlayersInRoom = createAsyncThunk<TGetAllPlayersInRoomResponse, { id: string }>(
+  `${SliceNamespace.Players}/getAllPlayersInRoom`,
+  async ({ id }) => {
+    return await request(`${API_PATHS.playersInRoom}/${id}`);
   }
 );

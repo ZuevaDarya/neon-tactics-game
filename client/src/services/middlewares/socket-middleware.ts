@@ -79,7 +79,6 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
         }
 
         const { roomId, url } = action.payload;
-        console.log(roomId, url);
         socket.emit(SocketEvent.StartGame, { roomId, url });
         console.log("Start game");
       }

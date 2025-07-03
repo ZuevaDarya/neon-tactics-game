@@ -27,6 +27,10 @@
     }
   }
 
+  &_disabled {
+    background-color: rgb(176, 176, 176);
+  }
+
   &_m-t {
     margin-top: 20px;
   }

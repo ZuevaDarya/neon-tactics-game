@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppRoute } from "../../constants/app-route";
 import { SliceNamespace } from "../../constants/slice-namespace";
 import { TSocketState } from "../../types/services-types";
 
@@ -29,8 +30,9 @@ const socketSlice = createSlice({
     getError: (state, { payload }: PayloadAction<{ error: string }>) => {
       state.error = payload.error;
     },
+    startGame: (_state, _action: PayloadAction<{ roomId: string, url: AppRoute }>) => {},
   },
 });
 
-export const { connect, connected, disconnected, getError} = socketSlice.actions;
+export const { connect, connected, disconnected, getError, startGame } = socketSlice.actions;
 export default socketSlice.reducer;

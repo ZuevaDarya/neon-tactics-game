@@ -1,12 +1,15 @@
 import { BadRequestException, HttpException } from '@nestjs/common';
 import {
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
+  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { SocketEvent } from 'src/constants/socket-event';
 import { TSocketEvent } from 'src/types/types';
 
 @WebSocketGateway({
@@ -60,5 +63,10 @@ export class SocketService
 
   emitToRoom(roomId: string, event: TSocketEvent, data: any) {
     this.server.to(roomId).emit(event, data);
+  }
+
+  @SubscribeMessage(SocketEvent.StartGame)
+  handleStartGame(@MessageBody() payload: { roomId: string; url: string }) {
+    this.emitToRoom(payload.roomId, SocketEvent.Redirect, { url: payload.url });
   }
 }

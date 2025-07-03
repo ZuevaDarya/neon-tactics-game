@@ -5,7 +5,7 @@ import { SessionStorageKey } from "../../constants/storage-keys";
 import { TPlayerWithRoomResponse } from "../../types/services-types";
 import { setPlayersState } from "../slices/players-slice";
 import { setRoomState } from "../slices/room-slice";
-import { connect, connected, disconnected, getError } from "../slices/socket-slice";
+import { connect, connected, disconnected, getError, startGame } from "../slices/socket-slice";
 import { RootState } from "../store";
 
 export function createSocketMiddleware(): Middleware<unknown, RootState> {
@@ -41,6 +41,7 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
         });
 
         socket.on(SocketEvent.Disconnect, () => {
+          sessionStorage.removeItem(SessionStorageKey.SocketId);
           console.log("Socket disconnected");
 
           sessionStorage.removeItem(SessionStorageKey.SocketId);
@@ -63,6 +64,24 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           dispatch(setPlayersState(data));
           dispatch(setRoomState(data));
         });
+
+        socket.on(SocketEvent.Redirect, (data: { url: string }) => {
+          window.history.pushState({}, "", data.url);
+          window.dispatchEvent(new PopStateEvent("popstate"));
+          console.log("Redirect players");
+        });
+      }
+
+      if (startGame.match(action)) {
+        if (!socket?.connected) {
+          console.warn("Socket is not connected");
+          return next(action);
+        }
+
+        const { roomId, url } = action.payload;
+        console.log(roomId, url);
+        socket.emit(SocketEvent.StartGame, { roomId, url });
+        console.log("Start game");
       }
 
       return next(action);

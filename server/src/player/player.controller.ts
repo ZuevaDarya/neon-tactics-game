@@ -56,7 +56,6 @@ export class PlayerController {
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
   async deleteById(@Param('id') id: string) {
     return this.playerService.deleteById(id);
   }

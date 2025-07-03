@@ -61,14 +61,11 @@ export class PlayerService {
     return updatedPlayer;
   }
 
-  async deleteById(playerId: string): Promise<void> {
-    const deletedCount = await this.playerModel.destroy({
-      where: { playerId },
-    });
+  async deleteById(playerId: string): Promise<Player> {
+    const player = await this.findById(playerId);
+    await player.destroy();
 
-    if (deletedCount === 0) {
-      throw new NotFoundException(`Player with ID ${playerId} not found`);
-    }
+    return player;
   }
 
   async changeActiveStatus(

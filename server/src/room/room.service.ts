@@ -23,7 +23,7 @@ export class RoomService {
     const room = await this.roomModel.findByPk(roomId, { ...options });
 
     if (!room) {
-      throw new NotFoundException(`Room with ID ${roomId} not found`);
+      throw new NotFoundException(`Room not found`);
     }
 
     return room;
@@ -36,7 +36,7 @@ export class RoomService {
     });
 
     if (affectedCount === 0) {
-      throw new NotFoundException(`Room with ID ${roomId} not found`);
+      throw new NotFoundException(`Room not found`);
     }
 
     return updatedRoom;
@@ -48,7 +48,7 @@ export class RoomService {
     });
 
     if (deletedCount === 0) {
-      throw new NotFoundException(`Room with ID ${roomId} not found`);
+      throw new NotFoundException(`Room not found`);
     }
   }
 

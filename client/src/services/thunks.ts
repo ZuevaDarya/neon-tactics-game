@@ -119,7 +119,7 @@ export const getPlayer = createAsyncThunk<TPlayer, { id: string }>(
   }
 );
 
-export const deletePlayer = createAsyncThunk<void, { id: string }>(
+export const deletePlayer = createAsyncThunk<TPlayer, { id: string }>(
   `${SliceNamespace.Room}/deletePlayer`,
   async ({ id }) => {
     const options = {

@@ -17,7 +17,7 @@ function Tabs({ children, defaultActiveTab = 0 }: TTabsProps) {
                 key={idx}
                 label={child.props.label}
                 isActive={idx === activeTabIdx}
-                setActiveTabIdx={() => setActiveTabIdx(idx)}
+                setActiveTabIdx={child.props.disabled ? () => {} : () => setActiveTabIdx(idx)}
                 idx={idx}
               />
             );

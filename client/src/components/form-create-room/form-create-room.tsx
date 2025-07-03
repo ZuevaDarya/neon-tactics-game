@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { AppRoute } from "../../constants/app-route";
 import { StartFormInputName } from "../../constants/input-name";
 import { RoomStatus } from "../../constants/room-status";
+import useRoomStatus from "../../hooks/use-room-status";
+import { startGame } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import { createPlayerWithCreateRoom } from "../../services/thunks";
+import { createPlayerWithCreateRoom, deletePlayer, deleteRoom } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
@@ -13,23 +16,38 @@ import Form from "../form/form";
 function FormCreateRoom() {
   const dispatch = useAppDispatch();
   const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
-  const { roomId, status, playerId } = useAppSelector((state) => state.room);
+  const { roomId, status, playerId, creatorId } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
+  const { isWaiting: isBtnDisabled, isPlayersJoined } = useRoomStatus();
 
   useEffect(() => {
-    if (roomId) {
-      setValue(StartFormInputName.RoomId, roomId);
-    }
+    setValue(StartFormInputName.RoomId, roomId || "");
   }, [roomId, setValue]);
 
   useEffect(() => {
-    if (creator) {
-      setValue(StartFormInputName.Player, creator.name);
-    }
+    setValue(StartFormInputName.Player, creator?.name || "");
   }, [creator, setValue]);
 
   const onSubmit: SubmitHandler<TStartForm> = async (data) => {
     await dispatch(createPlayerWithCreateRoom({ name: data.player })).unwrap();
+  };
+
+  const handleStartBtnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (roomId) {
+      dispatch(startGame({ roomId, url: AppRoute.GamePage }));
+    }
+  };
+
+  const handleStopBtnClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (roomId && creatorId) {
+      await dispatch(deleteRoom({ id: roomId })).unwrap();
+      await dispatch(deletePlayer({ id: creatorId })).unwrap();
+    }
   };
 
   return (
@@ -42,11 +60,15 @@ function FormCreateRoom() {
           type="text"
           register={register}
           required
-          variant={roomId ? "disabled" : "default"}
-          disabled={roomId ? true : false}
+          variant={isBtnDisabled ? "disabled" : "default"}
+          disabled={isBtnDisabled}
         />
         {formState.errors.player && <span className="form-error">Заполните обязательные поля</span>}
-        <Button type="submit" variant="btnForAdd">
+        <Button
+          type="submit"
+          variant={isBtnDisabled ? "disabled" : "btnForAdd"}
+          disabled={isBtnDisabled}
+        >
           Создать
         </Button>
       </FormSection>
@@ -61,15 +83,25 @@ function FormCreateRoom() {
         />
       </FormSection>
       {status === RoomStatus.Waiting && !playerId && (
-        <div className="waiting-message">
-          <span className="text">Ожидание подключения второго игрока</span>
-          <span className="loader"></span>
+        <div className="waiting-block">
+          <p className="waiting-message">
+            <span className="text">Ожидание подключения второго игрока</span>
+            <span className="loader"></span>
+          </p>
+          <Button type="button" variant="default" onClick={handleStopBtnClick}>
+            Остановить поиск
+          </Button>
         </div>
       )}
       {roomId && player && (
         <p>
           Игрок <span>{player.name}</span> присоединился к комнате
         </p>
+      )}
+      {isPlayersJoined && (
+        <Button type="button" variant="started" onClick={handleStartBtnClick}>
+          Начать игру
+        </Button>
       )}
     </Form>
   );

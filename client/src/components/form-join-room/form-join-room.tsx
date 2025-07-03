@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { StartFormInputName } from "../../constants/input-name";
+import useRoomStatus from "../../hooks/use-room-status";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { createPlayerWithJoinInRoom, getAllPlayersInRoom } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
+import translateError from "../../utils/functions/translateError";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
 import FormSection from "../form-section/form-section";
@@ -11,20 +13,17 @@ import Form from "../form/form";
 
 function FormJoinRoom() {
   const dispatch = useAppDispatch();
-  const { roomId, isRequest } = useAppSelector((state) => state.room);
+  const { roomId, isRequest, error } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
   const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
+  const { isPlayersJoined } = useRoomStatus();
 
   useEffect(() => {
-    if (roomId) {
-      setValue(StartFormInputName.RoomId, roomId);
-    }
+    setValue(StartFormInputName.RoomId, roomId || "");
   }, [roomId, setValue]);
 
   useEffect(() => {
-    if (player) {
-      setValue(StartFormInputName.Player, player.name);
-    }
+    setValue(StartFormInputName.Player, player?.name || "");
   }, [player, setValue]);
 
   useEffect(() => {
@@ -47,9 +46,9 @@ function FormJoinRoom() {
           type="text"
           register={register}
           required
-          variant="default"
+          variant={isPlayersJoined ? "disabled" : "default"}
+          disabled={isPlayersJoined}
         />
-        {formState.errors.player && <span className="form-error">Заполните обязательные поля</span>}
       </FormSection>
       <FormSection title="Введите номер комнаты" variant="ds_row">
         <FormItem<TStartForm>
@@ -58,11 +57,18 @@ function FormJoinRoom() {
           type="text"
           register={register}
           required
-          variant="default"
           placeholder="12345678"
           maxLength={8}
+          variant={isPlayersJoined ? "disabled" : "default"}
+          disabled={isPlayersJoined}
         />
-        <Button type="submit" variant="btnForAdd">
+        {error && <span className="form-error">{translateError(error)}</span>}
+        {formState.errors.player && <span className="form-error">Заполните обязательные поля</span>}
+        <Button
+          type="submit"
+          variant={isPlayersJoined ? "disabled" : "btnForAdd"}
+          disabled={isPlayersJoined}
+        >
           Подключиться
         </Button>
         {formState.errors.roomId && <span className="form-error">Заполните обязательные поля</span>}

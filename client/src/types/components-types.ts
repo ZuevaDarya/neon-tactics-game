@@ -98,6 +98,7 @@ export type TTabProps = {
   idx?: number;
   children?: React.ReactNode;
   label: string;
+  disabled?: boolean;
 };
 
 export type TTabContentProps = {

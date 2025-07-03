@@ -73,6 +73,7 @@ export type TRoomResponse = TRoomBase;
 export type TThunkState = {
   isRequest: boolean;
   isSuccess: boolean;
+  error: string | null;
 };
 
 export type TCreatePlayer = {

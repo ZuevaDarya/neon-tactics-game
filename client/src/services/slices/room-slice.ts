@@ -16,6 +16,7 @@ const initialState: TRoomState = {
   status: null,
   isRequest: false,
   isSuccess: false,
+  error: null,
 };
 
 const roomSlice = createSlice({
@@ -34,14 +35,17 @@ const roomSlice = createSlice({
       .addCase(createRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
+        state.error = null;
       })
-      .addCase(createRoom.rejected, (state) => {
+      .addCase(createRoom.rejected, (state, { error }) => {
         state.isRequest = false;
         state.isSuccess = false;
+        state.error = String(error.message);
       })
       .addCase(createRoom.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
+        state.error = null;
         state.roomId = payload.roomId;
         state.creatorId = payload.creatorId;
         state.playerId = payload.playerId;
@@ -50,14 +54,17 @@ const roomSlice = createSlice({
       .addCase(createPlayerWithCreateRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
+        state.error = null;
       })
-      .addCase(createPlayerWithCreateRoom.rejected, (state) => {
+      .addCase(createPlayerWithCreateRoom.rejected, (state, { error }) => {
         state.isRequest = false;
         state.isSuccess = false;
+        state.error = String(error.message);
       })
       .addCase(createPlayerWithCreateRoom.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
+        state.error = null;
         state.roomId = payload.room.roomId;
         state.creatorId = payload.room.creatorId;
         state.playerId = payload.room.playerId;
@@ -66,14 +73,17 @@ const roomSlice = createSlice({
       .addCase(getRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
+        state.error = null;
       })
-      .addCase(getRoom.rejected, (state) => {
+      .addCase(getRoom.rejected, (state, { error }) => {
         state.isRequest = false;
         state.isSuccess = false;
+        state.error = String(error.message);
       })
       .addCase(getRoom.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
+        state.error = null;
         state.roomId = payload.roomId;
         state.creatorId = payload.creatorId;
         state.playerId = payload.playerId;
@@ -82,14 +92,17 @@ const roomSlice = createSlice({
       .addCase(createPlayerWithJoinInRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
+        state.error = null;
       })
-      .addCase(createPlayerWithJoinInRoom.rejected, (state) => {
+      .addCase(createPlayerWithJoinInRoom.rejected, (state, { error }) => {
         state.isRequest = false;
         state.isSuccess = false;
+        state.error = String(error.message);
       })
       .addCase(createPlayerWithJoinInRoom.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
+        state.error = null;
         state.playerId = payload.room.playerId;
         state.creatorId = payload.room.creatorId;
         state.roomId = payload.room.roomId;
@@ -98,14 +111,17 @@ const roomSlice = createSlice({
       .addCase(deleteRoom.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
+        state.error = null;
       })
-      .addCase(deleteRoom.rejected, (state) => {
+      .addCase(deleteRoom.rejected, (state, { error }) => {
         state.isRequest = false;
         state.isSuccess = false;
+        state.error = String(error.message);
       })
       .addCase(deleteRoom.fulfilled, (state) => {
         state.isRequest = false;
         state.isSuccess = true;
+        state.error = null;
         state.playerId = null;
         state.roomId = null;
         state.creatorId = null;

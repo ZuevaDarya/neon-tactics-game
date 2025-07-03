@@ -19,6 +19,7 @@ const preloadedState: TPreloadedState = {
     player: null,
     isRequest: false,
     isSuccess: false,
+    error: null,
   },
   room: {
     roomId: null,
@@ -27,6 +28,7 @@ const preloadedState: TPreloadedState = {
     status: null,
     isRequest: false,
     isSuccess: false,
+    error: null,
   },
   socket: {
     isConnected: false,

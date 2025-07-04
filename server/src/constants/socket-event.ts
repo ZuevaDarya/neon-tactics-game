@@ -3,4 +3,5 @@ export enum SocketEvent {
   CreateRoom = 'created_room',
   StartGame = 'start_game',
   Redirect = 'redirect',
+  CreateGameField = 'created_game_field',
 }

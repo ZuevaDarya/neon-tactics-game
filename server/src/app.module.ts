@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
+import { GameFieldModule } from './gameField/game-field.module';
 import { PlayerModule } from './player/player.module';
 import { RoomModule } from './room/room.module';
 
@@ -13,6 +14,7 @@ import { RoomModule } from './room/room.module';
     DatabaseModule,
     PlayerModule,
     RoomModule,
+    GameFieldModule,
   ],
   controllers: [],
   providers: [],

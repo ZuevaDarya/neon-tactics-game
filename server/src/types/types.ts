@@ -1,3 +1,4 @@
+import { CardType } from 'src/constants/card-types';
 import { PieceType } from 'src/constants/piece-type';
 import { RoomStatus } from 'src/constants/room-status';
 import { SocketEvent } from 'src/constants/socket-event';
@@ -36,4 +37,11 @@ export type TSocketEvent = `${SocketEvent}`;
 export type TGetCountPieceResponse = {
   playerId: string;
   countPiece: number;
+};
+
+export type TCardTypes = [`${CardType}`, `${CardType}`];
+
+export type TCard = {
+  id: string;
+  types: TCardTypes;
 };

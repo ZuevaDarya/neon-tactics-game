@@ -1,11 +1,8 @@
 import { memo, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
-import { RU_CARDS_TYPES } from "../../constants/cards-types";
+import { RU_CARD_TYPES } from "../../constants/card-types";
 import { LOCKED_CARDS_IDX } from "../../constants/game-constants";
-import {
-  setCardOnPiece,
-  setTargetCard,
-} from "../../services/slices/game-field-slice";
+import { setCardOnPiece, setTargetCard } from "../../services/slices/game-field-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { TCardProps } from "../../types/components-types";
 import { TGameFieldPiece } from "../../types/services-types";
@@ -73,14 +70,14 @@ function Card({
   return card && !isTargetCard && !isLocked && (isAvailable || countTurn === 0) ? (
     dropTarget(
       <div className={`card ${isPieceMoving && "card_available"}`}>
-        <p>{RU_CARDS_TYPES[card.types[0]]}</p>
-        <p>{RU_CARDS_TYPES[card.types[1]]}</p>
+        <p>{RU_CARD_TYPES[card.types[0]]}</p>
+        <p>{RU_CARD_TYPES[card.types[1]]}</p>
       </div>
     )
   ) : card ? (
     <div className={`card ${isLocked && "card_locked"}`}>
-      <p>{RU_CARDS_TYPES[card.types[0]]}</p>
-      <p>{RU_CARDS_TYPES[card.types[1]]}</p>
+      <p>{RU_CARD_TYPES[card.types[0]]}</p>
+      <p>{RU_CARD_TYPES[card.types[1]]}</p>
     </div>
   ) : (
     <div className="card_empty"></div>

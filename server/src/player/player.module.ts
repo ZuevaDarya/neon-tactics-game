@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { RoomModule } from 'src/room/room.module';
 import { SocketModule } from 'src/socket/socket.module';
-import { TransactionService } from 'src/utils-services/transaction.service';
+import { TransactionService } from 'src/utils/services/transaction.service';
 import { Player } from './models/player.model';
 import { PlayerRoomService } from './player-room.service';
 import { PlayerController } from './player.controller';

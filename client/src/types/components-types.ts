@@ -1,10 +1,10 @@
 import React from "react";
 import { FieldValues } from "react-hook-form";
 import { TInputProps } from "../components/input/input";
-import { CardsType } from "../constants/cards-types";
+import { CardType } from "../constants/card-types";
 import { TPlayer } from "./services-types";
 
-export type TCardTypes = [CardsType, CardsType];
+export type TCardTypes = [CardType, CardType];
 
 export type TCard = {
   id: string;

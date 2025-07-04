@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RoomService } from 'src/room/room.service';
-import { TransactionService } from 'src/utils-services/transaction.service';
+import { TransactionService } from 'src/utils/services/transaction.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { JoinRoomDTO } from './dto/join-room.dto';
 import { PlayerService } from './player.service';

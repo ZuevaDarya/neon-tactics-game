@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TransactionOptions } from 'sequelize';
 import { TRoomStatus } from 'src/types/types';
-import { CreateRoomDTO } from './models/dto/create-room.dto';
-import { UpdateRoomDTO } from './models/dto/update-room.dto';
+import { CreateRoomDTO } from './dto/create-room.dto';
+import { UpdateRoomDTO } from './dto/update-room.dto';
 import { Room } from './models/room.model';
 
 @Injectable()

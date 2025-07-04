@@ -5,7 +5,7 @@ import useRoomStatus from "../../hooks/use-room-status";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { createPlayerWithJoinInRoom, getAllPlayersInRoom } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
-import translateError from "../../utils/functions/translateError";
+import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
 import FormSection from "../form-section/form-section";

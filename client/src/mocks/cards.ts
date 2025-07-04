@@ -1,71 +1,71 @@
 import uuid from "react-uuid";
-import { CardsType } from "../constants/cards-types";
+import { CardType } from "../constants/card-types";
 import { TCard } from "../types/components-types";
 
 const CARDS: TCard[] = [
   {
     id: uuid(),
-    types: [CardsType.Maple, CardsType.Sun],
+    types: [CardType.Maple, CardType.Sun],
   },
   {
     id: uuid(),
-    types: [CardsType.Maple, CardsType.Paper],
+    types: [CardType.Maple, CardType.Paper],
   },
   {
     id: uuid(),
-    types: [CardsType.Maple, CardsType.Bird],
+    types: [CardType.Maple, CardType.Bird],
   },
   {
     id: uuid(),
-    types: [CardsType.Maple, CardsType.Rain],
+    types: [CardType.Maple, CardType.Rain],
   },
   {
     id: uuid(),
-    types: [CardsType.Sakura, CardsType.Sun],
+    types: [CardType.Sakura, CardType.Sun],
   },
   {
     id: uuid(),
-    types: [CardsType.Sakura, CardsType.Paper],
+    types: [CardType.Sakura, CardType.Paper],
   },
   {
     id: uuid(),
-    types: [CardsType.Sakura, CardsType.Bird],
+    types: [CardType.Sakura, CardType.Bird],
   },
   {
     id: uuid(),
-    types: [CardsType.Sakura, CardsType.Rain],
+    types: [CardType.Sakura, CardType.Rain],
   },
   {
     id: uuid(),
-    types: [CardsType.Pine, CardsType.Sun],
+    types: [CardType.Pine, CardType.Sun],
   },
   {
     id: uuid(),
-    types: [CardsType.Pine, CardsType.Paper],
+    types: [CardType.Pine, CardType.Paper],
   },
   {
     id: uuid(),
-    types: [CardsType.Pine, CardsType.Bird],
+    types: [CardType.Pine, CardType.Bird],
   },
   {
     id: uuid(),
-    types: [CardsType.Pine, CardsType.Rain],
+    types: [CardType.Pine, CardType.Rain],
   },
   {
     id: uuid(),
-    types: [CardsType.Iris, CardsType.Sun],
+    types: [CardType.Iris, CardType.Sun],
   },
   {
     id: uuid(),
-    types: [CardsType.Iris, CardsType.Paper],
+    types: [CardType.Iris, CardType.Paper],
   },
   {
     id: uuid(),
-    types: [CardsType.Iris, CardsType.Bird],
+    types: [CardType.Iris, CardType.Bird],
   },
   {
     id: uuid(),
-    types: [CardsType.Iris, CardsType.Rain],
+    types: [CardType.Iris, CardType.Rain],
   },
 ];
 

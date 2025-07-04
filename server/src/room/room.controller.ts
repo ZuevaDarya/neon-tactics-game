@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 
 import { TRoomStatus } from 'src/types/types';
-import { CreateRoomDTO } from './models/dto/create-room.dto';
-import { UpdateRoomDTO } from './models/dto/update-room.dto';
+import { CreateRoomDTO } from './dto/create-room.dto';
+import { UpdateRoomDTO } from './dto/update-room.dto';
 import { RoomService } from './room.service';
 
 @Controller('rooms')

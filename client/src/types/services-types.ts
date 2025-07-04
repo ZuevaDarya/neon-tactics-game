@@ -108,3 +108,8 @@ export type TSocketState = {
 export type TGetAllPlayersInRoomResponse = {
   players: TPlayer[];
 };
+
+export type TUpdateRoomStatus = {
+  id: string;
+  status: TRoomStatus;
+}

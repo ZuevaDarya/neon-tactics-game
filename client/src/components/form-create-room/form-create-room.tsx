@@ -6,7 +6,12 @@ import { RoomStatus } from "../../constants/room-status";
 import useRoomStatus from "../../hooks/use-room-status";
 import { startGame } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import { createPlayerWithCreateRoom, deletePlayer, deleteRoom } from "../../services/thunks";
+import {
+  createPlayerWithCreateRoom,
+  deletePlayer,
+  deleteRoom,
+  updateRoomStatus,
+} from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
@@ -32,11 +37,12 @@ function FormCreateRoom() {
     await dispatch(createPlayerWithCreateRoom({ name: data.player })).unwrap();
   };
 
-  const handleStartBtnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleStartBtnClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     e.preventDefault();
     if (roomId) {
       dispatch(startGame({ roomId, url: AppRoute.GamePage }));
+      await dispatch(updateRoomStatus({ id: roomId, status: "playing" })).unwrap();
     }
   };
 

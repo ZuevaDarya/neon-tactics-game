@@ -12,6 +12,7 @@ import {
   TPlayerWithRoomResponse,
   TRejectValue,
   TRoomResponse,
+  TUpdateRoomStatus,
 } from "../types/services-types";
 import request from "./request";
 
@@ -97,6 +98,21 @@ export const deleteRoom = createAsyncThunk<void, { id: string }>(
   }
 );
 
+export const updateRoomStatus = createAsyncThunk<TRoomResponse, TUpdateRoomStatus>(
+  `${SliceNamespace.Room}/updateRoomStatus`,
+  ({ id, status }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({ status }),
+    };
+
+    return request(`${API_PATHS.rooms}/${id}${API_PATHS.roomStatus}`, options);
+  }
+);
+
 export const createPlayer = createAsyncThunk<TPlayer, TCreatePlayer>(
   `${SliceNamespace.Players}/createPlayer`,
   async (player) => {
@@ -136,7 +152,7 @@ export const deletePlayer = createAsyncThunk<TPlayer, { id: string }>(
 export const getPieceCount = createAsyncThunk<TGetCountPieceResponse, { id: string }>(
   `${SliceNamespace.Players}/getPieceCount`,
   async ({ id }) => {
-    return await request(`${API_PATHS.players}/${id}/${API_PATHS.pieceCount}`);
+    return await request(`${API_PATHS.players}/${id}${API_PATHS.pieceCount}`);
   }
 );
 

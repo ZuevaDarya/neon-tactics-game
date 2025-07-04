@@ -5,6 +5,7 @@ export const API_PATHS = {
   players: "/players",
   playerWithCreateRoom: "/players/create-room",
   playerWithJoinRoom: "/players/join-room",
-  pieceCount: "piece-count",
+  pieceCount: "/piece-count",
   playersInRoom: "/players/by-room",
+  roomStatus: "/status",
 };

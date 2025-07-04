@@ -11,6 +11,7 @@ import {
   Post,
 } from '@nestjs/common';
 
+import { TRoomStatus } from 'src/types/types';
 import { CreateRoomDTO } from './models/dto/create-room.dto';
 import { UpdateRoomDTO } from './models/dto/update-room.dto';
 import { RoomService } from './room.service';
@@ -50,5 +51,14 @@ export class RoomController {
   @Patch(':roomId/reset-player')
   async resetPlayerId(@Param('roomId') roomId: string) {
     return this.roomService.resetPlayerId(roomId);
+  }
+
+  @Patch(':roomId/status')
+  async updateRoomStatus(
+    @Param('roomId') roomId: string,
+    @Body() { status }: { status: TRoomStatus },
+  ) {
+    console.log('[ROOM STATUS]', status);
+    return this.roomService.updateRoomStatus(roomId, status);
   }
 }

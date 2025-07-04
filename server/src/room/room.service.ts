@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TransactionOptions } from 'sequelize';
+import { TRoomStatus } from 'src/types/types';
 import { CreateRoomDTO } from './models/dto/create-room.dto';
 import { UpdateRoomDTO } from './models/dto/update-room.dto';
 import { Room } from './models/room.model';
@@ -69,5 +70,10 @@ export class RoomService {
   async resetPlayerId(roomId: string): Promise<Room> {
     const room = await this.findById(roomId);
     return room.update({ playerId: null });
+  }
+
+  async updateRoomStatus(roomId: string, status: TRoomStatus): Promise<Room> {
+    const room = await this.findById(roomId);
+    return room.update({ status });
   }
 }

@@ -1,4 +1,4 @@
-import { JSONB, UUIDV4 } from 'sequelize';
+import { JSONB } from 'sequelize';
 import {
   BelongsTo,
   Column,
@@ -13,18 +13,9 @@ import { TCard } from 'src/types/types';
 @Table({
   tableName: 'game_field',
   timestamps: true,
-  indexes: [{ fields: ['id', 'roomId'] }],
+  indexes: [{ fields: ['roomId'] }],
 })
 export class GameField extends Model {
-  @Column({
-    type: DataType.UUID,
-    primaryKey: true,
-    allowNull: false,
-    defaultValue: UUIDV4,
-    comment: 'Уникальный идентификатор игрового поля',
-  })
-  declare id: string;
-
   @ForeignKey(() => Room)
   @BelongsTo(() => Room, {
     foreignKey: 'roomId',
@@ -33,6 +24,7 @@ export class GameField extends Model {
   })
   @Column({
     type: DataType.STRING(8),
+    primaryKey: true,
     allowNull: false,
     comment: 'Идентификатор комнаты',
   })

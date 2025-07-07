@@ -3,6 +3,7 @@ import { API_PATHS } from "../constants/api-constants";
 import { SliceNamespace } from "../constants/slice-namespace";
 import { SessionStorageKey } from "../constants/storage-keys";
 import {
+  TCreateFieldResponse,
   TCreatePlayer,
   TCreatePlayerWithJoinInRoom,
   TCreateRoom,
@@ -160,5 +161,40 @@ export const getAllPlayersInRoom = createAsyncThunk<TGetAllPlayersInRoomResponse
   `${SliceNamespace.Players}/getAllPlayersInRoom`,
   async ({ id }) => {
     return await request(`${API_PATHS.playersInRoom}/${id}`);
+  }
+);
+
+export const createdGameField = createAsyncThunk<TCreateFieldResponse, { roomId: string }>(
+  `${SliceNamespace.GameField}/getShuffledGameField`,
+  async ({ roomId }) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({ roomId }),
+    };
+    return await request(`${API_PATHS.game}`, options);
+  }
+);
+
+export const getGameField = createAsyncThunk<TCreateFieldResponse, { id: string }>(
+  `${SliceNamespace.GameField}/getGameField`,
+  async ({ id }) => {
+    return await request(`${API_PATHS.game}/${id}`);
+  }
+);
+
+export const deleteGameField = createAsyncThunk<void, { id: string }>(
+  `${SliceNamespace.GameField}/deleteGameField`,
+  async ({ id }) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.game}/${id}`, options);
   }
 );

@@ -36,10 +36,13 @@ export class GameFieldService {
     return gameField;
   }
 
-  async deleteByRoomId(roomId: string): Promise<GameField> {
-    const gameField = await this.findByRoomId(roomId);
-    await gameField.destroy();
+  async deleteByRoomId(roomId: string): Promise<void> {
+    const deletedCount = await this.gameFieldModel.destroy({
+      where: { roomId },
+    });
 
-    return gameField;
+    if (deletedCount === 0) {
+      throw new NotFoundException(`Room not found`);
+    }
   }
 }

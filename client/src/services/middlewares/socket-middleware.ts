@@ -2,7 +2,8 @@ import { Middleware } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
 import { SocketEvent } from "../../constants/socket-event";
 import { SessionStorageKey } from "../../constants/storage-keys";
-import { TPlayerWithRoomResponse } from "../../types/services-types";
+import { TCreateFieldResponse, TPlayerWithRoomResponse } from "../../types/services-types";
+import { updateGameFieldState } from "../slices/game-field-slice";
 import { setPlayersState } from "../slices/players-slice";
 import { setRoomState } from "../slices/room-slice";
 import { connect, connected, disconnected, getError, startGame } from "../slices/socket-slice";
@@ -69,6 +70,11 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           window.history.pushState({}, "", data.url);
           window.dispatchEvent(new PopStateEvent("popstate"));
           console.log("Redirect players");
+        });
+
+        socket.on(SocketEvent.CreateGameField, (data: TCreateFieldResponse) => {
+          console.log("Get shuffled field");
+          dispatch(updateGameFieldState(data));
         });
       }
 

@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AppRoute } from "../../constants/app-route";
+import { AppRoute } from '../../constants/app-route';
 import { StartFormInputName } from "../../constants/input-name";
 import { RoomStatus } from "../../constants/room-status";
 import useRoomStatus from "../../hooks/use-room-status";
-import { startGame } from "../../services/slices/socket-slice";
+import { startGame } from '../../services/slices/socket-slice';
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
   createPlayerWithCreateRoom,
+  createdGameField,
   deletePlayer,
   deleteRoom,
   updateRoomStatus,
@@ -42,6 +43,7 @@ function FormCreateRoom() {
     e.preventDefault();
     if (roomId) {
       dispatch(startGame({ roomId, url: AppRoute.GamePage }));
+      await dispatch(createdGameField({ roomId })).unwrap();
       await dispatch(updateRoomStatus({ id: roomId, status: "playing" })).unwrap();
     }
   };

@@ -8,6 +8,9 @@ const preloadedState: TPreloadedState = {
   gameField: {
     field: [],
     targetCard: null,
+    error: null,
+    isSuccess: false,
+    isRequest: false,
   },
   gameState: {
     countTurn: 0,

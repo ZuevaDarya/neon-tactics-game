@@ -9,7 +9,7 @@ export type TGameFieldPiece = Pick<TGamePieceProps, "type"> & {
 export type TGameFiledState = {
   field: (TCard | TGameFieldPiece)[];
   targetCard: TCard | null;
-};
+} & TThunkState;
 
 export type TAddCardsAction = {
   cards: TCard[];
@@ -112,4 +112,8 @@ export type TGetAllPlayersInRoomResponse = {
 export type TUpdateRoomStatus = {
   id: string;
   status: TRoomStatus;
-}
+};
+
+export type TCreateFieldResponse = TGameFiledState & {
+  roomId: string;
+};

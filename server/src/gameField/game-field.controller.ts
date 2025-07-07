@@ -6,6 +6,7 @@ import {
   Header,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
 } from '@nestjs/common';
 import { SocketEvent } from 'src/constants/socket-event';
@@ -35,13 +36,14 @@ export class GameFieldController {
     return data;
   }
 
-  @Get()
-  async findByRoomId(@Body() { roomId }: { roomId: string }) {
-    return this.gameFieldService.findByRoomId(roomId);
+  @Get(':roomId')
+  async findByRoomId(@Param('roomId') id: string) {
+    return this.gameFieldService.findByRoomId(id);
   }
 
-  @Delete()
-  async deleteByRoomId(@Body() { roomId }: { roomId: string }) {
-    return this.gameFieldService.deleteByRoomId(roomId);
+  @Delete(':roomId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteByRoomId(@Param('roomId') id: string) {
+    return this.gameFieldService.deleteByRoomId(id);
   }
 }

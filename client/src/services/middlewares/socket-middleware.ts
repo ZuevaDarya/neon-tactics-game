@@ -2,9 +2,16 @@ import { Middleware } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
 import { SocketEvent } from "../../constants/socket-event";
 import { SessionStorageKey } from "../../constants/storage-keys";
-import { TCreateFieldResponse, TPlayerWithRoomResponse } from "../../types/services-types";
+import {
+  TAssignPieceTypeResponse,
+  TCreateFieldResponse,
+  TPlayerWithRoomResponse,
+  TSelectActivePlayerResponse,
+  TUpdateGameFieldResponse,
+} from "../../types/services-types";
 import { updateGameFieldState } from "../slices/game-field-slice";
-import { setPlayersState } from "../slices/players-slice";
+import { setActivePlayer } from "../slices/game-state-slice";
+import { setPlayer } from "../slices/players-slice";
 import { setRoomState } from "../slices/room-slice";
 import { connect, connected, disconnected, getError, startGame } from "../slices/socket-slice";
 import { RootState } from "../store";
@@ -57,12 +64,12 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
         socket.on(SocketEvent.JoinRoom, (data: TPlayerWithRoomResponse) => {
           console.log(`Player: ${data.player.name} join in room`);
           dispatch(setRoomState(data));
-          dispatch(setPlayersState(data));
+          dispatch(setPlayer(data));
         });
 
         socket.on(SocketEvent.CreateRoom, (data: TPlayerWithRoomResponse) => {
           console.log(`Set players`);
-          dispatch(setPlayersState(data));
+          dispatch(setPlayer(data));
           dispatch(setRoomState(data));
         });
 
@@ -74,6 +81,22 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
 
         socket.on(SocketEvent.CreateGameField, (data: TCreateFieldResponse) => {
           console.log("Get shuffled field");
+          dispatch(updateGameFieldState(data));
+        });
+
+        socket.on(SocketEvent.AssignPieceType, (data: TAssignPieceTypeResponse) => {
+          console.log("Assign piece type");
+          data.forEach((player) => dispatch(setPlayer({ player })));
+        });
+
+        socket.on(SocketEvent.SelectActivePlayer, (data: TSelectActivePlayerResponse) => {
+          console.log("Set active player");
+          dispatch(setPlayer(data));
+          dispatch(setActivePlayer(data.player));
+        });
+
+        socket.on(SocketEvent.UpdateField, (data: TUpdateGameFieldResponse) => {
+          console.log("Update field");
           dispatch(updateGameFieldState(data));
         });
       }

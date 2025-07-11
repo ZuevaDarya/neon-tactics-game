@@ -21,53 +21,24 @@ function GameField() {
   const [currentPieceType, setCurrentPieceType] = useState<TPieceTypes | null>(null);
   const [isDropped, setIsDropped] = useState<boolean>(false);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const field = useAppSelector((state) => state.gameField.field);
-  const { activePlayer, winner } = useAppSelector((state) => state.gameState);
-  const players = useAppSelector((state) => state.players.players);
-  const { isModalOpen, closeModal, openModal } = useModal();
-
-  useEffect(() => {
-    setIsDropped(false);
-    if (currentPieceType && curentCardIdx !== -1 && activePlayer) {
-      if (isWin(curentCardIdx, currentPieceType, field)) {
-        dispatch(setWinner(activePlayer));
-      }
-    }
-  }, [field, curentCardIdx, currentPieceType, dispatch]);
+  // const { activePlayer, winner } = useAppSelector((state) => state.gameState);
+  // const players = useAppSelector((state) => state.players.players);
+  // const { isModalOpen, closeModal, openModal } = useModal();
 
   // useEffect(() => {
-  //   if (!winner) {
-  //     if (isDropped) {
-  //       // sessionStorage.setItem(SessionStorageKey.Cards, JSON.stringify(field));
-  //       if (activePlayer) {
-  //         const nextTurnPlayer = players.find((player) => player.id !== activePlayer.id);
-
-  //         if (nextTurnPlayer) {
-  //           dispatch(setActivePlayer(nextTurnPlayer));
-  //           // sessionStorage.setItem(SessionStorageKey.ActivePlayer, JSON.stringify(nextTurnPlayer));
-  //           dispatch(
-  //             updatePlayer({
-  //               ...activePlayer,
-  //               countPieces: activePlayer.countPieces - 1,
-  //             })
-  //           );
-  //           dispatch(increaseCountTurn());
-  //           openModal();
-  //           // sessionStorage.setItem(SessionStorageKey.CountTurn, JSON.stringify(countTurn));
-  //         }
-  //       }
-  //     }
-  //   } else {
-  //     dispatch(resetActivePlayer());
-  //     // sessionStorage.removeItem(SessionStorageKey.ActivePlayer);
-  //     // alert(`${winner?.name} победил`);
-  //   }
-  // }, [isDropped, winner, dispatch]);
+    // setIsDropped(false);
+    // if (currentPieceType && curentCardIdx !== -1 && activePlayer) {
+    //   if (isWin(curentCardIdx, currentPieceType, field)) {
+    //     dispatch(setWinner(activePlayer));
+    //   }
+    // }
+  // }, [field]);
 
   return (
     <>
-      {winner && isModalOpen && <WinnerModal onClose={closeModal} winner={winner} />}
+      {/* {winner && isModalOpen && <WinnerModal onClose={closeModal} winner={winner} />} */}
       <div className="game-field">
         {field.map((card) => {
           if ("types" in card) {

@@ -31,7 +31,7 @@ export type TSetCardOnPieceAction = {
 export type TPlayer = {
   playerId: string;
   name: string;
-  countPieces: number;
+  countPiece: number;
   pieceType: TPieceTypes | null;
   roomId: string | null;
   isAcive: boolean;
@@ -116,4 +116,26 @@ export type TUpdateRoomStatus = {
 
 export type TCreateFieldResponse = TGameFiledState & {
   roomId: string;
+};
+
+export type TAssignPieceTypeResponse = [TPlayer, TPlayer];
+
+export type TAssignPieceType = {
+  player1Id: string;
+  player2Id: string;
+  roomId: string;
+};
+
+export type TSelectActivePlayerResponse = {
+  player: TPlayer;
+};
+
+export type TSelectActivePlayer = TAssignPieceType;
+
+export type TUpdateGameFieldResponse = Pick<TGameFiledState, "field" | "targetCard"> & {
+  roomId: string;
+};
+
+export type TUpdateGameField = {
+  [k in keyof TUpdateGameFieldResponse]?: TUpdateGameFieldResponse[k];
 };

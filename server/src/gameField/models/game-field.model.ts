@@ -8,7 +8,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Room } from 'src/room/models/room.model';
-import { TCard } from 'src/types/types';
+import { TCard, TGameFiled } from 'src/types/types';
 
 @Table({
   tableName: 'game_field',
@@ -35,7 +35,7 @@ export class GameField extends Model {
     allowNull: false,
     comment: 'Массив карточек игрового поля',
   })
-  declare field: TCard[];
+  declare field: TGameFiled;
 
   @Column({
     type: JSONB,

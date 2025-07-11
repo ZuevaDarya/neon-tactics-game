@@ -45,3 +45,12 @@ export type TCard = {
   id: string;
   types: TCardTypes;
 };
+
+export type TPieceTypes = `${PieceType}`;
+
+export type TGameFieldPiece = {
+  id: string;
+  type: TPieceTypes;
+};
+
+export type TGameFiled = (TCard | TGameFieldPiece)[];

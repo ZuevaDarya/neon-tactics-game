@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { TransactionOptions } from 'sequelize';
 import { TCard } from 'src/types/types';
 import generateCards from 'src/utils/functions/generate-cards';
 import shuffleField from 'src/utils/functions/shuffle-field';
 import { CreateGameFieldDTO } from './dto/create-game-field.dto';
+import { UpdateGameFieldDTO } from './dto/update-game-field.dto';
 import { GameField } from './models/game-field.model';
 
 @Injectable()
@@ -44,5 +46,26 @@ export class GameFieldService {
     if (deletedCount === 0) {
       throw new NotFoundException(`Room not found`);
     }
+  }
+
+  async update(
+    roomId: string,
+    data: UpdateGameFieldDTO,
+    options?: TransactionOptions,
+  ): Promise<GameField> {
+    const [affectedCount, [updatedData]] = await this.gameFieldModel.update(
+      data,
+      {
+        where: { roomId },
+        returning: true,
+        ...options,
+      },
+    );
+
+    if (affectedCount === 0) {
+      throw new NotFoundException(`Game field with ID ${roomId} not found`);
+    }
+
+    return updatedData;
   }
 }

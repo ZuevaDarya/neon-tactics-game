@@ -10,7 +10,7 @@ function PlayerBlock({ player, position }: TPlayerBlockProps) {
         <PlayerIcon src={`/assets/images/j-${player.pieceType}-1.png`} name={player.name} />
       )}
       {player.pieceType && (
-        <GamePieceBlock countPieces={player.countPieces} type={player.pieceType} />
+        <GamePieceBlock countPieces={player.countPiece} type={player.pieceType} />
       )}
       {position === "right" && (
         <PlayerIcon src={`/assets/images/j-${player.pieceType}-1.png`} name={player.name} />

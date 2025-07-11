@@ -6,8 +6,9 @@ import {
   TCreateFieldResponse,
   TGameFiledState,
   TSetCardOnPieceAction,
+  TUpdateGameFieldResponse,
 } from "../../types/services-types";
-import { createdGameField, deleteGameField, getGameField } from "../thunks";
+import { createdGameField, deleteGameField, getGameField, updateGameField } from "../thunks";
 
 export const initialState: TGameFiledState = {
   field: [],
@@ -21,7 +22,10 @@ const gameFieldSlice = createSlice({
   name: SliceNamespace.GameField,
   initialState,
   reducers: {
-    updateGameFieldState: (state, { payload }: PayloadAction<TCreateFieldResponse>) => {
+    updateGameFieldState: (
+      state,
+      { payload }: PayloadAction<TUpdateGameFieldResponse | TCreateFieldResponse>
+    ) => {
       state.field = payload.field;
       state.targetCard = payload.targetCard;
     },
@@ -87,6 +91,23 @@ const gameFieldSlice = createSlice({
         state.error = null;
         state.field = [];
         state.targetCard = null;
+      })
+      .addCase(updateGameField.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(updateGameField.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(updateGameField.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+        state.field = payload.field;
+        state.targetCard = payload.targetCard;
       });
   },
 });

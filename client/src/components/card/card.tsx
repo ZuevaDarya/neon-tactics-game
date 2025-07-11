@@ -4,6 +4,7 @@ import { RU_CARD_TYPES } from "../../constants/card-types";
 import { LOCKED_CARDS_IDX } from "../../constants/game-constants";
 import { setCardOnPiece, setTargetCard } from "../../services/slices/game-field-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
+import { updateGameField } from "../../services/thunks";
 import { TCardProps } from "../../types/components-types";
 import { TGameFieldPiece } from "../../types/services-types";
 import isAvailableCard from "../../utils/functions/is-available-card";
@@ -20,6 +21,7 @@ function Card({
   const { field, targetCard } = useAppSelector((state) => state.gameField);
   const cardIdx = field.findIndex((fieldCard) => fieldCard.id === card?.id);
   const { countTurn } = useAppSelector((state) => state.gameState);
+  const { roomId } = useAppSelector((state) => state.room);
 
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [isLocked, setIsLocked] = useState<boolean>(false);
@@ -27,14 +29,15 @@ function Card({
   const [{ isPieceMoving, item }, dropTarget] = useDrop({
     accept: "piece",
     drop(props: TGameFieldPiece) {
-      dispatch(setCardOnPiece({ idx: cardIdx, piece: props }));
-
       if (setCurrentCardIdx) {
         setCurrentCardIdx(cardIdx);
       }
 
-      if (card) {
-        dispatch(setTargetCard(card));
+      if (card && roomId) {
+        const copyField = [...field];
+        copyField[cardIdx] = props;
+
+        dispatch(updateGameField({ roomId, field: copyField, targetCard: card }));
       }
 
       if (setIsDropped) {

@@ -3,6 +3,7 @@ import { API_PATHS } from "../constants/api-constants";
 import { SliceNamespace } from "../constants/slice-namespace";
 import { SessionStorageKey } from "../constants/storage-keys";
 import {
+  TAssignPieceTypeResponse,
   TCreateFieldResponse,
   TCreatePlayer,
   TCreatePlayerWithJoinInRoom,
@@ -13,6 +14,9 @@ import {
   TPlayerWithRoomResponse,
   TRejectValue,
   TRoomResponse,
+  TSelectActivePlayerResponse,
+  TUpdateGameField,
+  TUpdateGameFieldResponse,
   TUpdateRoomStatus,
 } from "../types/services-types";
 import request from "./request";
@@ -196,5 +200,48 @@ export const deleteGameField = createAsyncThunk<void, { id: string }>(
     };
 
     return await request(`${API_PATHS.game}/${id}`, options);
+  }
+);
+
+export const updateGameField = createAsyncThunk<TUpdateGameFieldResponse, TUpdateGameField>(
+  `${SliceNamespace.GameField}/updateGameField`,
+  async ({ roomId, ...data }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    };
+
+    return await request(`${API_PATHS.game}/${roomId}`, options);
+  }
+);
+
+export const assignRandomPieceType = createAsyncThunk<TAssignPieceTypeResponse, { id: string }>(
+  `${SliceNamespace.Room}/assignRandomPieceType`,
+  async ({ id }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.rooms}/${id}${API_PATHS.assignPieceType}`, options);
+  }
+);
+
+export const selectActivePlayer = createAsyncThunk<TSelectActivePlayerResponse, { id: string }>(
+  `${SliceNamespace.Room}/selectActivePlayer`,
+  async ({ id }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.rooms}/${id}${API_PATHS.selectActivePlayer}`, options);
   }
 );

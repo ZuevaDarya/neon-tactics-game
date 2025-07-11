@@ -6,6 +6,22 @@ import { SessionStorageKey } from "../../constants/storage-keys";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { getAllPlayersInRoom, getGameField, getRoom } from "../../services/thunks";
 
+/*
+  Клиент
+  TODO Менять в БД у игрока isActive, когда его ход активен
+  TODO Переписать gameStateSlice
+
+  Сервер
+  TODO Написать модель, контроллер и сервис для таблицы и GameState
+  TODO Написать сокет для обновления состояния поля после каждого хода игрока
+  TODO Переименовать таблицы и колонки в snake_case
+
+  ?Возможно, разделить url для сокета на странице входа и игры (url/room, url/game)
+
+  Стили
+  TODO перейтис scss на css
+*/
+
 function GamePage() {
   const dispatch = useAppDispatch();
   const { creator, player } = useAppSelector((state) => state.players);

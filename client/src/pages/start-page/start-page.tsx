@@ -3,7 +3,7 @@ import FormCreateRoom from "../../components/form-create-room/form-create-room";
 import FormJoinRoom from "../../components/form-join-room/form-join-room";
 import Tab from "../../components/tab/tab";
 import Tabs from "../../components/tabs/tabs";
-import { BASE_URL } from "../../constants/api-constants";
+import { DEV_URL } from "../../constants/api-constants";
 import useRoomStatus from "../../hooks/use-room-status";
 import { connect, disconnected } from "../../services/slices/socket-slice";
 import { useAppDispatch } from "../../services/store";
@@ -14,7 +14,7 @@ function StartPage() {
   const { isWaiting, isPlayersJoined } = useRoomStatus();
 
   useEffect(() => {
-    dispatch(connect({ url: BASE_URL }));
+    dispatch(connect({ url: DEV_URL }));
 
     return () => {
       dispatch(disconnected());

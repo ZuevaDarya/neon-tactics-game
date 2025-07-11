@@ -1,4 +1,4 @@
-import { BASE_URL } from "../constants/api-constants";
+import { DEV_URL } from "../constants/api-constants";
 import { TApiPaths } from "../types/services-types";
 
 const checkRequest = async (res: Response) => {
@@ -23,7 +23,7 @@ const checkRequest = async (res: Response) => {
 };
 
 const request = async (path: TApiPaths | string, options?: RequestInit) => {
-  return await fetch(`${BASE_URL}${path}`, options).then(checkRequest);
+  return await fetch(`${DEV_URL}${path}`, options).then(checkRequest);
 };
 
 export default request;

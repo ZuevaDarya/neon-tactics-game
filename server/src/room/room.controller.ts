@@ -11,6 +11,9 @@ import {
   Post,
 } from '@nestjs/common';
 
+import { SocketEvent } from 'src/constants/socket-event';
+import { PlayerRoomService } from 'src/player/player-room.service';
+import { SocketService } from 'src/socket/socket.service';
 import { TRoomStatus } from 'src/types/types';
 import { CreateRoomDTO } from './dto/create-room.dto';
 import { UpdateRoomDTO } from './dto/update-room.dto';
@@ -18,7 +21,11 @@ import { RoomService } from './room.service';
 
 @Controller('rooms')
 export class RoomController {
-  constructor(private readonly roomService: RoomService) {}
+  constructor(
+    private readonly roomService: RoomService,
+    private readonly playerRoomService: PlayerRoomService,
+    private readonly socketService: SocketService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -58,7 +65,26 @@ export class RoomController {
     @Param('roomId') roomId: string,
     @Body() { status }: { status: TRoomStatus },
   ) {
-    console.log('[ROOM STATUS]', status);
     return this.roomService.updateRoomStatus(roomId, status);
+  }
+
+  @Patch(':roomId/assign-piece-type')
+  @HttpCode(HttpStatus.OK)
+  async assignRandomPieceType(@Param('roomId') roomId: string) {
+    const data = await this.playerRoomService.assignRandomPieceType(roomId);
+    this.socketService.emitToRoom(roomId, SocketEvent.AssignPieceType, data);
+
+    return data;
+  }
+
+  @Patch(':roomId/select-active-player')
+  @HttpCode(HttpStatus.OK)
+  async selectActivePlayer(@Param('roomId') roomId: string) {
+    const data = await this.playerRoomService.selectActivePlayer(roomId);
+    this.socketService.emitToRoom(roomId, SocketEvent.SelectActivePlayer, {
+      player: data,
+    });
+
+    return { player: data };
   }
 }

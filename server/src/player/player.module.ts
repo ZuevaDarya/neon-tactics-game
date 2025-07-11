@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { RoomModule } from 'src/room/room.module';
 import { SocketModule } from 'src/socket/socket.module';
@@ -9,7 +9,11 @@ import { PlayerController } from './player.controller';
 import { PlayerService } from './player.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Player]), RoomModule, SocketModule],
+  imports: [
+    SequelizeModule.forFeature([Player]),
+    forwardRef(() => RoomModule),
+    SocketModule,
+  ],
   providers: [PlayerService, PlayerRoomService, TransactionService],
   controllers: [PlayerController],
   exports: [PlayerService],

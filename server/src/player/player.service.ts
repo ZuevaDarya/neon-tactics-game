@@ -71,8 +71,9 @@ export class PlayerService {
   async changeActiveStatus(
     playerId: string,
     isActive: boolean,
+    options?: TransactionOptions,
   ): Promise<Player> {
-    return this.update(playerId, { isActive });
+    return this.update(playerId, { isActive }, { ...options });
   }
 
   async getPieceCount(playerId: string): Promise<TGetCountPieceResponse> {

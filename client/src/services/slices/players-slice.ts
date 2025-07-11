@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { TPlayersState, TPlayerWithRoomResponse } from "../../types/services-types";
+import { TPlayersState, TSelectActivePlayerResponse } from "../../types/services-types";
 import {
+  assignRandomPieceType,
   createPlayer,
   createPlayerWithCreateRoom,
   createPlayerWithJoinInRoom,
   deletePlayer,
   getAllPlayersInRoom,
   getPlayer,
+  selectActivePlayer,
 } from "../thunks";
 
 const initialState: TPlayersState = {
@@ -22,7 +24,7 @@ const playersSlice = createSlice({
   name: SliceNamespace.Players,
   initialState,
   reducers: {
-    setPlayersState: (state, { payload }: PayloadAction<TPlayerWithRoomResponse>) => {
+    setPlayer: (state, { payload }: PayloadAction<TSelectActivePlayerResponse>) => {
       if (payload.player.isCreator) {
         state.creator = payload.player;
       } else {
@@ -138,9 +140,52 @@ const playersSlice = createSlice({
         } else {
           state.player = null;
         }
+      })
+      .addCase(assignRandomPieceType.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(assignRandomPieceType.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(assignRandomPieceType.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        payload.forEach((player) => {
+          if (player.isCreator) {
+            state.creator = player;
+          }
+          state.player = player;
+        });
+      })
+      .addCase(selectActivePlayer.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(selectActivePlayer.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(selectActivePlayer.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        if (payload.player.isCreator) {
+          state.creator = payload.player;
+        } else {
+          state.player = payload.player;
+        }
       });
   },
 });
 
-export const { setPlayersState } = playersSlice.actions;
+export const { setPlayer } = playersSlice.actions;
 export default playersSlice.reducer;

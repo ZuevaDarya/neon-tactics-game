@@ -3,12 +3,8 @@ import GameField from "../../components/game-field/game-field";
 import GameStatePanel from "../../components/game-state-panel/game-state-panel";
 import PlayerBlock from "../../components/player-block/player-block";
 import { SessionStorageKey } from "../../constants/storage-keys";
-import CARDS from "../../mocks/cards";
-import { addCards } from "../../services/slices/game-field-slice";
-import { setActivePlayer } from "../../services/slices/game-state-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { getAllPlayersInRoom, getGameField, getRoom } from "../../services/thunks";
-import shuffleField from "../../utils/functions/shuffle-field";
 
 function GamePage() {
   const dispatch = useAppDispatch();
@@ -27,20 +23,6 @@ function GamePage() {
 
     preloadedData();
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(addCards({ cards: shuffleField(CARDS) }));
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (creator && player) {
-      if (Math.random() < 0.5) {
-        dispatch(setActivePlayer(creator));
-      } else {
-        dispatch(setActivePlayer(player));
-      }
-    }
-  }, [dispatch, creator, player]);
 
   return (
     <div className="wrapper">

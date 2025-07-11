@@ -10,4 +10,6 @@ export const API_PATHS = {
   playersInRoom: "/players/by-room",
   roomStatus: "/status",
   game: "/game",
+  assignPieceType: "/assign-piece-type",
+  selectActivePlayer: "/select-active-player",
 };

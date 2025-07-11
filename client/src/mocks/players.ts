@@ -1,6 +1,6 @@
 import uuid from 'react-uuid';
-import { TPlayer } from '../types/services-types';
 import { MAX_PIECES_COUNT } from '../constants/game-constants';
+import { TPlayer } from '../types/services-types';
 
 export const PLAYER1: TPlayer = {
   id: uuid(),

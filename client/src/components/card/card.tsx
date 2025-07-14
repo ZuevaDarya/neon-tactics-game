@@ -2,13 +2,9 @@ import { memo, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import { RU_CARD_TYPES } from "../../constants/card-types";
 import { LOCKED_CARDS_IDX } from "../../constants/game-constants";
+import useActivePlayer from "../../hooks/use-active-player";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import {
-  changeActiveStatus,
-  decrementPieceCount,
-  incrementCountTurn,
-  updateGame,
-} from "../../services/thunks";
+import { decrementPieceCount, incrementCountTurn, updateGame } from "../../services/thunks";
 import { TCardProps } from "../../types/components-types";
 import { TGameFieldPiece } from "../../types/services-types";
 import isAvailableCard from "../../utils/functions/is-available-card";
@@ -25,14 +21,14 @@ function Card({
   const { field, targetCard, countTurn } = useAppSelector((state) => state.game);
   const cardIdx = field.findIndex((fieldCard) => fieldCard.id === card?.id);
   const { roomId } = useAppSelector((state) => state.room);
-  const { creator, player } = useAppSelector((state) => state.players);
+  const { activePlayer, changeActivePlayer } = useActivePlayer();
 
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [isLocked, setIsLocked] = useState<boolean>(false);
 
   const [{ isPieceMoving, item }, dropTarget] = useDrop({
     accept: "piece",
-    drop(props: TGameFieldPiece) {
+    async drop(props: TGameFieldPiece) {
       if (setCurrentCardIdx) {
         setCurrentCardIdx(cardIdx);
       }
@@ -45,17 +41,9 @@ function Card({
         dispatch(incrementCountTurn({ id: roomId }));
       }
 
-      if (creator && player) {
-        const activePlayer = creator?.isAcive ? creator : player;
-
-        dispatch(decrementPieceCount({ id: activePlayer.playerId }));
-        dispatch(changeActiveStatus({ id: activePlayer.playerId, isActive: false }));
-        dispatch(
-          changeActiveStatus({
-            id: player.playerId !== activePlayer.playerId ? player.playerId : creator.playerId,
-            isActive: true,
-          })
-        );
+      if (activePlayer) {
+        await dispatch(decrementPieceCount({ id: activePlayer.playerId })).unwrap();
+        await changeActivePlayer();
       }
 
       if (setIsDropped) {

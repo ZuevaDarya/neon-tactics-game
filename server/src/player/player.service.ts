@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TransactionOptions } from 'sequelize';
-import { TGetCountPieceResponse } from 'src/types/types';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';
 import { Player } from './models/player.model';
@@ -76,21 +75,13 @@ export class PlayerService {
     return this.update(playerId, { isActive }, { ...options });
   }
 
-  async getPieceCount(playerId: string): Promise<TGetCountPieceResponse> {
-    const player = await this.findById(playerId);
-    return { playerId: player.playerId, countPiece: player.countPiece };
-  }
-
-  async decrementPieceCount(playerId: string): Promise<number> {
+  async decrementPieceCount(playerId: string): Promise<Player> {
     const player = await this.findById(playerId);
 
     if (player.countPiece <= 0) {
       throw new Error('Piece count cannot be negative');
     }
 
-    player.countPiece -= 1;
-    await player.save();
-
-    return player.countPiece;
+    return await this.update(playerId, { countPiece: player.countPiece - 1 });
   }
 }

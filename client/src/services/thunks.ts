@@ -4,7 +4,7 @@ import { SliceNamespace } from "../constants/slice-namespace";
 import { SessionStorageKey } from "../constants/storage-keys";
 import {
   TAssignPieceTypeResponse,
-  TCreateFieldResponse,
+  TCreateGameResponse,
   TCreatePlayer,
   TCreatePlayerWithJoinInRoom,
   TCreateRoom,
@@ -15,8 +15,8 @@ import {
   TRejectValue,
   TRoomResponse,
   TSelectActivePlayerResponse,
-  TUpdateGameField,
-  TUpdateGameFieldResponse,
+  TUpdateGame,
+  TUpdateGameResponse,
   TUpdateRoomStatus,
 } from "../types/services-types";
 import request from "./request";
@@ -168,8 +168,8 @@ export const getAllPlayersInRoom = createAsyncThunk<TGetAllPlayersInRoomResponse
   }
 );
 
-export const createdGameField = createAsyncThunk<TCreateFieldResponse, { roomId: string }>(
-  `${SliceNamespace.GameField}/getShuffledGameField`,
+export const createGame = createAsyncThunk<TCreateGameResponse, { roomId: string }>(
+  `${SliceNamespace.Game}/createGame`,
   async ({ roomId }) => {
     const options = {
       method: "POST",
@@ -182,15 +182,15 @@ export const createdGameField = createAsyncThunk<TCreateFieldResponse, { roomId:
   }
 );
 
-export const getGameField = createAsyncThunk<TCreateFieldResponse, { id: string }>(
-  `${SliceNamespace.GameField}/getGameField`,
+export const getGame = createAsyncThunk<TCreateGameResponse, { id: string }>(
+  `${SliceNamespace.Game}/getGame`,
   async ({ id }) => {
     return await request(`${API_PATHS.game}/${id}`);
   }
 );
 
-export const deleteGameField = createAsyncThunk<void, { id: string }>(
-  `${SliceNamespace.GameField}/deleteGameField`,
+export const deleteGame = createAsyncThunk<void, { id: string }>(
+  `${SliceNamespace.Game}/deleteGame`,
   async ({ id }) => {
     const options = {
       method: "DELETE",
@@ -203,8 +203,8 @@ export const deleteGameField = createAsyncThunk<void, { id: string }>(
   }
 );
 
-export const updateGameField = createAsyncThunk<TUpdateGameFieldResponse, TUpdateGameField>(
-  `${SliceNamespace.GameField}/updateGameField`,
+export const updateGame = createAsyncThunk<TUpdateGameResponse, TUpdateGame>(
+  `${SliceNamespace.Game}/updateGameField`,
   async ({ roomId, ...data }) => {
     const options = {
       method: "PATCH",
@@ -243,5 +243,48 @@ export const selectActivePlayer = createAsyncThunk<TSelectActivePlayerResponse, 
     };
 
     return await request(`${API_PATHS.rooms}/${id}${API_PATHS.selectActivePlayer}`, options);
+  }
+);
+
+export const decrementPieceCount = createAsyncThunk<TPlayer, { id: string }>(
+  `${SliceNamespace.Players}/decrementPieceCount`,
+  async ({ id }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.players}/${id}${API_PATHS.decrementPiece}`, options);
+  }
+);
+
+export const changeActiveStatus = createAsyncThunk<TPlayer, { id: string; isActive: boolean }>(
+  `${SliceNamespace.Players}/changeActiveStatus`,
+  async ({ id, ...data }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    };
+
+    return await request(`${API_PATHS.players}/${id}${API_PATHS.changeActiveStatus}`, options);
+  }
+);
+
+export const incrementCountTurn = createAsyncThunk<TUpdateGameResponse, { id: string }>(
+  `${SliceNamespace.Game}/incrementCountTurn`,
+  async ({ id }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.game}/${id}${API_PATHS.incrementCountTurn}`, options);
   }
 );

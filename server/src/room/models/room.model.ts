@@ -15,12 +15,17 @@ import { TRoomStatus } from 'src/types/types';
 
 const roomIdGenerator = customAlphabet('23456789ABCDEFGHJKLMNPQRSTUVWXYZ', 8);
 
-@Table({ tableName: 'room', timestamps: true })
+@Table({
+  tableName: 'room',
+  timestamps: true,
+  indexes: [{ fields: ['creatorId', 'playerId', 'status'] }],
+})
 export class Room extends Model {
   @HasMany(() => Player, {
     foreignKey: 'roomId',
     sourceKey: 'roomId',
     as: 'players',
+    onDelete: 'CASCADE',
   })
   @Column({
     type: DataType.STRING(8),

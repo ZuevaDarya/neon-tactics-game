@@ -6,18 +6,21 @@ export type TGameFieldPiece = Pick<TGamePieceProps, "type"> & {
   id: string;
 };
 
-export type TGameFiledState = {
+export type TGame = {
   field: (TCard | TGameFieldPiece)[];
   targetCard: TCard | null;
-} & TThunkState;
+  countTurn: number;
+  winnerId: string | null;
+};
+
+export type TGameState = TGame & TThunkState;
 
 export type TAddCardsAction = {
   cards: TCard[];
 };
 
 export type TPreloadedState = {
-  gameField: TGameFiledState;
-  gameState: TGameState;
+  game: TGameState;
   players: TPlayersState;
   room: TRoomState;
   socket: TSocketState;
@@ -36,12 +39,6 @@ export type TPlayer = {
   roomId: string | null;
   isAcive: boolean;
   isCreator: boolean;
-};
-
-export type TGameState = {
-  countTurn: number;
-  activePlayer: TPlayer | null;
-  winner: TPlayer | null;
 };
 
 export type TPlayersState = {
@@ -114,7 +111,7 @@ export type TUpdateRoomStatus = {
   status: TRoomStatus;
 };
 
-export type TCreateFieldResponse = TGameFiledState & {
+export type TCreateGameResponse = TGameState & {
   roomId: string;
 };
 
@@ -132,10 +129,10 @@ export type TSelectActivePlayerResponse = {
 
 export type TSelectActivePlayer = TAssignPieceType;
 
-export type TUpdateGameFieldResponse = Pick<TGameFiledState, "field" | "targetCard"> & {
+export type TUpdateGameResponse = TGame & {
   roomId: string;
 };
 
-export type TUpdateGameField = {
-  [k in keyof TUpdateGameFieldResponse]?: TUpdateGameFieldResponse[k];
+export type TUpdateGame = {
+  [k in keyof TUpdateGameResponse]?: TUpdateGameResponse[k];
 };

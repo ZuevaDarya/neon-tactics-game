@@ -1,6 +1,5 @@
 export enum SliceNamespace {
-  GameField = "game-field",
-  GameSate = "game-state",
+  Game = "game",
   Players = "players",
   Room = "room",
   Socket = "socket",

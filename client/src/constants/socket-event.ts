@@ -6,8 +6,11 @@ export enum SocketEvent {
   CreateRoom = "created_room",
   StartGame = "start_game",
   Redirect = "redirect",
-  CreateGameField = "created_game_field",
+  CreateGame = "created_game",
   AssignPieceType = "assigned_piece_type",
   SelectActivePlayer = "select_active_player",
-  UpdateField = "updated_field",
+  UpdateGame = "updated_game",
+  IncrementCountTurn = "increment_count_turn",
+  ChangeActiveStatus = "change_active_status",
+  DecrementPieceCount = "decrement_piece_count",
 }

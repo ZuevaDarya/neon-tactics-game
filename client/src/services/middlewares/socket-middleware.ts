@@ -4,13 +4,13 @@ import { SocketEvent } from "../../constants/socket-event";
 import { SessionStorageKey } from "../../constants/storage-keys";
 import {
   TAssignPieceTypeResponse,
-  TCreateFieldResponse,
+  TCreateGameResponse,
+  TPlayer,
   TPlayerWithRoomResponse,
   TSelectActivePlayerResponse,
-  TUpdateGameFieldResponse,
+  TUpdateGameResponse,
 } from "../../types/services-types";
-import { updateGameFieldState } from "../slices/game-field-slice";
-import { setActivePlayer } from "../slices/game-state-slice";
+import { updateGameState } from "../slices/game-slice";
 import { setPlayer } from "../slices/players-slice";
 import { setRoomState } from "../slices/room-slice";
 import { connect, connected, disconnected, getError, startGame } from "../slices/socket-slice";
@@ -79,9 +79,9 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           console.log("Redirect players");
         });
 
-        socket.on(SocketEvent.CreateGameField, (data: TCreateFieldResponse) => {
-          console.log("Get shuffled field");
-          dispatch(updateGameFieldState(data));
+        socket.on(SocketEvent.CreateGame, (data: TCreateGameResponse) => {
+          console.log("Create game");
+          dispatch(updateGameState(data));
         });
 
         socket.on(SocketEvent.AssignPieceType, (data: TAssignPieceTypeResponse) => {
@@ -92,12 +92,26 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
         socket.on(SocketEvent.SelectActivePlayer, (data: TSelectActivePlayerResponse) => {
           console.log("Set active player");
           dispatch(setPlayer(data));
-          dispatch(setActivePlayer(data.player));
         });
 
-        socket.on(SocketEvent.UpdateField, (data: TUpdateGameFieldResponse) => {
-          console.log("Update field");
-          dispatch(updateGameFieldState(data));
+        socket.on(SocketEvent.UpdateGame, (data: TUpdateGameResponse) => {
+          console.log("Update game");
+          dispatch(updateGameState(data));
+        });
+
+        socket.on(SocketEvent.IncrementCountTurn, (data: TUpdateGameResponse) => {
+          console.log("Increment count turn");
+          dispatch(updateGameState(data));
+        });
+
+        socket.on(SocketEvent.ChangeActiveStatus, (data: TPlayer) => {
+          console.log("Change active status");
+          dispatch(setPlayer({ player: data }));
+        });
+
+        socket.on(SocketEvent.DecrementPieceCount, (data: TPlayer) => {
+          console.log("decrement piece count");
+          dispatch(setPlayer({ player: data }));
         });
       }
 

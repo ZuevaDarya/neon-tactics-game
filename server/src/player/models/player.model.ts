@@ -46,6 +46,7 @@ export class Player extends Model {
     foreignKey: 'roomId',
     targetKey: 'roomId',
     as: 'room',
+    onDelete: 'CASCADE',
   })
   @Column({
     type: DataType.STRING(8),

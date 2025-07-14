@@ -8,8 +8,8 @@ import { startGame } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
   assignRandomPieceType,
+  createGame,
   createPlayerWithCreateRoom,
-  createdGameField,
   deletePlayer,
   deleteRoom,
   selectActivePlayer,
@@ -45,7 +45,7 @@ function FormCreateRoom() {
     e.preventDefault();
     if (roomId) {
       dispatch(startGame({ roomId, url: AppRoute.GamePage }));
-      await dispatch(createdGameField({ roomId })).unwrap();
+      await dispatch(createGame({ roomId })).unwrap();
       await dispatch(updateRoomStatus({ id: roomId, status: "playing" })).unwrap();
 
       await dispatch(assignRandomPieceType({ id: roomId })).unwrap();

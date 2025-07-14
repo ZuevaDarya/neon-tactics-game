@@ -7,20 +7,22 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Player } from 'src/player/models/player.model';
 import { Room } from 'src/room/models/room.model';
 import { TCard, TGameFiled } from 'src/types/types';
 
 @Table({
-  tableName: 'game_field',
+  tableName: 'game',
   timestamps: true,
   indexes: [{ fields: ['roomId'] }],
 })
-export class GameField extends Model {
+export class Game extends Model {
   @ForeignKey(() => Room)
   @BelongsTo(() => Room, {
     foreignKey: 'roomId',
     targetKey: 'roomId',
     as: 'room',
+    onDelete: 'CASCADE',
   })
   @Column({
     type: DataType.STRING(8),
@@ -33,6 +35,7 @@ export class GameField extends Model {
   @Column({
     type: JSONB,
     allowNull: false,
+    defaultValue: [],
     comment: 'Массив карточек игрового поля',
   })
   declare field: TGameFiled;
@@ -44,4 +47,27 @@ export class GameField extends Model {
     comment: 'Активная карточка',
   })
   declare targetCard: null | TCard;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    comment: 'Количество совершенных ходов в партии',
+  })
+  declare countTurn: number;
+
+  @ForeignKey(() => Player)
+  @BelongsTo(() => Player, {
+    foreignKey: 'winnerId',
+    targetKey: 'playerId',
+    as: 'winner',
+    constraints: false,
+  })
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    defaultValue: null,
+    comment: 'Идентификатор победившего игрока',
+  })
+  declare winnerId: string;
 }

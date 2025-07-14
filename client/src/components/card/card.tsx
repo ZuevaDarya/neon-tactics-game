@@ -2,9 +2,13 @@ import { memo, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import { RU_CARD_TYPES } from "../../constants/card-types";
 import { LOCKED_CARDS_IDX } from "../../constants/game-constants";
-import { setCardOnPiece, setTargetCard } from "../../services/slices/game-field-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import { updateGameField } from "../../services/thunks";
+import {
+  changeActiveStatus,
+  decrementPieceCount,
+  incrementCountTurn,
+  updateGame,
+} from "../../services/thunks";
 import { TCardProps } from "../../types/components-types";
 import { TGameFieldPiece } from "../../types/services-types";
 import isAvailableCard from "../../utils/functions/is-available-card";
@@ -18,10 +22,10 @@ function Card({
   setIsDropped,
 }: TCardProps) {
   const dispatch = useAppDispatch();
-  const { field, targetCard } = useAppSelector((state) => state.gameField);
+  const { field, targetCard, countTurn } = useAppSelector((state) => state.game);
   const cardIdx = field.findIndex((fieldCard) => fieldCard.id === card?.id);
-  const { countTurn } = useAppSelector((state) => state.gameState);
   const { roomId } = useAppSelector((state) => state.room);
+  const { creator, player } = useAppSelector((state) => state.players);
 
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [isLocked, setIsLocked] = useState<boolean>(false);
@@ -37,7 +41,21 @@ function Card({
         const copyField = [...field];
         copyField[cardIdx] = props;
 
-        dispatch(updateGameField({ roomId, field: copyField, targetCard: card }));
+        dispatch(updateGame({ roomId, field: copyField, targetCard: card }));
+        dispatch(incrementCountTurn({ id: roomId }));
+      }
+
+      if (creator && player) {
+        const activePlayer = creator?.isAcive ? creator : player;
+
+        dispatch(decrementPieceCount({ id: activePlayer.playerId }));
+        dispatch(changeActiveStatus({ id: activePlayer.playerId, isActive: false }));
+        dispatch(
+          changeActiveStatus({
+            id: player.playerId !== activePlayer.playerId ? player.playerId : creator.playerId,
+            isActive: true,
+          })
+        );
       }
 
       if (setIsDropped) {

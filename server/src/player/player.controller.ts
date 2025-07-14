@@ -61,18 +61,39 @@ export class PlayerController {
   }
 
   @Patch(':id/active-status')
-  async changeActiveStatus(@Param('id') id: string, isActive: boolean) {
-    return this.playerService.changeActiveStatus(id, isActive);
-  }
+  async changeActiveStatus(
+    @Param('id') id: string,
+    @Body() data: { isActive: boolean },
+  ) {
+    const player = await this.playerService.changeActiveStatus(
+      id,
+      data.isActive,
+    );
 
-  @Get(':id/piece-count')
-  async getPieceCount(id: string) {
-    return this.playerService.getPieceCount(id);
+    if (player.roomId) {
+      this.socketService.emitToRoom(
+        player.roomId,
+        SocketEvent.ChangeActiveStatus,
+        data,
+      );
+    }
+
+    return player;
   }
 
   @Patch(':id/decrement-piece')
-  async decrementPieceCount(id: string) {
-    return this.playerService.decrementPieceCount(id);
+  async decrementPieceCount(@Param('id') id: string) {
+    const data = await this.playerService.decrementPieceCount(id);
+
+    if (data.roomId) {
+      this.socketService.emitToRoom(
+        data.roomId,
+        SocketEvent.DecrementPieceCount,
+        data,
+      );
+    }
+
+    return data;
   }
 
   @Post('create-room')

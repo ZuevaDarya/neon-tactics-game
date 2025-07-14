@@ -12,4 +12,8 @@ export const API_PATHS = {
   game: "/game",
   assignPieceType: "/assign-piece-type",
   selectActivePlayer: "/select-active-player",
+  gameState: "/game-state",
+  decrementPiece: "/decrement-piece",
+  changeActiveStatus: "/active-status",
+  incrementCountTurn: "/increment-count-turn",
 };

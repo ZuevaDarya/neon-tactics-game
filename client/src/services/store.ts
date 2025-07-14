@@ -5,17 +5,14 @@ import { createSocketMiddleware } from "./middlewares/socket-middleware";
 import rootReducer from "./root-reducer";
 
 const preloadedState: TPreloadedState = {
-  gameField: {
+  game: {
     field: [],
     targetCard: null,
+    countTurn: 0,
+    winnerId: null,
     error: null,
     isSuccess: false,
     isRequest: false,
-  },
-  gameState: {
-    countTurn: 0,
-    activePlayer: null,
-    winner: null,
   },
   players: {
     creator: null,

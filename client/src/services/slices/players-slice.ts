@@ -3,9 +3,11 @@ import { SliceNamespace } from "../../constants/slice-namespace";
 import { TPlayersState, TSelectActivePlayerResponse } from "../../types/services-types";
 import {
   assignRandomPieceType,
+  changeActiveStatus,
   createPlayer,
   createPlayerWithCreateRoom,
   createPlayerWithJoinInRoom,
+  decrementPieceCount,
   deletePlayer,
   getAllPlayersInRoom,
   getPlayer,
@@ -182,6 +184,48 @@ const playersSlice = createSlice({
           state.creator = payload.player;
         } else {
           state.player = payload.player;
+        }
+      })
+      .addCase(decrementPieceCount.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(decrementPieceCount.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(decrementPieceCount.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        if (payload.isCreator) {
+          state.creator = payload;
+        } else {
+          state.player = payload;
+        }
+      })
+      .addCase(changeActiveStatus.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(changeActiveStatus.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(changeActiveStatus.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        if (payload.isCreator) {
+          state.creator = payload;
+        } else {
+          state.player = payload;
         }
       });
   },

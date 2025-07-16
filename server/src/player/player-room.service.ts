@@ -91,4 +91,26 @@ export class PlayerRoomService {
       });
     });
   }
+
+  async setActivePlayer(roomId: string): Promise<Player[]> {
+    return this.transactionService.useTransaction(async (transaction) => {
+      const [player1, player2] = await this.playerService.getAllInRoom(roomId, {
+        transaction,
+      });
+
+      const updatedPlayer1 = await this.playerService.changeActiveStatus(
+        player1.playerId,
+        !player1.isActive,
+        { transaction },
+      );
+
+      const updatedPlayer2 = await this.playerService.changeActiveStatus(
+        player2.playerId,
+        !player2.isActive,
+        { transaction },
+      );
+
+      return [updatedPlayer1, updatedPlayer2];
+    });
+  }
 }

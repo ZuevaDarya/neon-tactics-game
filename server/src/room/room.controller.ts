@@ -87,4 +87,13 @@ export class RoomController {
 
     return { player: data };
   }
+
+  @Patch(':roomId/set-active-player')
+  @HttpCode(HttpStatus.OK)
+  async setActivePlayer(@Param('roomId') roomId: string) {
+    const data = await this.playerRoomService.setActivePlayer(roomId);
+    this.socketService.emitToRoom(roomId, SocketEvent.SetActivePlayer, data);
+
+    return data;
+  }
 }

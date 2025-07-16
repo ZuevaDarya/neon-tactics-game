@@ -32,10 +32,14 @@ export class PlayerService {
     return player;
   }
 
-  async getAllInRoom(roomId: string): Promise<Player[]> {
+  async getAllInRoom(
+    roomId: string,
+    options?: TransactionOptions,
+  ): Promise<Player[]> {
     return this.playerModel.findAll({
       where: { roomId },
       order: [['createdAt', 'ASC']],
+      ...options,
     });
   }
 

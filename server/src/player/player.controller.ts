@@ -74,7 +74,7 @@ export class PlayerController {
       this.socketService.emitToRoom(
         player.roomId,
         SocketEvent.ChangeActiveStatus,
-        data,
+        player,
       );
     }
 

@@ -1,13 +1,12 @@
 import { Navigate } from "react-router-dom";
 import { AppRoute } from "../../constants/app-route";
-import { SessionStorageKey } from "../../constants/storage-keys";
+import { useAppSelector } from "../../services/store";
 import { TProtectedRoute } from "../../types/components-types";
 
 function ProtectedRoute({ children }: TProtectedRoute) {
-  const player1 = sessionStorage.getItem(SessionStorageKey.Player1);
-  const player2 = sessionStorage.getItem(SessionStorageKey.Player2);
+  const { creator, player } = useAppSelector((state) => state.players);
 
-  if (!player1 || !player2) {
+  if (!creator || !player) {
     return <Navigate to={AppRoute.StartPage} replace />;
   }
 

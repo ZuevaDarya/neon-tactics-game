@@ -12,6 +12,7 @@ import {
   getAllPlayersInRoom,
   getPlayer,
   selectActivePlayer,
+  setActivePlayer,
 } from "../thunks";
 
 const initialState: TPlayersState = {
@@ -218,6 +219,7 @@ const playersSlice = createSlice({
         state.error = String(error.message);
       })
       .addCase(changeActiveStatus.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.isRequest = false;
         state.isSuccess = true;
         state.error = null;
@@ -227,6 +229,28 @@ const playersSlice = createSlice({
         } else {
           state.player = payload;
         }
+      })
+      .addCase(setActivePlayer.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(setActivePlayer.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(setActivePlayer.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        payload.forEach((player) => {
+          if (player.isCreator) {
+            state.creator = player;
+          }
+          state.player = player;
+        });
       });
   },
 });

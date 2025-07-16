@@ -2,7 +2,7 @@ import React from "react";
 import { FieldValues } from "react-hook-form";
 import { TInputProps } from "../components/input/input";
 import { CardType } from "../constants/card-types";
-import { TPlayer } from "./services-types";
+import { TGameFieldPiece, TPlayer } from "./services-types";
 
 export type TCardTypes = [CardType, CardType];
 
@@ -14,9 +14,8 @@ export type TCard = {
 export type TCardProps = {
   card?: TCard;
   isTargetCard?: boolean;
-  setCurrentCardIdx?: React.Dispatch<React.SetStateAction<number>>;
-  setCurrentPieceType?: React.Dispatch<React.SetStateAction<TPieceTypes | null>>;
-  setIsDropped?: React.Dispatch<React.SetStateAction<boolean>>;
+  cardIdx?: number;
+  onDrop?: (cardIdx: number, piece: TGameFieldPiece) => Promise<void>;
 };
 
 export type TPieceTypes = "red" | "black";

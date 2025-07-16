@@ -246,6 +246,20 @@ export const selectActivePlayer = createAsyncThunk<TSelectActivePlayerResponse, 
   }
 );
 
+export const setActivePlayer = createAsyncThunk<TPlayer[], { id: string }>(
+  `${SliceNamespace.Room}/setActivePlayer`,
+  async ({ id }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.rooms}/${id}${API_PATHS.setActivePlayer}`, options);
+  }
+);
+
 export const decrementPieceCount = createAsyncThunk<TPlayer, { id: string }>(
   `${SliceNamespace.Players}/decrementPieceCount`,
   async ({ id }) => {

@@ -113,6 +113,11 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           console.log("decrement piece count");
           dispatch(setPlayer({ player: data }));
         });
+
+        socket.on(SocketEvent.SetActivePlayer, (data: TPlayer[]) => {
+          console.log("set active player", data);
+          data.forEach((player) => dispatch(setPlayer({ player })));
+        });
       }
 
       if (startGame.match(action)) {

@@ -18,12 +18,12 @@ const roomIdGenerator = customAlphabet('23456789ABCDEFGHJKLMNPQRSTUVWXYZ', 8);
 @Table({
   tableName: 'room',
   timestamps: true,
-  indexes: [{ fields: ['creatorId', 'playerId', 'status'] }],
+  indexes: [{ fields: ['creator_id', 'player_id', 'status'] }],
 })
 export class Room extends Model {
   @HasMany(() => Player, {
     foreignKey: 'roomId',
-    sourceKey: 'roomId',
+    sourceKey: 'id',
     as: 'players',
     onDelete: 'CASCADE',
   })
@@ -34,13 +34,14 @@ export class Room extends Model {
     unique: true,
     comment: 'Уникальный код комнаты',
     defaultValue: () => roomIdGenerator(),
+    field: 'id',
   })
-  declare roomId: string;
+  declare id: string;
 
   @ForeignKey(() => Player)
   @BelongsTo(() => Player, {
     foreignKey: 'creatorId',
-    targetKey: 'playerId',
+    targetKey: 'id',
     as: 'creator',
     constraints: false,
   })
@@ -48,13 +49,14 @@ export class Room extends Model {
     type: DataType.UUID,
     allowNull: false,
     comment: 'Идентификатор игрока - создателя комнаты',
+    field: 'creator_id',
   })
   declare creatorId: string;
 
   @ForeignKey(() => Player)
   @BelongsTo(() => Player, {
     foreignKey: 'playerId',
-    targetKey: 'playerId',
+    targetKey: 'id',
     as: 'player',
     constraints: false,
   })
@@ -62,6 +64,7 @@ export class Room extends Model {
     type: DataType.UUID,
     allowNull: true,
     comment: 'Идентификатор игрока, присоединившегося к комнате',
+    field: 'player_id',
   })
   declare playerId: string;
 
@@ -79,8 +82,8 @@ export class Room extends Model {
 
   @BeforeCreate
   static generateRoomId(instance: Room) {
-    if (!instance.roomId) {
-      instance.roomId = roomIdGenerator();
+    if (!instance.id) {
+      instance.id = roomIdGenerator();
     }
   }
 }

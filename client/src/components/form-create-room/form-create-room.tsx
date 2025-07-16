@@ -24,13 +24,13 @@ import Form from "../form/form";
 function FormCreateRoom() {
   const dispatch = useAppDispatch();
   const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
-  const { roomId, status, playerId, creatorId } = useAppSelector((state) => state.room);
+  const { id, status, playerId, creatorId } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
   const { isWaiting: isBtnDisabled, isPlayersJoined } = useRoomStatus();
 
   useEffect(() => {
-    setValue(StartFormInputName.RoomId, roomId || "");
-  }, [roomId, setValue]);
+    setValue(StartFormInputName.RoomId, id || "");
+  }, [id, setValue]);
 
   useEffect(() => {
     setValue(StartFormInputName.Player, creator?.name || "");
@@ -43,13 +43,13 @@ function FormCreateRoom() {
   const handleStartBtnClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     e.preventDefault();
-    if (roomId) {
-      dispatch(startGame({ roomId, url: AppRoute.GamePage }));
-      await dispatch(createGame({ roomId })).unwrap();
-      await dispatch(updateRoomStatus({ id: roomId, status: "playing" })).unwrap();
+    if (id) {
+      dispatch(startGame({ roomId: id, url: AppRoute.GamePage }));
+      await dispatch(createGame({ id })).unwrap();
+      await dispatch(updateRoomStatus({ id, status: "playing" })).unwrap();
 
-      await dispatch(assignRandomPieceType({ id: roomId })).unwrap();
-      await dispatch(selectActivePlayer({ id: roomId })).unwrap();
+      await dispatch(assignRandomPieceType({ id })).unwrap();
+      await dispatch(selectActivePlayer({ id })).unwrap();
     }
   };
 
@@ -57,8 +57,8 @@ function FormCreateRoom() {
     e.stopPropagation();
     e.preventDefault();
 
-    if (roomId && creatorId) {
-      await dispatch(deleteRoom({ id: roomId })).unwrap();
+    if (id && creatorId) {
+      await dispatch(deleteRoom({ id })).unwrap();
       await dispatch(deletePlayer({ id: creatorId })).unwrap();
     }
   };
@@ -106,7 +106,7 @@ function FormCreateRoom() {
           </Button>
         </div>
       )}
-      {roomId && player && (
+      {id && player && (
         <p>
           Игрок <span>{player.name}</span> присоединился к комнате
         </p>

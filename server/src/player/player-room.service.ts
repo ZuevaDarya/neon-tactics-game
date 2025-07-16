@@ -25,13 +25,13 @@ export class PlayerRoomService {
         { transaction },
       );
       const room = await this.roomService.create(
-        { creatorId: player.playerId },
+        { creatorId: player.id },
         { transaction },
       );
 
       await this.playerService.update(
-        player.playerId,
-        { roomId: room.roomId },
+        player.id,
+        { roomId: room.id },
         { transaction },
       );
 
@@ -42,15 +42,13 @@ export class PlayerRoomService {
   async createWithJoinInRoom({ roomId, name }: JoinRoomDTO) {
     return this.transactionService.useTransaction(async (transaction) => {
       const player = await this.playerService.create({ name }, { transaction });
-      const room = await this.roomService.updatePlayerId(
-        roomId,
-        player.playerId,
-        { transaction },
-      );
+      const room = await this.roomService.updatePlayerId(roomId, player.id, {
+        transaction,
+      });
 
       await this.playerService.update(
-        player.playerId,
-        { roomId: room.roomId },
+        player.id,
+        { roomId: room.id },
         { transaction },
       );
 
@@ -99,13 +97,13 @@ export class PlayerRoomService {
       });
 
       const updatedPlayer1 = await this.playerService.changeActiveStatus(
-        player1.playerId,
+        player1.id,
         !player1.isActive,
         { transaction },
       );
 
       const updatedPlayer2 = await this.playerService.changeActiveStatus(
-        player2.playerId,
+        player2.id,
         !player2.isActive,
         { transaction },
       );

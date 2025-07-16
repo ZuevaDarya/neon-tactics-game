@@ -81,11 +81,9 @@ export class RoomController {
   @HttpCode(HttpStatus.OK)
   async selectActivePlayer(@Param('roomId') roomId: string) {
     const data = await this.playerRoomService.selectActivePlayer(roomId);
-    this.socketService.emitToRoom(roomId, SocketEvent.SelectActivePlayer, {
-      player: data,
-    });
+    this.socketService.emitToRoom(roomId, SocketEvent.SelectActivePlayer, data);
 
-    return { player: data };
+    return data;
   }
 
   @Patch(':roomId/set-active-player')

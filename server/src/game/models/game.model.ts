@@ -14,13 +14,13 @@ import { TCard, TGameFiled } from 'src/types/types';
 @Table({
   tableName: 'game',
   timestamps: true,
-  indexes: [{ fields: ['roomId'] }],
+  indexes: [{ fields: ['room_id'] }],
 })
 export class Game extends Model {
   @ForeignKey(() => Room)
   @BelongsTo(() => Room, {
     foreignKey: 'roomId',
-    targetKey: 'roomId',
+    targetKey: 'id',
     as: 'room',
     onDelete: 'CASCADE',
   })
@@ -29,6 +29,7 @@ export class Game extends Model {
     primaryKey: true,
     allowNull: false,
     comment: 'Идентификатор комнаты',
+    field: 'room_id',
   })
   declare roomId: string;
 
@@ -37,6 +38,7 @@ export class Game extends Model {
     allowNull: false,
     defaultValue: [],
     comment: 'Массив карточек игрового поля',
+    field: 'field',
   })
   declare field: TGameFiled;
 
@@ -45,6 +47,7 @@ export class Game extends Model {
     allowNull: true,
     defaultValue: null,
     comment: 'Активная карточка',
+    field: 'target_card',
   })
   declare targetCard: null | TCard;
 
@@ -53,13 +56,14 @@ export class Game extends Model {
     allowNull: false,
     defaultValue: 0,
     comment: 'Количество совершенных ходов в партии',
+    field: 'count_turn',
   })
   declare countTurn: number;
 
   @ForeignKey(() => Player)
   @BelongsTo(() => Player, {
     foreignKey: 'winnerId',
-    targetKey: 'playerId',
+    targetKey: 'id',
     as: 'winner',
     constraints: false,
   })
@@ -68,6 +72,7 @@ export class Game extends Model {
     allowNull: true,
     defaultValue: null,
     comment: 'Идентификатор победившего игрока',
+    field: 'winner_id',
   })
   declare winnerId: string;
 }

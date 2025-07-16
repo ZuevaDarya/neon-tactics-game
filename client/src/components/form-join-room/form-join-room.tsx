@@ -13,24 +13,24 @@ import Form from "../form/form";
 
 function FormJoinRoom() {
   const dispatch = useAppDispatch();
-  const { roomId, isRequest, error } = useAppSelector((state) => state.room);
+  const { id, isRequest, error } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
   const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
   const { isPlayersJoined } = useRoomStatus();
 
   useEffect(() => {
-    setValue(StartFormInputName.RoomId, roomId || "");
-  }, [roomId, setValue]);
+    setValue(StartFormInputName.RoomId, id || "");
+  }, [id, setValue]);
 
   useEffect(() => {
     setValue(StartFormInputName.Player, player?.name || "");
   }, [player, setValue]);
 
   useEffect(() => {
-    if (roomId) {
-      dispatch(getAllPlayersInRoom({ id: roomId }));
+    if (id) {
+      dispatch(getAllPlayersInRoom({ id }));
     }
-  }, [roomId, dispatch]);
+  }, [id, dispatch]);
 
   const onSubmit: SubmitHandler<TStartForm> = async (data) => {
     await dispatch(createPlayerWithJoinInRoom({ name: data.player, roomId: data.roomId })).unwrap();
@@ -79,7 +79,7 @@ function FormJoinRoom() {
           <span className="loader"></span>
         </div>
       )}
-      {roomId && creator && (
+      {id && creator && (
         <p>
           Подключились к игроку: <span>{creator.name}</span>
         </p>

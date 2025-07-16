@@ -20,8 +20,8 @@ export class RoomService {
     return this.roomModel.create({ ...room }, { returning: true, ...options });
   }
 
-  async findById(roomId: string, options?: TransactionOptions): Promise<Room> {
-    const room = await this.roomModel.findByPk(roomId, { ...options });
+  async findById(id: string, options?: TransactionOptions): Promise<Room> {
+    const room = await this.roomModel.findByPk(id, { ...options });
 
     if (!room) {
       throw new NotFoundException(`Room not found`);
@@ -30,9 +30,9 @@ export class RoomService {
     return room;
   }
 
-  async update(roomId: string, room: UpdateRoomDTO): Promise<Room> {
+  async update(id: string, room: UpdateRoomDTO): Promise<Room> {
     const [affectedCount, [updatedRoom]] = await this.roomModel.update(room, {
-      where: { roomId },
+      where: { roomId: id },
       returning: true,
     });
 
@@ -43,9 +43,9 @@ export class RoomService {
     return updatedRoom;
   }
 
-  async deleteById(roomId: string): Promise<void> {
+  async deleteById(id: string): Promise<void> {
     const deletedCount = await this.roomModel.destroy({
-      where: { roomId },
+      where: { id },
     });
 
     if (deletedCount === 0) {
@@ -54,11 +54,11 @@ export class RoomService {
   }
 
   async updatePlayerId(
-    roomId: string,
+    id: string,
     playerId: string,
     options?: TransactionOptions,
   ): Promise<Room> {
-    const room = await this.findById(roomId, options);
+    const room = await this.findById(id, options);
 
     if (room.playerId) {
       throw new Error('Room is full (max 2 players)');
@@ -67,13 +67,13 @@ export class RoomService {
     return room.update({ playerId }, { transaction: options?.transaction });
   }
 
-  async resetPlayerId(roomId: string): Promise<Room> {
-    const room = await this.findById(roomId);
+  async resetPlayerId(id: string): Promise<Room> {
+    const room = await this.findById(id);
     return room.update({ playerId: null });
   }
 
-  async updateRoomStatus(roomId: string, status: TRoomStatus): Promise<Room> {
-    const room = await this.findById(roomId);
+  async updateRoomStatus(id: string, status: TRoomStatus): Promise<Room> {
+    const room = await this.findById(id);
     return room.update({ status });
   }
 }

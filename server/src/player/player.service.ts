@@ -22,11 +22,11 @@ export class PlayerService {
     );
   }
 
-  async findById(playerId: string): Promise<Player> {
-    const player = await this.playerModel.findByPk(playerId);
+  async findById(id: string): Promise<Player> {
+    const player = await this.playerModel.findByPk(id);
 
     if (!player) {
-      throw new NotFoundException(`Player with ID ${playerId} not found`);
+      throw new NotFoundException(`Player with ID ${id} not found`);
     }
 
     return player;
@@ -44,48 +44,48 @@ export class PlayerService {
   }
 
   async update(
-    playerId: string,
+    id: string,
     player: UpdatePlayerDTO,
     options?: TransactionOptions,
   ): Promise<Player> {
     const [affectedCount, [updatedPlayer]] = await this.playerModel.update(
       player,
       {
-        where: { playerId },
+        where: { id },
         returning: true,
         ...options,
       },
     );
 
     if (affectedCount === 0) {
-      throw new NotFoundException(`Player with ID ${playerId} not found`);
+      throw new NotFoundException(`Player with ID ${id} not found`);
     }
 
     return updatedPlayer;
   }
 
-  async deleteById(playerId: string): Promise<Player> {
-    const player = await this.findById(playerId);
+  async deleteById(id: string): Promise<Player> {
+    const player = await this.findById(id);
     await player.destroy();
 
     return player;
   }
 
   async changeActiveStatus(
-    playerId: string,
+    id: string,
     isActive: boolean,
     options?: TransactionOptions,
   ): Promise<Player> {
-    return this.update(playerId, { isActive }, { ...options });
+    return this.update(id, { isActive }, { ...options });
   }
 
-  async decrementPieceCount(playerId: string): Promise<Player> {
-    const player = await this.findById(playerId);
+  async decrementPieceCount(id: string): Promise<Player> {
+    const player = await this.findById(id);
 
     if (player.countPiece <= 0) {
       throw new Error('Piece count cannot be negative');
     }
 
-    return await this.update(playerId, { countPiece: player.countPiece - 1 });
+    return await this.update(id, { countPiece: player.countPiece - 1 });
   }
 }

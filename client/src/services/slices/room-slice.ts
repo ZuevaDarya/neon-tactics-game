@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
 import { SessionStorageKey } from "../../constants/storage-keys";
-import { TPlayerWithRoomResponse, TRoomState } from "../../types/services-types";
+import { TRoomBase, TRoomState } from "../../types/services-types";
 import {
   createPlayerWithCreateRoom,
   createPlayerWithJoinInRoom,
@@ -12,7 +12,7 @@ import {
 } from "../thunks";
 
 const initialState: TRoomState = {
-  roomId: null,
+  id: null,
   creatorId: null,
   playerId: null,
   status: null,
@@ -25,12 +25,12 @@ const roomSlice = createSlice({
   name: SliceNamespace.Room,
   initialState,
   reducers: {
-    setRoomState: (state, { payload }: PayloadAction<TPlayerWithRoomResponse>) => {
-      state.playerId = payload.room.playerId;
-      state.creatorId = payload.room.creatorId;
-      state.roomId = payload.room.roomId;
-      state.status = payload.room.status;
-      sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.roomId);
+    updateRoomState: (state, { payload }: PayloadAction<TRoomBase>) => {
+      state.playerId = payload.playerId;
+      state.creatorId = payload.creatorId;
+      state.id = payload.id;
+      state.status = payload.status;
+      sessionStorage.setItem(SessionStorageKey.RoomId, payload.id);
     },
   },
   extraReducers: (builder) => {
@@ -49,11 +49,11 @@ const roomSlice = createSlice({
         state.isRequest = false;
         state.isSuccess = true;
         state.error = null;
-        state.roomId = payload.roomId;
+        state.id = payload.id;
         state.creatorId = payload.creatorId;
         state.playerId = payload.playerId;
         state.status = payload.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.roomId);
+        sessionStorage.setItem(SessionStorageKey.RoomId, payload.id);
       })
       .addCase(createPlayerWithCreateRoom.pending, (state) => {
         state.isRequest = true;
@@ -69,11 +69,11 @@ const roomSlice = createSlice({
         state.isRequest = false;
         state.isSuccess = true;
         state.error = null;
-        state.roomId = payload.room.roomId;
+        state.id = payload.room.id;
         state.creatorId = payload.room.creatorId;
         state.playerId = payload.room.playerId;
         state.status = payload.room.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.roomId);
+        sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
       })
       .addCase(getRoom.pending, (state) => {
         state.isRequest = true;
@@ -89,11 +89,11 @@ const roomSlice = createSlice({
         state.isRequest = false;
         state.isSuccess = true;
         state.error = null;
-        state.roomId = payload.roomId;
+        state.id = payload.id;
         state.creatorId = payload.creatorId;
         state.playerId = payload.playerId;
         state.status = payload.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.roomId);
+        sessionStorage.setItem(SessionStorageKey.RoomId, payload.id);
       })
       .addCase(createPlayerWithJoinInRoom.pending, (state) => {
         state.isRequest = true;
@@ -111,9 +111,9 @@ const roomSlice = createSlice({
         state.error = null;
         state.playerId = payload.room.playerId;
         state.creatorId = payload.room.creatorId;
-        state.roomId = payload.room.roomId;
+        state.id = payload.room.id;
         state.status = payload.room.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.roomId);
+        sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
       })
       .addCase(deleteRoom.pending, (state) => {
         state.isRequest = true;
@@ -130,7 +130,7 @@ const roomSlice = createSlice({
         state.isSuccess = true;
         state.error = null;
         state.playerId = null;
-        state.roomId = null;
+        state.id = null;
         state.creatorId = null;
         state.status = null;
         sessionStorage.removeItem(SessionStorageKey.RoomId);
@@ -154,5 +154,5 @@ const roomSlice = createSlice({
   },
 });
 
-export const { setRoomState } = roomSlice.actions;
+export const { updateRoomState } = roomSlice.actions;
 export default roomSlice.reducer;

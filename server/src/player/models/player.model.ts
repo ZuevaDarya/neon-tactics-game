@@ -15,7 +15,7 @@ import { TPieceType } from 'src/types/types';
 @Table({
   tableName: 'player',
   timestamps: true,
-  indexes: [{ fields: ['roomId'] }],
+  indexes: [{ fields: ['room_id'] }],
 })
 export class Player extends Model {
   @Column({
@@ -24,8 +24,9 @@ export class Player extends Model {
     allowNull: false,
     defaultValue: UUIDV4,
     comment: 'Уникальный идентификатор игрока',
+    field: 'id',
   })
-  declare playerId: string;
+  declare id: string;
 
   @Column({
     type: DataType.STRING,
@@ -38,13 +39,14 @@ export class Player extends Model {
       },
     },
     comment: 'Имя игрока',
+    field: 'name',
   })
   declare name: string;
 
   @ForeignKey(() => Room)
   @BelongsTo(() => Room, {
     foreignKey: 'roomId',
-    targetKey: 'roomId',
+    targetKey: 'id',
     as: 'room',
     onDelete: 'CASCADE',
   })
@@ -52,6 +54,7 @@ export class Player extends Model {
     type: DataType.STRING(8),
     allowNull: true,
     comment: 'Идентификатор комнаты',
+    field: 'room_id',
   })
   declare roomId: string | null;
 
@@ -67,6 +70,7 @@ export class Player extends Model {
       },
     },
     comment: 'Количество оставшихся фишек',
+    field: 'count_piece',
   })
   declare countPiece: number;
 
@@ -75,6 +79,7 @@ export class Player extends Model {
     allowNull: true,
     defaultValue: null,
     comment: 'Тип фишки игрока',
+    field: 'piece_type',
   })
   declare pieceType: TPieceType | null;
 
@@ -83,6 +88,7 @@ export class Player extends Model {
     allowNull: false,
     defaultValue: false,
     comment: 'Флаг активного игрока',
+    field: 'is_active',
   })
   declare isActive: boolean;
 
@@ -91,6 +97,7 @@ export class Player extends Model {
     allowNull: false,
     defaultValue: false,
     comment: 'Флаг создателя комнаты',
+    field: 'is_creator',
   })
   declare isCreator: boolean;
 }

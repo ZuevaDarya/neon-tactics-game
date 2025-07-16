@@ -15,10 +15,6 @@ export type TGame = {
 
 export type TGameState = TGame & TThunkState;
 
-export type TAddCardsAction = {
-  cards: TCard[];
-};
-
 export type TPreloadedState = {
   game: TGameState;
   players: TPlayersState;
@@ -26,13 +22,8 @@ export type TPreloadedState = {
   socket: TSocketState;
 };
 
-export type TSetCardOnPieceAction = {
-  idx: number;
-  piece: TGameFieldPiece;
-};
-
 export type TPlayer = {
-  playerId: string;
+  id: string;
   name: string;
   countPiece: number;
   pieceType: TPieceTypes | null;
@@ -49,7 +40,7 @@ export type TPlayersState = {
 export type TRoomStatus = `${RoomStatus}`;
 
 export type TRoomBase = {
-  roomId: string;
+  id: string;
   creatorId: string;
   playerId: string | null;
   status: TRoomStatus;
@@ -60,10 +51,6 @@ export type TRoomState = {
 } & TThunkState;
 
 export type TApiPaths = (typeof API_PATHS)[keyof typeof API_PATHS];
-
-export type TCreateRoom = {
-  creatorId: string;
-};
 
 export type TRoomResponse = TRoomBase;
 
@@ -87,11 +74,6 @@ export type TCreatePlayerWithJoinInRoom = {
   roomId: string;
 };
 
-export type TGetCountPieceResponse = {
-  playerId: string;
-  countPiece: number;
-};
-
 export type TRejectValue = {
   rejectValue: string;
 };
@@ -102,37 +84,23 @@ export type TSocketState = {
   socketId: string | null;
 };
 
-export type TGetAllPlayersInRoomResponse = {
-  players: TPlayer[];
-};
-
 export type TUpdateRoomStatus = {
   id: string;
   status: TRoomStatus;
 };
 
-export type TCreateGameResponse = TGameState & {
-  roomId: string;
+export type TCreateGameResponse = TGame & {
+  id: string;
 };
 
-export type TAssignPieceTypeResponse = [TPlayer, TPlayer];
-
-export type TAssignPieceType = {
-  player1Id: string;
-  player2Id: string;
-  roomId: string;
-};
-
-export type TSelectActivePlayerResponse = {
-  player: TPlayer;
-};
-
-export type TSelectActivePlayer = TAssignPieceType;
-
-export type TUpdateGameResponse = TGame & {
-  roomId: string;
-};
+export type TUpdateGameResponse = TCreateGameResponse;
 
 export type TUpdateGame = {
   [k in keyof TUpdateGameResponse]?: TUpdateGameResponse[k];
 };
+
+export type TBasePlayerParam = Pick<TPlayer, "id">;
+
+export type TBaseRoomParam = Pick<TRoomResponse, "id">;
+
+export type TChangeActiveStatus = Pick<TPlayer, "id" | "isAcive">;

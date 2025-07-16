@@ -47,7 +47,7 @@ export class PlayerController {
       throw new Error('Room ID is required');
     }
     const players = await this.playerService.getAllInRoom(id);
-    return { players };
+    return players;
   }
 
   @Patch(':id')
@@ -106,12 +106,8 @@ export class PlayerController {
   ) {
     const data = await this.playerRoomService.createWithRoom(playerData);
 
-    await this.socketService.joinRoom(socketId, data.room.roomId);
-    this.socketService.emitToRoom(
-      data.room.roomId,
-      SocketEvent.CreateRoom,
-      data,
-    );
+    await this.socketService.joinRoom(socketId, data.room.id);
+    this.socketService.emitToRoom(data.room.id, SocketEvent.CreateRoom, data);
 
     return data;
   }
@@ -126,8 +122,8 @@ export class PlayerController {
   ) {
     const data = await this.playerRoomService.createWithJoinInRoom(playerData);
 
-    await this.socketService.joinRoom(socketId, data.room.roomId);
-    this.socketService.emitToRoom(data.room.roomId, SocketEvent.JoinRoom, data);
+    await this.socketService.joinRoom(socketId, data.room.id);
+    this.socketService.emitToRoom(data.room.id, SocketEvent.JoinRoom, data);
 
     return data;
   }

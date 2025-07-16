@@ -1,25 +1,21 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useAppSelector } from "../services/store";
 
 const useRoomStatus = () => {
-  const { roomId } = useAppSelector((state) => state.room);
+  const { id } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
 
-  const [isWaiting, setIsWaiting] = useState<boolean>(true);
-  const [isPlayersJoined, setIsPlayersJoined] = useState<boolean>(false);
+  return useMemo(() => {
+    const isRoomExist = !!id;
+    const isPlayersJoined = !!creator && !!player;
 
-  useEffect(() => {
-    setIsWaiting(!!roomId);
-  }, [roomId]);
-
-  useEffect(() => {
-    setIsPlayersJoined(!!creator && !!player);
-  }, [creator, player]);
-
-  return {
-    isWaiting,
-    isPlayersJoined,
-  };
+    return {
+      isWaiting: isRoomExist && !isPlayersJoined,
+      isPlayersJoined,
+      isRoomExist,
+      isReadyToStart: isRoomExist && isPlayersJoined,
+    };
+  }, [id, creator, player]);
 };
 
 export default useRoomStatus;

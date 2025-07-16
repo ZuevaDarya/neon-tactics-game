@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { TCreateGameResponse, TGameState, TUpdateGameResponse } from "../../types/services-types";
+import { TCreateGameResponse, TGameState } from "../../types/services-types";
 import { createGame, deleteGame, getGame, incrementCountTurn, updateGame } from "../thunks";
 
 export const initialState: TGameState = {
@@ -17,10 +17,7 @@ const gameFieldSlice = createSlice({
   name: SliceNamespace.Game,
   initialState,
   reducers: {
-    updateGameState: (
-      state,
-      { payload }: PayloadAction<TUpdateGameResponse | TCreateGameResponse>
-    ) => {
+    updateGameState: (state, { payload }: PayloadAction<TCreateGameResponse>) => {
       state.field = payload.field;
       state.targetCard = payload.targetCard;
       state.countTurn = payload.countTurn;

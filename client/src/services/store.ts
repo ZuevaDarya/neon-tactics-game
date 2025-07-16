@@ -22,7 +22,7 @@ const preloadedState: TPreloadedState = {
     error: null,
   },
   room: {
-    roomId: null,
+    id: null,
     creatorId: null,
     playerId: null,
     status: null,

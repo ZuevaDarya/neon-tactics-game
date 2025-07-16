@@ -18,22 +18,22 @@ import "./game-field.scss";
 function GameField() {
   const dispatch = useAppDispatch();
   const { field } = useAppSelector((state) => state.game);
-  const { roomId } = useAppSelector((state) => state.room);
+  const { id } = useAppSelector((state) => state.room);
   const { activePlayer } = useActivePlayer();
 
   const handleDrop = useCallback(
     async (cardIdx: number, piece: TGameFieldPiece) => {
-      if (!activePlayer || !roomId) return;
+      if (!activePlayer || !id) return;
 
       try {
         const updatedField = [...field];
         const targetCard = updatedField[cardIdx] as TCard;
         updatedField[cardIdx] = piece;
 
-        await dispatch(updateGame({ roomId, field: updatedField, targetCard })).unwrap();
-        await dispatch(incrementCountTurn({ id: roomId })).unwrap();
-        await dispatch(decrementPieceCount({ id: activePlayer.playerId })).unwrap();
-        await dispatch(setActivePlayer({ id: roomId })).unwrap();
+        await dispatch(updateGame({ id, field: updatedField, targetCard })).unwrap();
+        await dispatch(incrementCountTurn({ id })).unwrap();
+        await dispatch(decrementPieceCount({ id: activePlayer.id })).unwrap();
+        await dispatch(setActivePlayer({ id })).unwrap();
 
         if (isWin(cardIdx, piece.type, field)) {
           alert(`Победил ${activePlayer.name}`);
@@ -43,7 +43,7 @@ function GameField() {
         console.error("Game move failed:", error);
       }
     },
-    [activePlayer, field, roomId, dispatch]
+    [activePlayer, field, id, dispatch]
   );
 
   return (

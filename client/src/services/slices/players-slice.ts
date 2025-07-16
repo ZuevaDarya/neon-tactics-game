@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { TPlayersState, TSelectActivePlayerResponse } from "../../types/services-types";
+import { TPlayer, TPlayersState } from "../../types/services-types";
 import {
   assignRandomPieceType,
   changeActiveStatus,
@@ -27,11 +27,11 @@ const playersSlice = createSlice({
   name: SliceNamespace.Players,
   initialState,
   reducers: {
-    setPlayer: (state, { payload }: PayloadAction<TSelectActivePlayerResponse>) => {
-      if (payload.player.isCreator) {
-        state.creator = payload.player;
+    setPlayer: (state, { payload }: PayloadAction<TPlayer>) => {
+      if (payload.isCreator) {
+        state.creator = payload;
       } else {
-        state.player = payload.player;
+        state.player = payload;
       }
     },
   },
@@ -116,7 +116,7 @@ const playersSlice = createSlice({
         state.isSuccess = true;
         state.error = null;
 
-        payload.players.forEach((player) => {
+        payload.forEach((player) => {
           if (player.isCreator) {
             state.creator = player;
           }
@@ -181,10 +181,10 @@ const playersSlice = createSlice({
         state.isSuccess = true;
         state.error = null;
 
-        if (payload.player.isCreator) {
-          state.creator = payload.player;
+        if (payload.isCreator) {
+          state.creator = payload;
         } else {
-          state.player = payload.player;
+          state.player = payload;
         }
       })
       .addCase(decrementPieceCount.pending, (state) => {
@@ -219,7 +219,6 @@ const playersSlice = createSlice({
         state.error = String(error.message);
       })
       .addCase(changeActiveStatus.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.isRequest = false;
         state.isSuccess = true;
         state.error = null;

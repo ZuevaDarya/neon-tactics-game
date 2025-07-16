@@ -3,16 +3,14 @@ import { io, Socket } from "socket.io-client";
 import { SocketEvent } from "../../constants/socket-event";
 import { SessionStorageKey } from "../../constants/storage-keys";
 import {
-  TAssignPieceTypeResponse,
   TCreateGameResponse,
   TPlayer,
   TPlayerWithRoomResponse,
-  TSelectActivePlayerResponse,
   TUpdateGameResponse,
 } from "../../types/services-types";
 import { updateGameState } from "../slices/game-slice";
 import { setPlayer } from "../slices/players-slice";
-import { setRoomState } from "../slices/room-slice";
+import { updateRoomState } from "../slices/room-slice";
 import { connect, connected, disconnected, getError, startGame } from "../slices/socket-slice";
 import { RootState } from "../store";
 
@@ -63,14 +61,14 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
 
         socket.on(SocketEvent.JoinRoom, (data: TPlayerWithRoomResponse) => {
           console.log(`Player: ${data.player.name} join in room`);
-          dispatch(setRoomState(data));
-          dispatch(setPlayer(data));
+          dispatch(updateRoomState(data.room));
+          dispatch(setPlayer(data.player));
         });
 
         socket.on(SocketEvent.CreateRoom, (data: TPlayerWithRoomResponse) => {
-          console.log(`Set players`);
-          dispatch(setPlayer(data));
-          dispatch(setRoomState(data));
+          console.log(`Set player and create room`);
+          dispatch(setPlayer(data.player));
+          dispatch(updateRoomState(data.room));
         });
 
         socket.on(SocketEvent.Redirect, (data: { url: string }) => {
@@ -84,12 +82,12 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           dispatch(updateGameState(data));
         });
 
-        socket.on(SocketEvent.AssignPieceType, (data: TAssignPieceTypeResponse) => {
+        socket.on(SocketEvent.AssignPieceType, (data: TPlayer[]) => {
           console.log("Assign piece type");
-          data.forEach((player) => dispatch(setPlayer({ player })));
+          data.forEach((player) => dispatch(setPlayer(player)));
         });
 
-        socket.on(SocketEvent.SelectActivePlayer, (data: TSelectActivePlayerResponse) => {
+        socket.on(SocketEvent.SelectActivePlayer, (data: TPlayer) => {
           console.log("Set active player");
           dispatch(setPlayer(data));
         });
@@ -106,17 +104,17 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
 
         socket.on(SocketEvent.ChangeActiveStatus, (data: TPlayer) => {
           console.log("Change active status");
-          dispatch(setPlayer({ player: data }));
+          dispatch(setPlayer(data));
         });
 
         socket.on(SocketEvent.DecrementPieceCount, (data: TPlayer) => {
           console.log("decrement piece count");
-          dispatch(setPlayer({ player: data }));
+          dispatch(setPlayer(data));
         });
 
         socket.on(SocketEvent.SetActivePlayer, (data: TPlayer[]) => {
           console.log("set active player", data);
-          data.forEach((player) => dispatch(setPlayer({ player })));
+          data.forEach((player) => dispatch(setPlayer(player)));
         });
       }
 

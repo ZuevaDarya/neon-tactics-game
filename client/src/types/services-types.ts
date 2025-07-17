@@ -28,7 +28,7 @@ export type TPlayer = {
   countPiece: number;
   pieceType: TPieceTypes | null;
   roomId: string | null;
-  isAcive: boolean;
+  isActive: boolean;
   isCreator: boolean;
 };
 
@@ -103,4 +103,4 @@ export type TBasePlayerParam = Pick<TPlayer, "id">;
 
 export type TBaseRoomParam = Pick<TRoomResponse, "id">;
 
-export type TChangeActiveStatus = Pick<TPlayer, "id" | "isAcive">;
+export type TChangeActiveStatus = Pick<TPlayer, "id" | "isActive">;

@@ -9,7 +9,7 @@ const useActivePlayer = () => {
       return { activePlayer: null, nonActivePlayer: null };
     }
 
-    return creator.isAcive
+    return creator.isActive
       ? { activePlayer: creator, nonActivePlayer: player }
       : { activePlayer: player, nonActivePlayer: creator };
   }, [creator, player]);

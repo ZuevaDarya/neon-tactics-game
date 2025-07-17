@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { useDrag } from "react-dnd";
 import uuid from "react-uuid";
+import { SessionStorageKey } from "../../constants/storage-keys";
 import useActivePlayer from "../../hooks/use-active-player";
 import { TGamePieceProps } from "../../types/components-types";
 import "./game-piece.scss";
@@ -14,6 +15,7 @@ function GamePiece({ type, isDraggible }: TGamePieceProps) {
     collect: (monitor) => ({
       isDragged: monitor.didDrop(),
     }),
+    canDrag: () => activePlayer?.id === sessionStorage.getItem(SessionStorageKey.PlayerId),
   });
 
   return activePlayer && activePlayer.pieceType === type && isDraggible ? (

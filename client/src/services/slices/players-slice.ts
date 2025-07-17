@@ -14,6 +14,7 @@ import {
   selectActivePlayer,
   setActivePlayer,
 } from "../thunks";
+import { SessionStorageKey } from '../../constants/storage-keys';
 
 const initialState: TPlayersState = {
   creator: null,
@@ -52,6 +53,7 @@ const playersSlice = createSlice({
         state.isSuccess = true;
         state.player = payload;
         state.error = null;
+        sessionStorage.setItem(SessionStorageKey.PlayerId, payload.id);
       })
       .addCase(createPlayerWithCreateRoom.pending, (state) => {
         state.isRequest = true;
@@ -68,6 +70,7 @@ const playersSlice = createSlice({
         state.isSuccess = true;
         state.creator = payload.player;
         state.error = null;
+        sessionStorage.setItem(SessionStorageKey.PlayerId, payload.player.id);
       })
       .addCase(getPlayer.pending, (state) => {
         state.isRequest = true;
@@ -100,6 +103,7 @@ const playersSlice = createSlice({
         state.isSuccess = true;
         state.player = payload.player;
         state.error = null;
+        sessionStorage.setItem(SessionStorageKey.PlayerId, payload.player.id);
       })
       .addCase(getAllPlayersInRoom.pending, (state) => {
         state.isRequest = true;
@@ -143,6 +147,7 @@ const playersSlice = createSlice({
         } else {
           state.player = null;
         }
+        sessionStorage.removeItem(SessionStorageKey.PlayerId);
       })
       .addCase(assignRandomPieceType.pending, (state) => {
         state.isRequest = true;

@@ -22,8 +22,8 @@ export class PlayerService {
     );
   }
 
-  async findById(id: string): Promise<Player> {
-    const player = await this.playerModel.findByPk(id);
+  async findById(id: string, options?: TransactionOptions): Promise<Player> {
+    const player = await this.playerModel.findByPk(id, options);
 
     if (!player) {
       throw new NotFoundException(`Player with ID ${id} not found`);
@@ -64,9 +64,9 @@ export class PlayerService {
     return updatedPlayer;
   }
 
-  async deleteById(id: string): Promise<Player> {
-    const player = await this.findById(id);
-    await player.destroy();
+  async deleteById(id: string, options?: TransactionOptions): Promise<Player> {
+    const player = await this.findById(id, options);
+    await player.destroy(options);
 
     return player;
   }
@@ -76,16 +76,23 @@ export class PlayerService {
     isActive: boolean,
     options?: TransactionOptions,
   ): Promise<Player> {
-    return this.update(id, { isActive }, { ...options });
+    return this.update(id, { isActive }, options);
   }
 
-  async decrementPieceCount(id: string): Promise<Player> {
-    const player = await this.findById(id);
+  async decrementPieceCount(
+    id: string,
+    options?: TransactionOptions,
+  ): Promise<Player> {
+    const player = await this.findById(id, options);
 
     if (player.countPiece <= 0) {
       throw new Error('Piece count cannot be negative');
     }
 
-    return await this.update(id, { countPiece: player.countPiece - 1 });
+    return await this.update(
+      id,
+      { countPiece: player.countPiece - 1 },
+      { ...options },
+    );
   }
 }

@@ -18,16 +18,26 @@ export class GameService {
     return shuffleField([...this.allCards]);
   }
 
-  async create({ roomId }: CreateGameDTO): Promise<Game> {
-    return await this.gameModel.create({
-      roomId,
-      field: this.getShuffledField(),
-    });
+  async create(
+    { roomId }: CreateGameDTO,
+    options?: TransactionOptions,
+  ): Promise<Game> {
+    return await this.gameModel.create(
+      {
+        roomId,
+        field: this.getShuffledField(),
+      },
+      { ...options },
+    );
   }
 
-  async findByRoomId(roomId: string): Promise<Game> {
+  async findByRoomId(
+    roomId: string,
+    options?: TransactionOptions,
+  ): Promise<Game> {
     const gameData = await this.gameModel.findOne({
       where: { roomId },
+      ...options,
     });
 
     if (!gameData) {
@@ -36,9 +46,13 @@ export class GameService {
     return gameData;
   }
 
-  async deleteByRoomId(roomId: string): Promise<void> {
+  async deleteByRoomId(
+    roomId: string,
+    options?: TransactionOptions,
+  ): Promise<void> {
     const deletedCount = await this.gameModel.destroy({
       where: { roomId },
+      ...options,
     });
 
     if (deletedCount === 0) {
@@ -64,8 +78,15 @@ export class GameService {
     return updatedData;
   }
 
-  async incrementCountTurn(roomId: string): Promise<Game> {
-    const state = await this.findByRoomId(roomId);
-    return await this.update(roomId, { countTurn: state.countTurn + 1 });
+  async incrementCountTurn(
+    roomId: string,
+    options?: TransactionOptions,
+  ): Promise<Game> {
+    const state = await this.findByRoomId(roomId, options);
+    return await this.update(
+      roomId,
+      { countTurn: state.countTurn + 1 },
+      options,
+    );
   }
 }

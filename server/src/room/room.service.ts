@@ -21,7 +21,7 @@ export class RoomService {
   }
 
   async findById(id: string, options?: TransactionOptions): Promise<Room> {
-    const room = await this.roomModel.findByPk(id, { ...options });
+    const room = await this.roomModel.findByPk(id, options);
 
     if (!room) {
       throw new NotFoundException(`Room not found`);
@@ -30,10 +30,15 @@ export class RoomService {
     return room;
   }
 
-  async update(id: string, room: UpdateRoomDTO): Promise<Room> {
+  async update(
+    id: string,
+    room: UpdateRoomDTO,
+    options?: TransactionOptions,
+  ): Promise<Room> {
     const [affectedCount, [updatedRoom]] = await this.roomModel.update(room, {
       where: { roomId: id },
       returning: true,
+      ...options,
     });
 
     if (affectedCount === 0) {
@@ -43,9 +48,10 @@ export class RoomService {
     return updatedRoom;
   }
 
-  async deleteById(id: string): Promise<void> {
+  async deleteById(id: string, options?: TransactionOptions): Promise<void> {
     const deletedCount = await this.roomModel.destroy({
       where: { id },
+      ...options,
     });
 
     if (deletedCount === 0) {
@@ -64,16 +70,20 @@ export class RoomService {
       throw new Error('Room is full (max 2 players)');
     }
 
-    return room.update({ playerId }, { transaction: options?.transaction });
+    return room.update({ playerId }, options);
   }
 
-  async resetPlayerId(id: string): Promise<Room> {
+  async resetPlayerId(id: string, options?: TransactionOptions): Promise<Room> {
     const room = await this.findById(id);
-    return room.update({ playerId: null });
+    return room.update({ playerId: null }, options);
   }
 
-  async updateRoomStatus(id: string, status: TRoomStatus): Promise<Room> {
+  async updateRoomStatus(
+    id: string,
+    status: TRoomStatus,
+    options?: TransactionOptions,
+  ): Promise<Room> {
     const room = await this.findById(id);
-    return room.update({ status });
+    return room.update({ status }, options);
   }
 }

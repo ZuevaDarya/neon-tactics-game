@@ -1,6 +1,8 @@
 export enum SocketEvent {
   Connect = "connect",
   Disconnect = "disconnect",
+  SyncState = "sync_state",
+  PlayerReconnected = 'player_reconnected',
   Error = "connect_error",
   JoinRoom = "joined_room",
   CreateRoom = "created_room",
@@ -9,7 +11,7 @@ export enum SocketEvent {
   CreateGame = "created_game",
   AssignPieceType = "assigned_piece_type",
   SelectActivePlayer = "select_active_player",
-  SetActivePlayer = 'set_active_player',
+  SetActivePlayer = "set_active_player",
   UpdateGame = "updated_game",
   IncrementCountTurn = "increment_count_turn",
   ChangeActiveStatus = "change_active_status",

@@ -106,7 +106,7 @@ export class PlayerController {
   ) {
     const data = await this.playerRoomService.createWithRoom(playerData);
 
-    await this.socketService.joinRoom(socketId, data.room.id);
+    await this.socketService.joinRoom(socketId, data.room.id, data.player.id);
     this.socketService.emitToRoom(data.room.id, SocketEvent.CreateRoom, data);
 
     return data;
@@ -122,7 +122,7 @@ export class PlayerController {
   ) {
     const data = await this.playerRoomService.createWithJoinInRoom(playerData);
 
-    await this.socketService.joinRoom(socketId, data.room.id);
+    await this.socketService.joinRoom(socketId, data.room.id, data.player.id);
     this.socketService.emitToRoom(data.room.id, SocketEvent.JoinRoom, data);
 
     return data;

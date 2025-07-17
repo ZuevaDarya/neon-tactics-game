@@ -16,6 +16,7 @@ import { RootState } from "../store";
 
 export function createSocketMiddleware(): Middleware<unknown, RootState> {
   let socket: Socket | null = null;
+  const roomId = sessionStorage.getItem(SessionStorageKey.RoomId);
 
   return (({ dispatch }) =>
     (next) =>
@@ -36,6 +37,10 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           reconnection: true,
           reconnectionAttempts: 5,
           reconnectionDelay: 1000,
+          auth: {
+            token: sessionStorage.getItem(SessionStorageKey.SocketId),
+            roomId,
+          },
         });
 
         socket.on(SocketEvent.Connect, () => {
@@ -46,8 +51,15 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           dispatch(connected({ socketId }));
         });
 
+        socket.on(SocketEvent.SyncState, () => {
+          console.log("Sync state");
+        });
+
+        socket.on(SocketEvent.PlayerReconnected, () => {
+          console.log("Player reconnected");
+        });
+
         socket.on(SocketEvent.Disconnect, () => {
-          sessionStorage.removeItem(SessionStorageKey.SocketId);
           console.log("Socket disconnected");
 
           sessionStorage.removeItem(SessionStorageKey.SocketId);
@@ -113,7 +125,7 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
         });
 
         socket.on(SocketEvent.SetActivePlayer, (data: TPlayer[]) => {
-          console.log("set active player", data);
+          console.log("set active player");
           data.forEach((player) => dispatch(setPlayer(player)));
         });
       }

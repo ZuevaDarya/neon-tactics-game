@@ -1,4 +1,6 @@
 export enum SocketEvent {
+  SyncState = 'sync_state',
+  PlayerReconnected = 'player_reconnected',
   JoinRoom = 'joined_room',
   CreateRoom = 'created_room',
   StartGame = 'start_game',

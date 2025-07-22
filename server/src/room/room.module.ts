@@ -7,11 +7,13 @@ import { TransactionService } from 'src/utils/services/transaction.service';
 import { Room } from './models/room.model';
 import { RoomController } from './room.controller';
 import { RoomService } from './room.service';
+import { GameModule } from 'src/game/game.module';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([Room]),
     forwardRef(() => PlayerModule),
+    forwardRef(() => GameModule),
     SocketModule,
   ],
   providers: [RoomService, PlayerRoomService, TransactionService],

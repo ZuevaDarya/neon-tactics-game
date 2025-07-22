@@ -3,7 +3,7 @@ export enum SocketEvent {
   PlayerReconnected = 'player_reconnected',
   JoinRoom = 'joined_room',
   CreateRoom = 'created_room',
-  StartGame = 'start_game',
+  RedirectPlayers = 'redirect_players',
   Redirect = 'redirect',
   CreateGame = 'created_game',
   AssignPieceType = 'assigned_piece_type',
@@ -13,4 +13,7 @@ export enum SocketEvent {
   IncrementCountTurn = 'increment_count_turn',
   ChangeActiveStatus = 'change_active_status',
   DecrementPieceCount = 'decrement_piece_count',
+  ResetGame = 'reset_game',
+  ShuffleField = 'shuffle_field',
+  LeaveRoom = 'leaved_room',
 }

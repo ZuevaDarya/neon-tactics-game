@@ -89,4 +89,15 @@ export class GameService {
       options,
     );
   }
+
+  async shuffleField(
+    roomId: string,
+    options?: TransactionOptions,
+  ): Promise<Game> {
+    return await this.update(
+      roomId,
+      { field: this.getShuffledField() },
+      options,
+    );
+  }
 }

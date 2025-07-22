@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
+import { SessionStorageKey } from "../../constants/storage-keys";
 import { TPlayer, TPlayersState } from "../../types/services-types";
 import {
   assignRandomPieceType,
@@ -11,10 +12,11 @@ import {
   deletePlayer,
   getAllPlayersInRoom,
   getPlayer,
+  leaveGame,
+  resetGame,
   selectActivePlayer,
   setActivePlayer,
 } from "../thunks";
-import { SessionStorageKey } from '../../constants/storage-keys';
 
 const initialState: TPlayersState = {
   creator: null,
@@ -34,6 +36,14 @@ const playersSlice = createSlice({
       } else {
         state.player = payload;
       }
+    },
+    resetPlayersState: (state) => {
+      state.creator = null;
+      state.player = null;
+      state.isRequest = false;
+      state.isSuccess = false;
+      state.error = null;
+      sessionStorage.removeItem(SessionStorageKey.PlayerId);
     },
   },
   extraReducers: (builder) => {
@@ -255,9 +265,49 @@ const playersSlice = createSlice({
           }
           state.player = player;
         });
+      })
+      .addCase(resetGame.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(resetGame.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(resetGame.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        payload.players.forEach((player) => {
+          if (player.isCreator) {
+            state.creator = player;
+          }
+          state.player = player;
+        });
+      })
+      .addCase(leaveGame.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(leaveGame.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(leaveGame.fulfilled, (state) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+        state.creator = null;
+        state.player = null;
+        sessionStorage.removeItem(SessionStorageKey.PlayerId);
       });
   },
 });
 
-export const { setPlayer } = playersSlice.actions;
+export const { setPlayer, resetPlayersState } = playersSlice.actions;
 export default playersSlice.reducer;

@@ -31,14 +31,15 @@ function GameField() {
         updatedField[cardIdx] = piece;
 
         await dispatch(updateGame({ id, field: updatedField, targetCard })).unwrap();
-        await dispatch(incrementCountTurn({ id })).unwrap();
         await dispatch(decrementPieceCount({ id: activePlayer.id })).unwrap();
-        await dispatch(setActivePlayer({ id })).unwrap();
 
-        if (isWin(cardIdx, piece.type, field)) {
-          alert(`Победил ${activePlayer.name}`);
+        if (isWin(cardIdx, piece.type, updatedField)) {
+          await dispatch(updateGame({ id, winnerId: activePlayer.id })).unwrap();
+          return;
         }
 
+        await dispatch(setActivePlayer({ id })).unwrap();
+        await dispatch(incrementCountTurn({ id })).unwrap();
       } catch (error) {
         console.error("Game move failed:", error);
       }

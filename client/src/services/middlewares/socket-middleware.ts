@@ -6,12 +6,19 @@ import {
   TCreateGameResponse,
   TPlayer,
   TPlayerWithRoomResponse,
+  TResetRameResponse,
   TUpdateGameResponse,
 } from "../../types/services-types";
-import { updateGameState } from "../slices/game-slice";
-import { setPlayer } from "../slices/players-slice";
-import { updateRoomState } from "../slices/room-slice";
-import { connect, connected, disconnected, getError, startGame } from "../slices/socket-slice";
+import { resetGameState, updateGameState } from "../slices/game-slice";
+import { resetPlayersState, setPlayer } from "../slices/players-slice";
+import { resetRoomState, updateRoomState } from "../slices/room-slice";
+import {
+  connect,
+  connected,
+  disconnected,
+  getError,
+  redirectPlayers,
+} from "../slices/socket-slice";
 import { RootState } from "../store";
 
 export function createSocketMiddleware(): Middleware<unknown, RootState> {
@@ -128,17 +135,36 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           console.log("set active player");
           data.forEach((player) => dispatch(setPlayer(player)));
         });
+
+        socket.on(SocketEvent.ResetGame, (data: TResetRameResponse) => {
+          console.log("Reset game");
+          data.players.forEach((player) => dispatch(setPlayer(player)));
+          dispatch(updateGameState(data.game));
+          dispatch(updateRoomState(data.room));
+        });
+
+        socket.on(SocketEvent.ShuffleField, (data: TCreateGameResponse) => {
+          console.log("Shuffle field");
+          dispatch(updateGameState(data));
+        });
+
+        socket.on(SocketEvent.LeaveRoom, () => {
+          console.log("Leaved room");
+          dispatch(resetPlayersState());
+          dispatch(resetRoomState());
+          dispatch(resetGameState());
+        });
       }
 
-      if (startGame.match(action)) {
+      if (redirectPlayers.match(action)) {
         if (!socket?.connected) {
           console.warn("Socket is not connected");
           return next(action);
         }
 
         const { roomId, url } = action.payload;
-        socket.emit(SocketEvent.StartGame, { roomId, url });
-        console.log("Start game");
+        socket.emit(SocketEvent.RedirectPlayers, { roomId, url });
+        console.log("Redirect players");
       }
 
       return next(action);

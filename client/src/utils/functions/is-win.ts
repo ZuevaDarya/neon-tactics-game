@@ -135,11 +135,7 @@ const checkAllSquares = (
   );
 };
 
-const isWin = (
-  cardIdx: number,
-  pieceType: TPieceTypes,
-  field: (TCard | TGameFieldPiece)[]
-) => {
+const isWin = (cardIdx: number, pieceType: TPieceTypes, field: (TCard | TGameFieldPiece)[]) => {
   const leftRightDiagonalIdx = [0, 5, 10, 15];
   const rightLeftDiagonalIdx = [3, 6, 9, 12];
 
@@ -162,22 +158,13 @@ const isWin = (
   }
 
   if (cardIdx <= 3) {
-    return (
-      checkRow(0, 3, pieceType, field) || checkColumn(cardIdx, pieceType, field)
-    );
+    return checkRow(0, 3, pieceType, field) || checkColumn(cardIdx, pieceType, field);
   } else if (cardIdx <= 7) {
-    return (
-      checkRow(4, 7, pieceType, field) || checkColumn(cardIdx - 4, pieceType, field)
-    );
+    return checkRow(4, 7, pieceType, field) || checkColumn(cardIdx - 4, pieceType, field);
   } else if (cardIdx <= 11) {
-    return (
-      checkRow(8, 11, pieceType, field) || checkColumn(cardIdx - 8, pieceType, field)
-    );
+    return checkRow(8, 11, pieceType, field) || checkColumn(cardIdx - 8, pieceType, field);
   } else {
-    return (
-      checkRow(12, 15, pieceType, field) ||
-      checkColumn(cardIdx - 12, pieceType, field)
-    );
+    return checkRow(12, 15, pieceType, field) || checkColumn(cardIdx - 12, pieceType, field);
   }
 };
 

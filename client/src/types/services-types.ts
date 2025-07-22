@@ -95,8 +95,8 @@ export type TCreateGameResponse = TGame & {
 
 export type TUpdateGameResponse = TCreateGameResponse;
 
-export type TUpdateGame = {
-  [k in keyof TUpdateGameResponse]?: TUpdateGameResponse[k];
+export type TUpdateGame = Pick<TUpdateGameResponse, "id"> & {
+  [k in keyof Omit<TUpdateGameResponse, "id">]?: TUpdateGameResponse[k];
 };
 
 export type TBasePlayerParam = Pick<TPlayer, "id">;
@@ -104,3 +104,9 @@ export type TBasePlayerParam = Pick<TPlayer, "id">;
 export type TBaseRoomParam = Pick<TRoomResponse, "id">;
 
 export type TChangeActiveStatus = Pick<TPlayer, "id" | "isActive">;
+
+export type TResetRameResponse = {
+  players: TPlayer[];
+  room: TRoomBase;
+  game: TCreateGameResponse;
+};

@@ -2,7 +2,10 @@ import { CardType } from 'src/constants/card-types';
 import { PieceType } from 'src/constants/piece-type';
 import { RoomStatus } from 'src/constants/room-status';
 import { SocketEvent } from 'src/constants/socket-event';
+import { Game } from 'src/game/models/game.model';
 import { CreatePlayerDTO } from 'src/player/dto/create-player.dto';
+import { Player } from 'src/player/models/player.model';
+import { Room } from 'src/room/models/room.model';
 
 export type TPieceType = `${PieceType}`;
 
@@ -54,3 +57,9 @@ export type TGameFieldPiece = {
 };
 
 export type TGameFiled = (TCard | TGameFieldPiece)[];
+
+export type TResetRameResponse = {
+  players: Player[];
+  room: Room;
+  game: Game;
+};

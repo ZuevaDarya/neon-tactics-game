@@ -41,7 +41,7 @@ export type TPlayerIconProps = TAvatarProps & {
 };
 
 export type TModalOverlayProps = {
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 export type TModalProps = TModalOverlayProps & {

@@ -10,6 +10,8 @@ const modalRoot = document.getElementById("modals") as HTMLElement;
 function Modal({ children, onClose }: TModalProps) {
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
+      if (!onClose) return;
+
       if (e.key === "Escape") {
         onClose();
       }
@@ -25,9 +27,7 @@ function Modal({ children, onClose }: TModalProps) {
     <>
       <ModalOverlay onClose={onClose} />
       <div className="modal">
-        <div className="modal__header">
-          <CloseBtn onClick={onClose} />
-        </div>
+        <div className="modal__header">{onClose && <CloseBtn onClick={onClose} />}</div>
         {children}
       </div>
     </>,

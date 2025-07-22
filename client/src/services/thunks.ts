@@ -12,6 +12,7 @@ import {
   TPlayer,
   TPlayerWithRoomResponse,
   TRejectValue,
+  TResetRameResponse,
   TRoomResponse,
   TUpdateGame,
   TUpdateGameResponse,
@@ -291,5 +292,54 @@ export const incrementCountTurn = createAsyncThunk<TUpdateGameResponse, TBaseRoo
     };
 
     return await request(`${API_PATHS.game}/${id}${API_PATHS.incrementCountTurn}`, options);
+  }
+);
+
+export const resetGame = createAsyncThunk<TResetRameResponse, TBaseRoomParam>(
+  `${SliceNamespace.Game}/resetGame`,
+  async ({ id }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.game}/${id}${API_PATHS.resetGame}`, options);
+  }
+);
+
+export const shuffleField = createAsyncThunk<TUpdateGameResponse, TBasePlayerParam>(
+  `${SliceNamespace.Game}/shuffleField`,
+  async ({ id }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.game}/${id}${API_PATHS.shuffleField}`, options);
+  }
+);
+
+export const leaveGame = createAsyncThunk<void, TBaseRoomParam>(
+  `${SliceNamespace.Game}/leaveGame`,
+  async ({ id }, { rejectWithValue }) => {
+    const socketId = sessionStorage.getItem(SessionStorageKey.SocketId);
+
+    if (!socketId) {
+      return rejectWithValue("Подключение к сокету не установлено");
+    }
+
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        "x-socket-id": socketId,
+      },
+    };
+
+    return await request(`${API_PATHS.game}/${id}${API_PATHS.leaveGame}`, options);
   }
 );

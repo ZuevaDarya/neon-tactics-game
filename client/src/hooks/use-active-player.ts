@@ -3,6 +3,13 @@ import { useAppSelector } from "../services/store";
 
 const useActivePlayer = () => {
   const { creator, player } = useAppSelector((state) => state.players);
+  const { winnerId } = useAppSelector((state) => state.game);
+
+  const winner = useMemo(() => {
+    if (!winnerId || !creator || !player) return null;
+
+    return winnerId === creator.id ? creator : player;
+  }, [winnerId, creator, player]);
 
   const { activePlayer, nonActivePlayer } = useMemo(() => {
     if (!creator || !player) {
@@ -17,6 +24,7 @@ const useActivePlayer = () => {
   return {
     activePlayer,
     nonActivePlayer,
+    winner,
   };
 };
 

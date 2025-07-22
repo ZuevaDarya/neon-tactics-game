@@ -3,8 +3,9 @@ import "./modal-overlay.scss";
 
 function ModalOverlay({ onClose }: TModalOverlayProps) {
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+    if (!onClose) return;
 
+    e.stopPropagation();
     if (e.currentTarget === e.target) {
       onClose();
     }

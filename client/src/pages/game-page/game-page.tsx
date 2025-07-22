@@ -2,13 +2,16 @@ import { useEffect } from "react";
 import GameField from "../../components/game-field/game-field";
 import GameStatePanel from "../../components/game-state-panel/game-state-panel";
 import PlayerBlock from "../../components/player-block/player-block";
+import WinnerModal from "../../components/winner-modal/winner-modal";
 import { SessionStorageKey } from "../../constants/storage-keys";
+import useActivePlayer from "../../hooks/use-active-player";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { getAllPlayersInRoom, getGame, getRoom } from "../../services/thunks";
 
 function GamePage() {
   const dispatch = useAppDispatch();
   const { creator, player } = useAppSelector((state) => state.players);
+  const { winner } = useActivePlayer();
 
   useEffect(() => {
     const preloadedData = async () => {
@@ -25,6 +28,7 @@ function GamePage() {
 
   return (
     <div className="wrapper">
+      {winner && <WinnerModal winner={winner} />}
       <GameStatePanel />
       <div className="game-field-container">
         {creator && <PlayerBlock player={creator} position="left" />}

@@ -4,7 +4,7 @@ import { AppRoute } from "../../constants/app-route";
 import { StartFormInputName } from "../../constants/input-name";
 import { RoomStatus } from "../../constants/room-status";
 import useRoomStatus from "../../hooks/use-room-status";
-import { startGame } from "../../services/slices/socket-slice";
+import { redirectPlayers } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
   assignRandomPieceType,
@@ -26,7 +26,7 @@ function FormCreateRoom() {
   const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
   const { id, status, playerId, creatorId } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
-  const { isWaiting: isBtnDisabled, isPlayersJoined } = useRoomStatus();
+  const { isWaiting, isPlayersJoined } = useRoomStatus();
 
   useEffect(() => {
     setValue(StartFormInputName.RoomId, id || "");
@@ -44,7 +44,7 @@ function FormCreateRoom() {
     e.stopPropagation();
     e.preventDefault();
     if (id) {
-      dispatch(startGame({ roomId: id, url: AppRoute.GamePage }));
+      dispatch(redirectPlayers({ roomId: id, url: AppRoute.GamePage }));
       await dispatch(createGame({ id })).unwrap();
       await dispatch(updateRoomStatus({ id, status: "playing" })).unwrap();
 
@@ -73,15 +73,11 @@ function FormCreateRoom() {
           type="text"
           register={register}
           required
-          variant={isBtnDisabled ? "disabled" : "default"}
-          disabled={isBtnDisabled}
+          variant={isWaiting ? "disabled" : "default"}
+          disabled={isWaiting}
         />
         {formState.errors.player && <span className="form-error">Заполните обязательные поля</span>}
-        <Button
-          type="submit"
-          variant={isBtnDisabled ? "disabled" : "btnForAdd"}
-          disabled={isBtnDisabled}
-        >
+        <Button type="submit" variant={isWaiting ? "disabled" : "btnForAdd"} disabled={isWaiting}>
           Создать
         </Button>
       </FormSection>

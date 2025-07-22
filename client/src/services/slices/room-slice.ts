@@ -8,6 +8,8 @@ import {
   createRoom,
   deleteRoom,
   getRoom,
+  leaveGame,
+  resetGame,
   updateRoomStatus,
 } from "../thunks";
 
@@ -31,6 +33,16 @@ const roomSlice = createSlice({
       state.id = payload.id;
       state.status = payload.status;
       sessionStorage.setItem(SessionStorageKey.RoomId, payload.id);
+    },
+    resetRoomState: (state) => {
+      state.id = null;
+      state.creatorId = null;
+      state.playerId = null;
+      state.status = null;
+      state.isRequest = false;
+      state.isSuccess = false;
+      state.error = null;
+      sessionStorage.removeItem(SessionStorageKey.RoomId);
     },
   },
   extraReducers: (builder) => {
@@ -150,9 +162,47 @@ const roomSlice = createSlice({
         state.isSuccess = true;
         state.error = null;
         state.status = payload.status;
+      })
+      .addCase(resetGame.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(resetGame.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(resetGame.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+        state.creatorId = payload.room.creatorId;
+        state.playerId = payload.room.playerId;
+        state.status = payload.room.status;
+      })
+      .addCase(leaveGame.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(leaveGame.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(leaveGame.fulfilled, (state) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+        state.playerId = null;
+        state.id = null;
+        state.creatorId = null;
+        state.status = null;
+        sessionStorage.removeItem(SessionStorageKey.RoomId);
       });
   },
 });
 
-export const { updateRoomState } = roomSlice.actions;
+export const { updateRoomState, resetRoomState } = roomSlice.actions;
 export default roomSlice.reducer;

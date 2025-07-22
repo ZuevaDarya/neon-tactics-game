@@ -128,7 +128,30 @@ export class SocketService
     this.server.to(roomId).emit(event, data);
   }
 
-  @SubscribeMessage(SocketEvent.StartGame)
+  async leaveRoom(socketId: string, roomId: string, notify = true) {
+    const clientSocket = this.server.sockets.sockets.get(socketId);
+
+    if (!clientSocket) {
+      this.handleError(
+        new BadRequestException('WebSocket connection not found'),
+      );
+    }
+
+    try {
+      const playerId = this.playerSessions.get(socketId);
+
+      await clientSocket.leave(roomId);
+      this.cleanUpSocket(socketId, roomId);
+
+      if (playerId && notify) {
+        this.emitToRoom(roomId, SocketEvent.LeaveRoom, { playerId, socketId });
+      }
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  @SubscribeMessage(SocketEvent.RedirectPlayers)
   handleStartGame(@MessageBody() payload: { roomId: string; url: string }) {
     this.emitToRoom(payload.roomId, SocketEvent.Redirect, { url: payload.url });
   }

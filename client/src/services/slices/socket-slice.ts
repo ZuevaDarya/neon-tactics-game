@@ -30,9 +30,9 @@ const socketSlice = createSlice({
     getError: (state, { payload }: PayloadAction<{ error: string }>) => {
       state.error = payload.error;
     },
-    startGame: (_state, _action: PayloadAction<{ roomId: string, url: AppRoute }>) => {},
+    redirectPlayers: (_state, _action: PayloadAction<{ roomId: string, url: AppRoute }>) => {},
   },
 });
 
-export const { connect, connected, disconnected, getError, startGame } = socketSlice.actions;
+export const { connect, connected, disconnected, getError, redirectPlayers } = socketSlice.actions;
 export default socketSlice.reducer;

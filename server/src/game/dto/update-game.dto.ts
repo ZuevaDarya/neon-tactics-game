@@ -6,7 +6,7 @@ export class UpdateGameDTO {
   field?: TGameFiled;
 
   @IsOptional()
-  targetCard?: TCard;
+  targetCard?: TCard | null;
 
   @IsNumber()
   @IsOptional()
@@ -14,5 +14,5 @@ export class UpdateGameDTO {
 
   @IsUUID()
   @IsOptional()
-  winnerId?: string;
+  winnerId?: string | null;
 }

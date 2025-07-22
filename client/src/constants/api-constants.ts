@@ -16,4 +16,7 @@ export const API_PATHS = {
   decrementPiece: "/decrement-piece",
   changeActiveStatus: "/active-status",
   incrementCountTurn: "/increment-count-turn",
+  resetGame: "/reset-game",
+  shuffleField: "/shuffle-field",
+  leaveGame: "/leave-game",
 };

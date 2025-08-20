@@ -8,6 +8,23 @@ import useActivePlayer from "../../hooks/use-active-player";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { getAllPlayersInRoom, getGame, getRoom } from "../../services/thunks";
 
+/*
+  Клиент
+  TODO Написать protectedRoute, в котором проерять все данные и только после этого редеректить
+  TODO Добавить шапку с кнопкой "Покинуть игру", "начать заново"
+  TODO Выводить количество ходов в раунде countTurn
+  TODO Добавить таблицу с комнатами, где только один игрок
+
+  Сервер
+  TODO Сделать проверку activePlayer === player, чтобы нельзя было перетаскивать чужие фишки
+  TODO Перенести логику с игрой и проверку ходов на сервер
+  TODO Доработать проверку победителя (если ничья или игрок не может сделать ход)
+  TODO Добавить возможность присоединиться к комнате в таблице с комнатами
+
+  Стили
+  TODO перейти с scss на css
+*/
+
 function GamePage() {
   const dispatch = useAppDispatch();
   const { creator, player } = useAppSelector((state) => state.players);

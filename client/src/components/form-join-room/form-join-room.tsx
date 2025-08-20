@@ -2,14 +2,18 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { StartFormInputName } from "../../constants/input-name";
 import useRoomStatus from "../../hooks/use-room-status";
+import mx from "../../mixins.module.css";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { createPlayerWithJoinInRoom, getAllPlayersInRoom } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
+import cn from "../../utils/functions/cn";
 import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
 import FormSection from "../form-section/form-section";
 import Form from "../form/form";
+import st from "../form/form.module.css";
+import WaitingBlock from "../waiting-block/waiting-block";
 
 function FormJoinRoom() {
   const dispatch = useAppDispatch();
@@ -38,19 +42,18 @@ function FormJoinRoom() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormSection title="Введите имя игрока" variant="ds_row">
+      <h2 className={cn(st["form__title"], mx["responsiveFont"])}>Подключение к сессии</h2>
+      <FormSection title="Введите имя игрока и номер комнаты">
         <FormItem<TStartForm>
-          label="Игрок"
+          label="Имя игрока"
           name={StartFormInputName.Player}
-          placeholder="игрок 1"
+          placeholder="игрок1"
           type="text"
           register={register}
           required
-          variant={isPlayersJoined ? "disabled" : "default"}
+          variant={isPlayersJoined ? "pinkDisabled" : "pink"}
           disabled={isPlayersJoined}
         />
-      </FormSection>
-      <FormSection title="Введите номер комнаты" variant="ds_row">
         <FormItem<TStartForm>
           label="Номер комнаты"
           name={StartFormInputName.RoomId}
@@ -59,29 +62,36 @@ function FormJoinRoom() {
           required
           placeholder="12345678"
           maxLength={8}
-          variant={isPlayersJoined ? "disabled" : "default"}
+          variant={isPlayersJoined ? "pinkDisabled" : "pink"}
           disabled={isPlayersJoined}
         />
-        {error && <span className="form-error">{translateError(error)}</span>}
-        {formState.errors.player && <span className="form-error">Заполните обязательные поля</span>}
+        {formState.errors.player && (
+          <span className={st["form__error"]}>Заполните обязательные поля</span>
+        )}
+
         <Button
           type="submit"
-          variant={isPlayersJoined ? "disabled" : "btnForAdd"}
+          variant={isPlayersJoined ? "default" : "pink"}
           disabled={isPlayersJoined}
+          className={st["form__button"]}
         >
           Подключиться
         </Button>
-        {formState.errors.roomId && <span className="form-error">Заполните обязательные поля</span>}
+        {formState.errors.roomId && (
+          <span className={st["form__error"]}>Заполните обязательные поля</span>
+        )}
       </FormSection>
-      {isRequest && (
-        <div className="waiting-message">
-          <span className="text">Подключение к комнате</span>
-          <span className="loader"></span>
-        </div>
+
+      {isRequest && <WaitingBlock text="Подключение к комнате" />}
+      {error && (
+        <span className={cn(st["form__message"], st["form__message--mb-10"], mx["responsiveFont"])}>
+          {translateError(error)}
+        </span>
       )}
       {id && creator && (
-        <p>
-          Подключились к игроку: <span>{creator.name}</span>
+        <p className={cn(st["form__message"], st["form__message--mb-10"], mx["responsiveFont"])}>
+          Подключились к игроку:{" "}
+          <span className={st["form__message--acent-pink"]}>{creator.name}</span>
         </p>
       )}
     </Form>

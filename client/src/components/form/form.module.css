@@ -1,0 +1,54 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.form--mt-40 {
+  margin-top: clamp(20px, calc(40 * 100vw / var(--base-viewport-size)), 40px);
+}
+
+.form__title {
+  --lineHeightRatio: var(--text-18px--line-height-ratio);
+  --minFontSize: 14px;
+  --maxFontSize: 22px;
+  --recommendFontSize: 18;
+
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-black);
+  font-family: var(--font-exo-2);
+  font-weight: 700;
+}
+
+.form__button {
+  margin-top: 10px;
+}
+
+.form__message {
+  --lineHeightRatio: var(--text-18px--line-height-ratio);
+  --minFontSize: 14px;
+  --maxFontSize: 22px;
+  --recommendFontSize: 18;
+}
+
+.form__message--acent-cyan {
+  color: var(--color-cyan-700);
+  font-weight: var(--font-weight-bold);
+}
+
+.form__message--acent-pink {
+  color: var(--color-pink-700);
+  font-weight: var(--font-weight-bold);
+}
+
+.form__message--mb-10 {
+  margin-block: 10px;
+}
+
+.form__error {
+  position: absolute;
+  font-size: 14px;
+  color: red;
+  transform: translateY(calc(60 * 100vw / var(--base-viewport-size)));
+}

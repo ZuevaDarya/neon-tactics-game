@@ -1,0 +1,37 @@
+.tab {
+  display: inline-block;
+  padding: 2px 10px;
+
+  text-align: center;
+  width: 100%;
+
+  border-radius: var(--radius);
+  transition: var(--base-transition);
+  color: var(--textColor, --color-black);
+  background-color: var(--backgroundColor, --color-white);
+
+  &:not(.tab--active):hover {
+    cursor: pointer;
+    background-color: var(--hoverBackgroundColor);
+  }
+}
+
+.tab--cyan {
+  --textColor: var(--color-cyan-700);
+  --hoverBackgroundColor: var(--hover-color-cyan-300);
+}
+
+.tab--pink {
+  --textColor: var(--color-pink-700);
+  --hoverBackgroundColor: var(--hover-color-pink-300);
+}
+
+.tab--cyan.tab--active {
+  --backgroundColor: var(--color-cyan-600);
+  --textColor: var(--color-white);
+}
+
+.tab--pink.tab--active {
+  --backgroundColor: var(--color-pink-600);
+  --textColor: var(--color-white);
+}

@@ -91,16 +91,12 @@ export type TTabsProps = {
   defaultActiveTab?: number;
 };
 
-export type TTabProps = {
-  isActive?: boolean;
-  setActiveTabIdx?: () => void;
-  idx?: number;
-  children?: React.ReactNode;
-  label: string;
-  disabled?: boolean;
-};
-
 export type TTabContentProps = {
   children: React.ReactNode;
   activeTabIdx: number;
+};
+
+export type TWaitingBlockProps = {
+  children?: React.ReactNode | string;
+  text: string;
 };

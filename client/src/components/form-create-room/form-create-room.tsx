@@ -4,6 +4,7 @@ import { AppRoute } from "../../constants/app-route";
 import { StartFormInputName } from "../../constants/input-name";
 import { RoomStatus } from "../../constants/room-status";
 import useRoomStatus from "../../hooks/use-room-status";
+import mx from "../../mixins.module.css";
 import { redirectPlayers } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
@@ -16,15 +17,19 @@ import {
   updateRoomStatus,
 } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
+import cn from "../../utils/functions/cn";
+import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
 import FormItem from "../form-item/form-item";
 import FormSection from "../form-section/form-section";
 import Form from "../form/form";
+import st from "../form/form.module.css";
+import WaitingBlock from "../waiting-block/waiting-block";
 
 function FormCreateRoom() {
   const dispatch = useAppDispatch();
   const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
-  const { id, status, playerId, creatorId } = useAppSelector((state) => state.room);
+  const { id, status, playerId, creatorId, error } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
   const { isWaiting, isPlayersJoined } = useRoomStatus();
 
@@ -65,50 +70,62 @@ function FormCreateRoom() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormSection title="Введите имя игрока" variant="ds_row">
+      <h2 className={cn(st["form__title"], mx["responsiveFont"])}>Инициализация сессии</h2>
+      <FormSection title="Введите имя игрока">
         <FormItem<TStartForm>
-          label="Игрок"
+          label="Имя игрока"
           name={StartFormInputName.Player}
-          placeholder="игрок 1"
+          placeholder="игрок1"
           type="text"
           register={register}
           required
-          variant={isWaiting ? "disabled" : "default"}
+          variant={isWaiting ? "cyanDisabled" : "cyan"}
           disabled={isWaiting}
         />
-        {formState.errors.player && <span className="form-error">Заполните обязательные поля</span>}
-        <Button type="submit" variant={isWaiting ? "disabled" : "btnForAdd"} disabled={isWaiting}>
-          Создать
-        </Button>
-      </FormSection>
-      <FormSection variant="ds_row">
+
         <FormItem<TStartForm>
           label="Номер комнаты"
           name={StartFormInputName.RoomId}
           type="text"
           register={register}
-          variant="disabled"
+          variant="cyanDisabled"
           disabled
         />
-      </FormSection>
-      {status === RoomStatus.Waiting && !playerId && (
-        <div className="waiting-block">
-          <p className="waiting-message">
-            <span className="text">Ожидание подключения второго игрока</span>
-            <span className="loader"></span>
-          </p>
-          <Button type="button" variant="default" onClick={handleStopBtnClick}>
-            Остановить поиск
+
+        {formState.errors.player && (
+          <span className={st["form__error"]}>Заполните обязательные поля</span>
+        )}
+        {status !== RoomStatus.Waiting && (
+          <Button
+            type="submit"
+            variant={isWaiting ? "default" : "cyan"}
+            disabled={isWaiting}
+            className={st["form__button"]}
+          >
+            Создать
           </Button>
-        </div>
+        )}
+      </FormSection>
+
+      {status === RoomStatus.Waiting && !playerId && (
+        <WaitingBlock text="Ожидание подключения второго игрока">
+          <Button type="button" variant="closedCyan" onClick={handleStopBtnClick}></Button>
+        </WaitingBlock>
       )}
+      {error && (
+        <span className={cn(st["form__message"], st["form__message--mb-10"], mx["responsiveFont"])}>
+          {translateError(error)}
+        </span>
+      )}
+
       {id && player && (
-        <p>
-          Игрок <span>{player.name}</span> присоединился к комнате
+        <p className={cn(st["form__message"], st["form__message--mb-10"], mx["responsiveFont"])}>
+          Игрок <span className={st["form__message--acent-cyan"]}>{player.name}</span> присоединился
+          к комнате
         </p>
       )}
       {isPlayersJoined && (
-        <Button type="button" variant="started" onClick={handleStartBtnClick}>
+        <Button type="button" variant="cyan" onClick={handleStartBtnClick}>
           Начать игру
         </Button>
       )}

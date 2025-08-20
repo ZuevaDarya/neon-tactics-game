@@ -1,0 +1,43 @@
+.waiting-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: clamp(20px, calc(30 * 100vw / var(--base-viewport-size)), 30px);
+  padding: 10px;
+}
+
+.waiting-block__message {
+  --lineHeightRatio: var(--text-16px--line-height-ratio);
+  --minFontSize: 16px;
+  --maxFontSize: 24px;
+  --recommendFontSize: 20;
+}
+
+.waiting-block__text {
+  background: linear-gradient(
+    90deg,
+    var(--color-cyan-700),
+    var(--color-pink-700),
+    var(--color-cyan-700)
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientWave 2s linear infinite, bounce 2s ease-in-out infinite;
+}
+
+@keyframes gradientWave {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.waiting-block__loader {
+  margin-left: 18px;
+}

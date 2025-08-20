@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import "./app.scss";
+// import "./app.css";
 import { DEV_URL } from "./constants/api-constants";
 import { AppRoute } from "./constants/app-route";
 import GamePage from "./pages/game-page/game-page";

@@ -1,0 +1,54 @@
+.input {
+  --lineHeightRatio: var(--text-16px--line-height-ratio);
+  --minFontSize: 14px;
+  --maxFontSize: 20px;
+  --recommendFontSize: 16;
+
+  --borderColor: var(--color-gray);
+  --shadowColor: var(--color-gray);
+  --focusShadowColor: var(--color-gray);
+
+  width: 100%;
+  padding-block: 4px;
+  padding-inline: 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--borderColor);
+  color: var(--color-slate-800);
+
+  transition: var(--base-transition);
+
+  &:hover {
+    box-shadow: 0 0 5px var(--shadowColor);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--focusShadowColor);
+  }
+}
+
+.input--cyan {
+  --borderColor: var(--color-cyan-600);
+  --shadowColor: var(--btn-hover-color-cyan);
+  --focusShadowColor: var(--color-cyan-500);
+}
+
+.input--pink {
+  --borderColor: var(--color-pink-600);
+  --shadowColor: var(--btn-hover-color-pink);
+  --focusShadowColor: var(--color-pink-500);
+}
+
+.input--cyan-disabled,
+.input--pink-disabled {
+  --shadowColor: var(--color-white);
+  background-color: var(--color-slate-100);
+  color: var(--color-black);
+}
+
+.input--cyan-disabled {
+  --borderColor: var(--color-cyan-600);
+}
+
+.input--pink-disabled {
+  --borderColor: var(--color-pink-600);
+}

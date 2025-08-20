@@ -1,8 +1,9 @@
 import { TFormProps } from "../../types/components-types";
-import "./form.scss";
+import cn from '../../utils/functions/cn';
+import st from "./form.module.css";
 
 function Form({ children, ...props }: TFormProps) {
-  return <form className="form" {...props}>{children}</form>;
+  return <form className={cn(st.form, st["form--mt-40"])} {...props}>{children}</form>;
 }
 
 export default Form;

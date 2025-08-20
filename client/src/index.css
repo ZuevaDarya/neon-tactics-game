@@ -1,0 +1,106 @@
+:root {
+  --color-cyan-50: oklch(97.692% 0.01164 197.493);
+  --color-cyan-100: oklch(95.6% 0.045 203.388);
+  --color-cyan-300: oklch(86.5% 0.127 207.078);
+  --color-cyan-400: oklch(78.9% 0.154 211.53);
+  --color-cyan-500: oklch(71.5% 0.143 215.221);
+  --color-cyan-600: oklch(60.9% 0.126 221.723);
+  --color-cyan-700: oklch(52% 0.105 223.128);
+  --color-pink-300: oklch(82.3% 0.12 346.018);
+  --color-pink-400: oklch(71.8% 0.202 349.761);
+  --color-pink-500: oklch(65.6% 0.241 354.308);
+  --color-pink-600: oklch(59.2% 0.249 0.584);
+  --color-pink-700: oklch(52.5% 0.223 3.958);
+  --color-slate-50: oklch(98.4% 0.003 247.858);
+  --color-slate-100: oklch(96.8% 0.007 247.896);
+  --color-slate-500: oklch(55.4% 0.046 257.417);
+  --color-slate-600: oklch(44.6% 0.043 257.281);
+  --color-slate-700: oklch(37.2% 0.044 257.287);
+  --color-slate-800: oklch(27.9% 0.041 260.031);
+  --color-slate-900: oklch(20.8% 0.042 265.755);
+  --color-black: #000;
+  --color-white: #fff;
+  --color-gray: oklch(68.949% 0.00008 271.152);
+
+  --hover-color-pink-300: oklch(82.3% 0.12 346.018 / 0.4);
+  --hover-color-cyan-300: oklch(86.5% 0.127 207.078 / 0.4);
+  --btn-hover-color-cyan: oklch(46.497% 0.0875 224.977);
+  --btn-hover-color-pink: oklch(48.926% 0.19673 4.575);
+
+  --radius: 0.5rem;
+  --cell-size: 20px;
+  --background-cell-color: oklch(52% 0.105 223.128 / 0.05);
+  --main-box-shadow: 0 0 50px oklch(52% 0.105 223.128 / 0.3);
+
+  --font-orbitron: "Orbitron", monospace;
+  --font-dm-sans: "DM Sans", sans-serif;
+  --font-exo-2: "Exo 2", monospace;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --base-transition: all 0.5s ease;
+
+  --spacing: 0.25rem;
+  --base-viewport-size: 1520;
+
+  /* Желаемый line-height для размера шрифта */
+  --text-12px--line-height-ratio: 1rem;
+  --text-14px--line-height-ratio: 1.25rem;
+  --text-16px--line-height-ratio: 1.5rem;
+  --text-18px--line-height-ratio: 1.75rem;
+  --text-30px--line-height-ratio: 2.25rem;
+}
+
+body {
+  background-color: var(--color-cyan-50);
+  background-image: linear-gradient(var(--background-cell-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--background-cell-color) 1px, transparent 1px);
+  background-size: var(--cell-size) var(--cell-size);
+}
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("./assets/fonts/orbitron/Orbitron-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("./assets/fonts/orbitron/Orbitron-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("./assets/fonts/dm-sans/DMSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("./assets/fonts/dm-sans/DMSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Exo 2";
+  src: url("./assets/fonts/exo-2/Exo2-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Exo 2";
+  src: url("./assets/fonts/exo-2/Exo2-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,0 +1,26 @@
+.form__section {
+  margin-block: 5px;
+}
+.section {
+}
+.section__title {
+  --lineHeightRatio: var(--text-16px--line-height-ratio);
+  --minFontSize: 14px;
+  --maxFontSize: 20px;
+  --recommendFontSize: 16;
+
+  text-align: center;
+  font-family: var(--font-exo-2);
+  color: var(--color-slate-600);
+}
+
+.form__items {
+  margin-top: 20px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}

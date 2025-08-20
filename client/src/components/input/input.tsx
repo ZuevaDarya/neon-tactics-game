@@ -1,17 +1,17 @@
 import { cva, VariantProps } from "class-variance-authority";
-import clsx from "clsx";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
-import "./input.scss";
+import mx from "../../mixins.module.css";
+import cn from "../../utils/functions/cn";
+import st from "./input.module.css";
 
-const inputVariants = cva("input", {
+const inputVariants = cva(st.input, {
   variants: {
     variant: {
-      default: "input_default",
-      disabled: "input_disabled"
+      cyan: st["input--cyan"],
+      pink: st["input--pink"],
+      cyanDisabled: st["input--cyan-disabled"],
+      pinkDisabled: st["input--pink-disabled"],
     },
-  },
-  defaultVariants: {
-    variant: "default",
   },
 });
 
@@ -23,7 +23,7 @@ export type TInputProps<T extends FieldValues> = VariantProps<typeof inputVarian
 function Input<T extends FieldValues>({ variant, register, required, ...props }: TInputProps<T>) {
   return (
     <input
-      className={clsx(inputVariants({ variant }))}
+      className={cn(mx["responsiveFont"], inputVariants({ variant }))}
       {...register(props.name, { required, maxLength: 30 })}
       {...props}
     />

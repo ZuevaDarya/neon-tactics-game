@@ -1,0 +1,95 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  line-height: 1.5;
+}
+
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(ul[class]) {
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(h1, h2, h3, h4, h5, h6, p):where([class]) {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+:where(a, a:hover, a:link, a:visited):where([class]) {
+  text-decoration: none;
+}
+
+input,
+textarea,
+button,
+select {
+  font: inherit;
+  background-color: transparent;
+  color: inherit;
+  border: none;
+}
+
+button,
+input[type="submit"] {
+  display: inline-block;
+  box-shadow: none;
+  background-color: transparent;
+  background: none;
+  cursor: pointer;
+}
+
+input:focus,
+input:active,
+button:focus,
+button:active {
+  outline: none;
+}
+
+input[type="file"] {
+  max-width: 100%;
+}
+
+address {
+  font-style: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

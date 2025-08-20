@@ -1,0 +1,14 @@
+.form-item {
+  --lineHeightRatio: var(--text-16px--line-height-ratio);
+  --minFontSize: 14px;
+  --maxFontSize: 20px;
+  --recommendFontSize: 16;
+
+  text-transform: uppercase;
+  color: var(--color-black);
+  font-family: var(--font-exo-2);
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

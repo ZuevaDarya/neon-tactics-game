@@ -1,14 +1,15 @@
 import { cva, VariantProps } from "class-variance-authority";
-import clsx from "clsx";
-import "./button.scss";
+import mx from "../../mixins.module.css";
+import cn from "../../utils/functions/cn";
+import st from "./button.module.css";
 
-const buttonVariants = cva("button", {
+const buttonVariants = cva(st.button, {
   variants: {
     variant: {
-      default: "button_default",
-      started: "button_started",
-      btnForAdd: "add-button",
-      disabled: "button_disabled",
+      default: st["button--gray"],
+      cyan: st["button--cyan"],
+      pink: st["button--pink"],
+      closedCyan: [st["button--closed"], st["button--closed-cyan"]],
     },
   },
   defaultVariants: {
@@ -20,7 +21,7 @@ type TButton = VariantProps<typeof buttonVariants> & React.ButtonHTMLAttributes<
 
 function Button({ variant, children, className, ...props }: TButton) {
   return (
-    <button {...props} className={clsx(buttonVariants({ variant }), className)}>
+    <button {...props} className={cn(mx["responsiveFont"], buttonVariants({ variant }), className)}>
       {children}
     </button>
   );

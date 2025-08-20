@@ -1,0 +1,8 @@
+.responsiveFont {
+  font-size: clamp(
+    var(--minFontSize),
+    calc(var(--recommendFontSize) / var(--base-viewport-size) * 100vw),
+    var(--maxFontSize)
+  );
+  line-height: calc(var(--lineHeightRatio) / 1em);
+}

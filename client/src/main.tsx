@@ -5,8 +5,8 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
-import "./index.scss";
-import "./reset.scss";
+import "./index.css";
+import "./reset.css";
 import { store } from "./services/store.ts";
 
 createRoot(document.getElementById("root")!).render(

@@ -6,6 +6,7 @@
   --color-cyan-500: oklch(71.5% 0.143 215.221);
   --color-cyan-600: oklch(60.9% 0.126 221.723);
   --color-cyan-700: oklch(52% 0.105 223.128);
+  --color-pink-50: oklch(100% 0.00011 271.152);
   --color-pink-300: oklch(82.3% 0.12 346.018);
   --color-pink-400: oklch(71.8% 0.202 349.761);
   --color-pink-500: oklch(65.6% 0.241 354.308);
@@ -26,6 +27,14 @@
   --hover-color-cyan-300: oklch(86.5% 0.127 207.078 / 0.4);
   --btn-hover-color-cyan: oklch(46.497% 0.0875 224.977);
   --btn-hover-color-pink: oklch(48.926% 0.19673 4.575);
+
+  --color-red-dark: oklch(0.334 0.133 28.586);
+  --color-red: oklch(0.49 0.2 29);
+  --color-red-light: oklch(0.73 0.16 21.74);
+
+  --color-green-dark: oklch(0.32 0.11 142.49);
+  --color-green: oklch(0.51 0.17685 142.511);
+  --color-green-light: oklch(0.83 0.07448 144.93);
 
   --radius: 0.5rem;
   --cell-size: 20px;
@@ -48,6 +57,9 @@
   --text-16px--line-height-ratio: 1.5rem;
   --text-18px--line-height-ratio: 1.75rem;
   --text-30px--line-height-ratio: 2.25rem;
+
+  --header-height: clamp(40px, calc(50 * 100vw / var(--base-viewport-size)), 60px);
+  --piece-size: clamp(80px, calc(120 * 100vw / var(--base-viewport-size)), 140px);
 }
 
 body {
@@ -55,6 +67,7 @@ body {
   background-image: linear-gradient(var(--background-cell-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--background-cell-color) 1px, transparent 1px);
   background-size: var(--cell-size) var(--cell-size);
+  font-family: var(--font-orbitron);
 }
 
 @font-face {

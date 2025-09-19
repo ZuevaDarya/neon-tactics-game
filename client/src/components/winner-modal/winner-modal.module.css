@@ -1,0 +1,22 @@
+.winner-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 15px;
+  height: 100%;
+}
+
+.winner-modal__title {
+  --minFontSize: 22px;
+  --maxFontSize: 28px;
+  --recommendFontSize: 26;
+  --lineHeightRatio: var(--text-18px--line-height-ratio);
+}
+
+.winner-modal__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}

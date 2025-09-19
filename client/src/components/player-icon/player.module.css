@@ -1,0 +1,29 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 5px 10px;
+  border-radius: var(--radius);
+
+  background-color: var(--color-white);
+  color: var(--textColor);
+}
+
+.player__name {
+  --minFontSize: 16px;
+  --maxFontSize: 20px;
+  --recommendFontSize: 18;
+  --lineHeightRatio: var(--text-18px--line-height-ratio);
+
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold);
+}
+
+.player--cyan {
+  --textColor: var(--color-cyan-700);
+}
+
+.player--pink {
+  --textColor: var(--color-pink-500);
+}

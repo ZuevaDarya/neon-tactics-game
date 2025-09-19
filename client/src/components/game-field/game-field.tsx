@@ -13,7 +13,7 @@ import { TGameFieldPiece } from "../../types/services-types";
 import isWin from "../../utils/functions/is-win";
 import Card from "../card/card";
 import GamePiece from "../game-piece/game-piece";
-import "./game-field.scss";
+import st from "./game-field.module.css";
 
 function GameField() {
   const dispatch = useAppDispatch();
@@ -49,7 +49,7 @@ function GameField() {
 
   return (
     <>
-      <div className="game-field">
+      <div className={st["game-field"]}>
         {field.map((card, idx) => {
           if ("types" in card) {
             return <Card key={card.id} card={card} cardIdx={idx} onDrop={handleDrop} />;

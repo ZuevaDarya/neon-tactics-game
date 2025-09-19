@@ -2,6 +2,7 @@ import React from "react";
 import { FieldValues } from "react-hook-form";
 import { TInputProps } from "../components/input/input";
 import { CardType } from "../constants/card-types";
+import { PieceType } from "../constants/piece-type";
 import { TGameFieldPiece, TPlayer } from "./services-types";
 
 export type TCardTypes = [CardType, CardType];
@@ -18,7 +19,7 @@ export type TCardProps = {
   onDrop?: (cardIdx: number, piece: TGameFieldPiece) => Promise<void>;
 };
 
-export type TPieceTypes = "red" | "black";
+export type TPieceTypes = `${PieceType}`;
 
 export type TGamePieceProps = {
   type: TPieceTypes;
@@ -38,6 +39,7 @@ export type TPlayerBlockProps = {
 
 export type TPlayerIconProps = TAvatarProps & {
   name: string;
+  type?: TPieceTypes;
 };
 
 export type TModalOverlayProps = {

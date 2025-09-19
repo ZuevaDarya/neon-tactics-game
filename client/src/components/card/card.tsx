@@ -5,8 +5,9 @@ import { LOCKED_CARDS_IDX } from "../../constants/game-constants";
 import { useAppSelector } from "../../services/store";
 import { TCardProps } from "../../types/components-types";
 import { TGameFieldPiece } from "../../types/services-types";
+import cn from "../../utils/functions/cn";
 import isAvailableCard from "../../utils/functions/is-available-card";
-import "./card.scss";
+import st from "./card.module.css";
 
 function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
   const { targetCard, countTurn } = useAppSelector((state) => state.game);
@@ -40,13 +41,23 @@ function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
     </>
   );
 
-  if (!card) return <div className="card_empty" />;
+  if (!card) return <div className={cn(st.card, st["card--empty"])} />;
   if (isTargetCard || isLocked || !(isAvailable || countTurn === 0)) {
-    return <div className={`card ${isLocked ? "card_locked" : ""}`}>{renderCardContent()}</div>;
+    return (
+      <div
+        className={cn(
+          st.card,
+          isLocked && st["card--locked"],
+          isTargetCard && st["card--targeted"]
+        )}
+      >
+        {renderCardContent()}
+      </div>
+    );
   }
 
   return dropTarget(
-    <div className={`card ${isPieceMoving ? "card_available" : ""}`}>{renderCardContent()}</div>
+    <div className={cn(st.card, isPieceMoving && st["card--available"])}>{renderCardContent()}</div>
   );
 }
 

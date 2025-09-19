@@ -1,0 +1,21 @@
+.player-block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(15px, calc(20 * 100vw / var(--base-viewport-size)), 20px);
+  padding: clamp(10px, calc(20 * 100vw / var(--base-viewport-size)), 20px);
+  border-radius: var(--radius);
+
+  filter: drop-shadow( 0 0 10px var(--shadowColor));
+  background-color: var(--backgroundColor);
+}
+
+.player-block--cyan {
+  --shadowColor: var(--color-cyan-500);
+  --backgroundColor: var(--color-cyan-700);
+}
+
+.player-block--pink {
+  --shadowColor: var(--color-pink-500);
+  --backgroundColor: var(--color-pink-700);
+}

@@ -1,16 +1,29 @@
 import useActivePlayer from "../../hooks/use-active-player";
+import mx from "../../mixins.module.css";
 import { useAppSelector } from "../../services/store";
+import cn from "../../utils/functions/cn";
 import Card from "../card/card";
-import "./game-state-panel.scss";
+import st from "./game-state-panel.module.css";
 
 function GameStatePanel() {
   const targetCard = useAppSelector((state) => state.game.targetCard);
   const { activePlayer } = useActivePlayer();
 
   return (
-    <div className="state-panel">
+    <div className={cn(st["state-panel"])}>
       {targetCard ? <Card card={targetCard} isTargetCard={true} /> : <Card />}
-      <p>Ход игрока: {activePlayer?.name}</p>
+      <p className={cn(st.text, mx["responsiveFont"])}>
+        Ход:
+        <span
+          className={cn(
+            st["name"],
+            activePlayer && st[`name--${activePlayer.pieceType}`],
+            st["text__name"]
+          )}
+        >
+          {activePlayer?.name}
+        </span>
+      </p>
     </div>
   );
 }

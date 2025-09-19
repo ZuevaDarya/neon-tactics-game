@@ -1,19 +1,28 @@
 import { TPlayerBlockProps } from "../../types/components-types";
+import cn from "../../utils/functions/cn";
 import GamePieceBlock from "../game-piece-block/game-piece-block";
-import PlayerIcon from "../player-icon/player-icon";
-import "./player-block.scss";
+import Player from "../player-icon/player";
+import st from "./player-block.module.css";
 
 function PlayerBlock({ player, position }: TPlayerBlockProps) {
   return (
-    <div className="player-block">
+    <div className={cn(st["player-block"], st[`player-block--${player.pieceType}`])}>
       {position === "left" && (
-        <PlayerIcon src={`/assets/images/j-${player.pieceType}-1.png`} name={player.name} />
+        <Player
+          src={`/assets/images/female-cyborg-1.png`}
+          name={player.name}
+          type={player.pieceType || undefined}
+        />
       )}
       {player.pieceType && (
         <GamePieceBlock countPieces={player.countPiece} type={player.pieceType} />
       )}
       {position === "right" && (
-        <PlayerIcon src={`/assets/images/j-${player.pieceType}-1.png`} name={player.name} />
+        <Player
+          src={`/assets/images/fairy.png`}
+          name={player.name}
+          type={player.pieceType || undefined}
+        />
       )}
     </div>
   );

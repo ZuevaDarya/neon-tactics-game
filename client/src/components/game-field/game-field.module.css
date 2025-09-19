@@ -4,5 +4,4 @@
   grid-template-rows: repeat(4, 1fr);
   justify-content: stretch;
   gap: 10px;
-  max-width: 600px;
 }

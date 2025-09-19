@@ -1,4 +1,5 @@
 import { AppRoute } from "../../constants/app-route";
+import mx from "../../mixins.module.css";
 import { redirectPlayers } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
@@ -9,10 +10,11 @@ import {
   shuffleField,
 } from "../../services/thunks";
 import { TWinnerModalProps } from "../../types/components-types";
+import cn from "../../utils/functions/cn";
 import Button from "../button/button";
 import Modal from "../modal/modal";
-import PlayerIcon from "../player-icon/player-icon";
-import "./winner-modal.scss";
+import Player from "../player-icon/player";
+import st from "./winner-modal.module.css";
 
 function WinnerModal({ winner }: TWinnerModalProps) {
   const dispatch = useAppDispatch();
@@ -42,14 +44,14 @@ function WinnerModal({ winner }: TWinnerModalProps) {
 
   return (
     <Modal>
-      <div className="winner-modal">
-        <h1 className="winner-modal__title">Победа!</h1>
-        <PlayerIcon src={`/assets/images/j-${winner.pieceType}-1.png`} name={winner.name} />
-        <div className="winner-modal__buttons">
-          <Button type="button" variant="started" onClick={handleClickPlayBtn}>
+      <div className={st["winner-modal"]}>
+        <h1 className={cn(st["winner-modal__title"], mx["responsiveFont"])}>Победа!</h1>
+        <Player src="/assets/images/goblin.png" name={winner.name} />
+        <div className={st["winner-modal__buttons"]}>
+          <Button type="button" variant="cyan" onClick={handleClickPlayBtn}>
             Сыграть еще раз
           </Button>
-          <Button type="button" variant="default" onClick={handleClickExitBtn}>
+          <Button type="button" variant="pink" onClick={handleClickExitBtn}>
             Выход
           </Button>
         </div>

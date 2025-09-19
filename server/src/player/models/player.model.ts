@@ -75,7 +75,7 @@ export class Player extends Model {
   declare countPiece: number;
 
   @Column({
-    type: DataType.ENUM(PieceType.Red, PieceType.Black),
+    type: DataType.ENUM(PieceType.Cyan, PieceType.Pink),
     allowNull: true,
     defaultValue: null,
     comment: 'Тип фишки игрока',

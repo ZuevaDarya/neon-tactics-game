@@ -69,12 +69,12 @@ export class PlayerRoomService {
 
       const player1 = await this.playerService.update(
         room.creatorId,
-        { pieceType: random === 0 ? PieceType.Red : PieceType.Black },
+        { pieceType: random === 0 ? PieceType.Cyan : PieceType.Pink },
         { transaction },
       );
       const player2 = await this.playerService.update(
         room.playerId,
-        { pieceType: random === 0 ? PieceType.Black : PieceType.Red },
+        { pieceType: random === 0 ? PieceType.Pink : PieceType.Cyan },
         { transaction },
       );
 

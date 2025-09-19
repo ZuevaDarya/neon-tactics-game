@@ -1,4 +1,4 @@
 export enum PieceType {
-  Red = "red",
-  Black = "black",
+  Cyan = "cyan",
+  Pink = "pink",
 }

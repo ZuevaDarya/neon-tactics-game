@@ -1,0 +1,22 @@
+.game-piece {
+  width: var(--piece-size);
+  height: var(--piece-size);
+  background-position: center;
+  background-size: 110%;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 10px var(--shadowColor));
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.game-piece--cyan {
+  --shadowColor: var(--color-cyan-600);
+  background-image: url("../../assets/images/piece-cyan.png");
+}
+
+.game-piece--pink {
+  --shadowColor: var(--color-pink-600);
+  background-image: url("../../assets/images/piece-pink.png");
+}

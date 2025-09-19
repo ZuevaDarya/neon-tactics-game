@@ -1,12 +1,14 @@
+import mx from "../../mixins.module.css";
 import { TGamePieceBlockProps } from "../../types/components-types";
+import cn from "../../utils/functions/cn";
 import GamePiece from "../game-piece/game-piece";
-import "./game-piece-block.scss";
+import st from "./game-piece-block.module.css";
 
 function GamePieceBlock({ countPieces, type }: TGamePieceBlockProps) {
   return (
-    <div className="game-piece-container">
+    <div className={st["piece-container"]}>
       <GamePiece type={type} isDraggible={true} />
-      <span>Осталось: {countPieces}</span>
+      <span className={cn(st.text, st[`text--${type}`], mx["responsiveFont"])}>Осталось: {countPieces}</span>
     </div>
   );
 }

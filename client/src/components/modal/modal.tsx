@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { TModalProps } from "../../types/components-types";
-import CloseBtn from "../close-btn/close-btn";
+import Button from "../button/button";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import "./modal.scss";
+import st from "./modal.module.css";
 
 const modalRoot = document.getElementById("modals") as HTMLElement;
 
@@ -26,8 +26,10 @@ function Modal({ children, onClose }: TModalProps) {
   return createPortal(
     <>
       <ModalOverlay onClose={onClose} />
-      <div className="modal">
-        <div className="modal__header">{onClose && <CloseBtn onClick={onClose} />}</div>
+      <div className={st.modal}>
+        <div className={st["modal__header"]}>
+          {onClose && <Button variant="closedCyan" onClick={onClose} />}
+        </div>
         {children}
       </div>
     </>,

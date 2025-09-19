@@ -1,5 +1,5 @@
 import { TModalOverlayProps } from "../../types/components-types";
-import "./modal-overlay.scss";
+import st from "./modal-overlay.module.css";
 
 function ModalOverlay({ onClose }: TModalOverlayProps) {
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -11,7 +11,7 @@ function ModalOverlay({ onClose }: TModalOverlayProps) {
     }
   };
 
-  return <div className="modal-overlay" onClick={handleClick} />;
+  return <div className={st["modal-overlay"]} onClick={handleClick} />;
 }
 
 export default ModalOverlay;

@@ -11,7 +11,7 @@ function StartPage() {
   const { isWaiting, isPlayersJoined } = useRoomStatus();
 
   return (
-    <div className={st["start-page-wrapper"]}>
+    <main className={st["start-page-wrapper"]}>
       <h1 className={cn(st.title, st["title--upperline"], mx["responsiveFont"])}>
         NEON_TACTICS.EXE
       </h1>
@@ -27,7 +27,7 @@ function StartPage() {
           <FormJoinRoom />
         </Tab>
       </Tabs>
-    </div>
+    </main>
   );
 }
 

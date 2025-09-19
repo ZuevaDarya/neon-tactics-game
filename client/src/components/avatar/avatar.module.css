@@ -1,0 +1,10 @@
+.avatar {
+  width: clamp(100px, calc(150 * 100vw / var(--base-viewport-size)), 200px);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.avatar__img {
+  width: 100%;
+  object-fit: cover;
+}

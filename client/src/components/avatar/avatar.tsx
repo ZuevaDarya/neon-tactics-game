@@ -1,10 +1,10 @@
 import { TAvatarProps } from "../../types/components-types";
-import "./avatar.scss";
+import st from "./avatar.module.css";
 
 function Avatar({ src }: TAvatarProps) {
   return (
-    <div className="avatar-block">
-      <img className="avatar-block__img" src={src} alt="avatar" />
+    <div className={st.avatar}>
+      <img className={st["avatar__img"]} src={src} alt="avatar" />
     </div>
   );
 }

@@ -4,7 +4,8 @@ import uuid from "react-uuid";
 import { SessionStorageKey } from "../../constants/storage-keys";
 import useActivePlayer from "../../hooks/use-active-player";
 import { TGamePieceProps } from "../../types/components-types";
-import "./game-piece.scss";
+import st from "./game-piece.module.css";
+import cn from '../../utils/functions/cn';
 
 function GamePiece({ type, isDraggible }: TGamePieceProps) {
   const { activePlayer } = useActivePlayer();
@@ -19,9 +20,9 @@ function GamePiece({ type, isDraggible }: TGamePieceProps) {
   });
 
   return activePlayer && activePlayer.pieceType === type && isDraggible ? (
-    drag(<div className={`game-piece game-piece_${type}`} />)
+    drag(<div className={cn(st["game-piece"], st[`game-piece--${type}`])} />)
   ) : (
-    <div className={`game-piece game-piece_${type}`} />
+    <div className={cn(st["game-piece"], st[`game-piece--${type}`])} />
   );
 }
 

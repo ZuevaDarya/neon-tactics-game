@@ -1,0 +1,63 @@
+.card {
+  width: var(--piece-size);
+  height: var(--piece-size);
+  padding: 5px;
+  border-radius: var(--radius);
+  background-color: var(--backgroundColor, var(--color-white));
+  border: 1px var(--borderType) var(--borderColor, var(--color-black));
+  box-shadow: 0 0 5px var(--shadowColor);
+
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-weight: var(--font-weight-bold);
+  color: var(--textColor, var(--color-black));
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:nth-child(2n) {
+    --borderType: solid;
+    --borderColor: var(--color-cyan-500);
+    --shadowColor: var(--color-cyan-500);
+  }
+
+  &:nth-child(2n + 1) {
+    --borderType: solid;
+    --borderColor: var(--color-pink-500);
+    --shadowColor: var(--color-pink-500);
+  }
+}
+
+.card.card--empty {
+  --borderType: dashed;
+  --borderColor: var(--color-red);
+  --shadowColor: transparent;
+}
+
+.card.card--available {
+  --borderColor: var(--color-green);
+  --borderType: solid;
+  --backgroundColor: var(--color-green-light);
+  --shadowColor: var(--color-green-dark);
+  --textColor: var(--color-green);
+}
+
+.card.card--locked {
+  --borderColor: var(--color-red);
+  --borderType: solid;
+  --backgroundColor: var(--color-red-light);
+  --shadowColor: transparent;
+  --textColor: var(--color-red-dark);
+}
+
+.card.card--targeted {
+  --borderType: dashed;
+  --borderColor: var(--color-cyan-700);
+  --shadowColor: transparent;
+}

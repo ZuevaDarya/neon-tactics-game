@@ -35,3 +35,7 @@
   --backgroundColor: var(--color-pink-600);
   --textColor: var(--color-white);
 }
+
+.tab__content {
+  width: 100%;
+}

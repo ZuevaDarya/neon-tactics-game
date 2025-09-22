@@ -39,4 +39,8 @@ export class UpdatePlayerDTO {
   @IsOptional()
   @IsBoolean()
   isCreator?: boolean;
+
+  @IsOptional()
+  @IsString()
+  avatarPath?: string;
 }

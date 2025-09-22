@@ -1,6 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TransactionOptions } from 'sequelize';
+import { AvatarService } from 'src/utils/services/avatar.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';
 import { Player } from './models/player.model';
@@ -10,6 +16,8 @@ export class PlayerService {
   constructor(
     @InjectModel(Player)
     private readonly playerModel: typeof Player,
+    @Inject(forwardRef(() => AvatarService))
+    private readonly avatarService: AvatarService,
   ) {}
 
   async create(
@@ -66,8 +74,18 @@ export class PlayerService {
 
   async deleteById(id: string, options?: TransactionOptions): Promise<Player> {
     const player = await this.findById(id, options);
-    await player.destroy(options);
 
+    if (player.avatarPath && player.roomId) {
+      const avatarName = this.avatarService.getAvatarNameFromPath(
+        player.avatarPath,
+      );
+
+      if (avatarName) {
+        this.avatarService.removeAvatarFromRoom(player.roomId, avatarName);
+      }
+    }
+
+    await player.destroy(options);
     return player;
   }
 
@@ -94,5 +112,19 @@ export class PlayerService {
       { countPiece: player.countPiece - 1 },
       { ...options },
     );
+  }
+
+  async assignAvatarToPlayer(
+    playerId: string,
+    roomId: string,
+    options?: TransactionOptions,
+  ): Promise<Player> {
+    const avatarPath = this.avatarService.getUniqueAvatarPathForRoom(roomId);
+
+    if (!avatarPath) {
+      throw new Error('No available avatars in room');
+    }
+
+    return await this.update(playerId, { avatarPath }, { ...options });
   }
 }

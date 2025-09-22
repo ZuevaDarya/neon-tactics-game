@@ -100,4 +100,13 @@ export class Player extends Model {
     field: 'is_creator',
   })
   declare isCreator: boolean;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+    defaultValue: null,
+    comment: 'Путь к аватару игрока',
+    field: 'avatar_path',
+  })
+  declare avatarPath: string | null;
 }

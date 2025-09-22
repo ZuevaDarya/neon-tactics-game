@@ -3,6 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { GameModule } from 'src/game/game.module';
 import { RoomModule } from 'src/room/room.module';
 import { SocketModule } from 'src/socket/socket.module';
+import { AvatarService } from 'src/utils/services/avatar.service';
 import { TransactionService } from 'src/utils/services/transaction.service';
 import { Player } from './models/player.model';
 import { PlayerRoomService } from './player-room.service';
@@ -16,8 +17,13 @@ import { PlayerService } from './player.service';
     forwardRef(() => GameModule),
     SocketModule,
   ],
-  providers: [PlayerService, PlayerRoomService, TransactionService],
+  providers: [
+    PlayerService,
+    PlayerRoomService,
+    TransactionService,
+    AvatarService,
+  ],
   controllers: [PlayerController],
-  exports: [PlayerService],
+  exports: [PlayerService, PlayerRoomService, AvatarService],
 })
 export class PlayerModule {}

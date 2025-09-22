@@ -4,6 +4,7 @@ import { PieceType } from 'src/constants/piece-type';
 import { GameService } from 'src/game/game.service';
 import { RoomService } from 'src/room/room.service';
 import { TResetRameResponse } from 'src/types/types';
+import { AvatarService } from 'src/utils/services/avatar.service';
 import { TransactionService } from 'src/utils/services/transaction.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { JoinRoomDTO } from './dto/join-room.dto';
@@ -21,6 +22,8 @@ export class PlayerRoomService {
     private readonly gameService: GameService,
     @Inject(forwardRef(() => TransactionService))
     private readonly transactionService: TransactionService,
+    @Inject(forwardRef(() => AvatarService))
+    private readonly avatarService: AvatarService,
   ) {}
 
   async createWithRoom(playerData: CreatePlayerDTO) {
@@ -40,6 +43,10 @@ export class PlayerRoomService {
         { transaction },
       );
 
+      await this.playerService.assignAvatarToPlayer(player.id, room.id, {
+        transaction,
+      });
+
       return { player, room };
     });
   }
@@ -56,6 +63,10 @@ export class PlayerRoomService {
         { roomId: room.id },
         { transaction },
       );
+
+      await this.playerService.assignAvatarToPlayer(player.id, room.id, {
+        transaction,
+      });
 
       return { player, room };
     });

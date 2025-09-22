@@ -46,7 +46,7 @@ function WinnerModal({ winner }: TWinnerModalProps) {
     <Modal>
       <div className={st["winner-modal"]}>
         <h1 className={cn(st["winner-modal__title"], mx["responsiveFont"])}>Победа!</h1>
-        <Player src="/assets/images/goblin.png" name={winner.name} />
+        <Player src={winner.avatarPath || ""} name={winner.name} />
         <div className={st["winner-modal__buttons"]}>
           <Button type="button" variant="cyan" onClick={handleClickPlayBtn}>
             Сыграть еще раз

@@ -30,6 +30,7 @@ export type TPlayer = {
   roomId: string | null;
   isActive: boolean;
   isCreator: boolean;
+  avatarPath: string | null;
 };
 
 export type TPlayersState = {

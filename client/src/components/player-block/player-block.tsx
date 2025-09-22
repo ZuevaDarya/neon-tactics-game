@@ -9,7 +9,7 @@ function PlayerBlock({ player, position }: TPlayerBlockProps) {
     <div className={cn(st["player-block"], st[`player-block--${player.pieceType}`])}>
       {position === "left" && (
         <Player
-          src={`/assets/images/female-cyborg-1.png`}
+          src={player.avatarPath || ""}
           name={player.name}
           type={player.pieceType || undefined}
         />
@@ -19,7 +19,7 @@ function PlayerBlock({ player, position }: TPlayerBlockProps) {
       )}
       {position === "right" && (
         <Player
-          src={`/assets/images/fairy.png`}
+          src={player.avatarPath || ""}
           name={player.name}
           type={player.pieceType || undefined}
         />

@@ -84,6 +84,10 @@ export type TWinnerModalProps = Pick<TModalProps, "onClose"> & {
   winner: TPlayer;
 };
 
+export type TNotificationModalProps = Pick<TModalProps, "onClose"> & {
+  children: string;
+};
+
 export type TFormProps = {
   children: React.ReactNode;
 } & React.FormHTMLAttributes<HTMLFormElement>;

@@ -52,8 +52,8 @@
 .button--closed {
   position: relative;
 
-  width: 20px;
-  height: 20px;
+  width: clamp(20px, calc(30 * 100vw / var(--base-viewport-size)), 40px);
+  height: clamp(20px, calc(30 * 100vw / var(--base-viewport-size)), 40px);
   box-shadow: 0 0 4px var(--closeIconColor);
 
   &::before,

@@ -1,5 +1,5 @@
 export const BASE_URL = "http://localhost:3000";
-export const DEV_URL = "http://192.168.0.115:3000";
+export const DEV_URL = "http://192.168.0.100:3000";
 
 export const API_PATHS = {
   rooms: "/rooms",
@@ -19,4 +19,5 @@ export const API_PATHS = {
   resetGame: "/reset-game",
   shuffleField: "/shuffle-field",
   leaveGame: "/leave-game",
+  field: "/field",
 };

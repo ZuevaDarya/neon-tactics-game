@@ -14,6 +14,7 @@ import {
   TRejectValue,
   TResetRameResponse,
   TRoomResponse,
+  TUpdateFieldElement,
   TUpdateGame,
   TUpdateGameResponse,
   TUpdateRoomStatus,
@@ -341,5 +342,20 @@ export const leaveGame = createAsyncThunk<void, TBaseRoomParam>(
     };
 
     return await request(`${API_PATHS.game}/${id}${API_PATHS.leaveGame}`, options);
+  }
+);
+
+export const updateFieldElement = createAsyncThunk<TUpdateGameResponse, TUpdateFieldElement>(
+  `${SliceNamespace.Game}/updateFieldElement`,
+  async ({ roomId, ...data }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    };
+
+    return await request(`${API_PATHS.game}/${roomId}${API_PATHS.field}`, options);
   }
 );

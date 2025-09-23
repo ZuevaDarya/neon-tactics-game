@@ -111,3 +111,10 @@ export type TResetRameResponse = {
   room: TRoomBase;
   game: TCreateGameResponse;
 };
+
+export type TUpdateFieldElement = {
+  roomId: string;
+  playerId: string;
+  pieceIdx: number;
+  piece: TGameFieldPiece;
+};

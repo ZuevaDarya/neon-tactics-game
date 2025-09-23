@@ -1,10 +1,15 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { DEFAULT_PIECE_COUNT } from 'src/constants/game-constants';
 import { PieceType } from 'src/constants/piece-type';
+import { UpdateFieldElementDTO } from 'src/game/dto/update-field-element.dto';
 import { GameService } from 'src/game/game.service';
 import { RoomService } from 'src/room/room.service';
 import { TResetRameResponse } from 'src/types/types';
-import { AvatarService } from 'src/utils/services/avatar.service';
 import { TransactionService } from 'src/utils/services/transaction.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { JoinRoomDTO } from './dto/join-room.dto';
@@ -22,8 +27,6 @@ export class PlayerRoomService {
     private readonly gameService: GameService,
     @Inject(forwardRef(() => TransactionService))
     private readonly transactionService: TransactionService,
-    @Inject(forwardRef(() => AvatarService))
-    private readonly avatarService: AvatarService,
   ) {}
 
   async createWithRoom(playerData: CreatePlayerDTO) {
@@ -182,6 +185,31 @@ export class PlayerRoomService {
       await this.playerService.deleteById(player2.id, { transaction });
       await this.gameService.deleteByRoomId(roomId, { transaction });
       await this.roomService.deleteById(roomId, { transaction });
+    });
+  }
+
+  async updateFieldElementWithCheckPlayer(
+    roomId: string,
+    data: UpdateFieldElementDTO,
+  ) {
+    return this.transactionService.useTransaction(async (transaction) => {
+      const player = await this.playerService.findById(data.playerId, {
+        transaction,
+      });
+
+      if (player.roomId !== roomId) {
+        throw new NotFoundException(
+          `Player ${player.name} is not in room ${roomId}`,
+        );
+      }
+
+      if (!player.isActive) {
+        throw new NotFoundException(`Player is not active now`);
+      }
+
+      return await this.gameService.updateFieldElement(roomId, data, {
+        transaction,
+      });
     });
   }
 }

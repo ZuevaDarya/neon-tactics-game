@@ -1,0 +1,14 @@
+.notification {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.notification__text {
+  --minFontSize: 18px;
+  --maxFontSize: 26px;
+  --recommendFontSize: 24;
+  --lineHeightRatio: var(--text-18px--line-height-ratio);
+}

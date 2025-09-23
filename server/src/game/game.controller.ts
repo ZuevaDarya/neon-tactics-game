@@ -17,6 +17,7 @@ import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { PlayerRoomService } from 'src/player/player-room.service';
 import { SocketService } from 'src/socket/socket.service';
 import { CreateGameDTO } from './dto/create-game.dto';
+import { UpdateFieldElementDTO } from './dto/update-field-element.dto';
 import { UpdateGameDTO } from './dto/update-game.dto';
 import { GameService } from './game.service';
 
@@ -91,5 +92,17 @@ export class GameController {
   ) {
     await this.socketService.leaveRoom(socketId, id);
     return await this.playerRoomService.leaveGame(id);
+  }
+
+  @Patch(':roomId/field')
+  async updateFieldElement(
+    @Param('roomId') id: string,
+    @Body() data: UpdateFieldElementDTO,
+  ) {
+    const field =
+      await this.playerRoomService.updateFieldElementWithCheckPlayer(id, data);
+    this.socketService.emitToRoom(id, SocketEvent.UpdateGame, field);
+
+    return field;
   }
 }

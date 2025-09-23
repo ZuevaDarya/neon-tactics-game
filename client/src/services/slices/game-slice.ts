@@ -9,6 +9,7 @@ import {
   leaveGame,
   resetGame,
   shuffleField,
+  updateFieldElement,
   updateGame,
 } from "../thunks";
 
@@ -190,6 +191,26 @@ const gameFieldSlice = createSlice({
         state.targetCard = null;
         state.countTurn = 0;
         state.winnerId = null;
+      })
+      .addCase(updateFieldElement.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(updateFieldElement.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+        console.log(error)
+      })
+      .addCase(updateFieldElement.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+        state.field = payload.field;
+        state.targetCard = payload.targetCard;
+        state.countTurn = payload.countTurn;
+        state.winnerId = payload.winnerId;
       });
   },
 });

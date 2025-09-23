@@ -5,6 +5,7 @@ import { TCard } from 'src/types/types';
 import generateCards from 'src/utils/functions/generate-cards';
 import shuffleField from 'src/utils/functions/shuffle-field';
 import { CreateGameDTO } from './dto/create-game.dto';
+import { UpdateFieldElementDTO } from './dto/update-field-element.dto';
 import { UpdateGameDTO } from './dto/update-game.dto';
 import { Game } from './models/game.model';
 
@@ -98,6 +99,33 @@ export class GameService {
       roomId,
       { field: this.getShuffledField() },
       options,
+    );
+  }
+
+  async updateFieldElement(
+    roomId: string,
+    { piece, pieceIdx }: UpdateFieldElementDTO,
+    options?: TransactionOptions,
+  ): Promise<Game> {
+    const game = await this.findByRoomId(roomId);
+
+    if (pieceIdx < 0 || pieceIdx > game.field.length) {
+      throw new NotFoundException(`Index ${pieceIdx} is out of bounds`);
+    }
+
+    if ('type' in game.field[pieceIdx]) {
+      throw new NotFoundException(`Сan't put a piece on a piece`);
+    }
+
+    const targetCard = game.field[pieceIdx];
+    const updatedField = game.field.map((card, idx) =>
+      idx === pieceIdx ? piece : card,
+    );
+
+    return await this.update(
+      roomId,
+      { field: updatedField, targetCard },
+      { ...options },
     );
   }
 }

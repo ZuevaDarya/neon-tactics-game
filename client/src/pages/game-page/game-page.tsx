@@ -13,6 +13,7 @@ import st from "./game-page.module.css";
 function GamePage() {
   const dispatch = useAppDispatch();
   const { creator, player } = useAppSelector((state) => state.players);
+  const { gameEndType } = useAppSelector((state) => state.game);
   const { winner } = useActivePlayer();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ function GamePage() {
       <Header />
       <div className={st["game-page-wrapper"]}>
         <GameStatePanel />
-        {winner && <WinnerModal winner={winner} />}
+        {(winner || gameEndType) && <WinnerModal winner={winner} gameEndType={gameEndType} />}
         <div className={st["game-field-container"]}>
           {creator && <PlayerBlock player={creator} position="left" />}
           <GameField />

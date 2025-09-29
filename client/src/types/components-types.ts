@@ -3,7 +3,7 @@ import { FieldValues } from "react-hook-form";
 import { TInputProps } from "../components/input/input";
 import { CardType } from "../constants/card-types";
 import { PieceType } from "../constants/piece-type";
-import { TGameFieldPiece, TPlayer } from "./services-types";
+import { TGameEndTypes, TGameFieldPiece, TPlayer } from "./services-types";
 
 export type TCardTypes = [CardType, CardType];
 
@@ -81,7 +81,8 @@ export type TProtectedRoute = {
 };
 
 export type TWinnerModalProps = Pick<TModalProps, "onClose"> & {
-  winner: TPlayer;
+  winner: TPlayer | null;
+  gameEndType: TGameEndTypes | null;
 };
 
 export type TNotificationModalProps = Pick<TModalProps, "onClose"> & {
@@ -105,4 +106,9 @@ export type TTabContentProps = {
 export type TWaitingBlockProps = {
   children?: React.ReactNode | string;
   text: string;
+};
+
+export type TWinnerModalContentProps = {
+  winners: TPlayer[];
+  title: string;
 };

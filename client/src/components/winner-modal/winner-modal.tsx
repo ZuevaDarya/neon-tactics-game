@@ -1,5 +1,5 @@
 import { AppRoute } from "../../constants/app-route";
-import mx from "../../mixins.module.css";
+import { GameEndType } from "../../constants/game-end-type";
 import { redirectPlayers } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
@@ -10,15 +10,15 @@ import {
   shuffleField,
 } from "../../services/thunks";
 import { TWinnerModalProps } from "../../types/components-types";
-import cn from "../../utils/functions/cn";
 import Button from "../button/button";
 import Modal from "../modal/modal";
-import Player from "../player-icon/player";
+import WinnerModalContent from "../winner-modal-content/winner-modal-content";
 import st from "./winner-modal.module.css";
 
-function WinnerModal({ winner }: TWinnerModalProps) {
+function WinnerModal({ winner, gameEndType }: TWinnerModalProps) {
   const dispatch = useAppDispatch();
   const { id } = useAppSelector((state) => state.room);
+  const { creator, player } = useAppSelector((state) => state.players);
 
   const handleClickPlayBtn = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -45,8 +45,12 @@ function WinnerModal({ winner }: TWinnerModalProps) {
   return (
     <Modal>
       <div className={st["winner-modal"]}>
-        <h1 className={cn(st["winner-modal__title"], mx["responsiveFont"])}>Победа!</h1>
-        <Player src={winner.avatarPath || ""} name={winner.name} />
+        {winner && (gameEndType === GameEndType.Win || gameEndType === GameEndType.NoMoves) && (
+          <WinnerModalContent winners={[winner, winner]} title="Победа" />
+        )}
+        {creator && player && gameEndType === GameEndType.Draw && (
+          <WinnerModalContent winners={[creator, player]} title="Ничья" />
+        )}
         <div className={st["winner-modal__buttons"]}>
           <Button type="button" variant="cyan" onClick={handleClickPlayBtn}>
             Сыграть еще раз

@@ -1,4 +1,5 @@
 import { API_PATHS } from "../constants/api-constants";
+import { GameEndType } from "../constants/game-end-type";
 import { RoomStatus } from "../constants/room-status";
 import { TCard, TGamePieceProps, TPieceTypes } from "./components-types";
 
@@ -13,7 +14,10 @@ export type TGame = {
   winnerId: string | null;
 };
 
-export type TGameState = TGame & TThunkState;
+export type TGameState = TGame &
+  TThunkState & {
+    gameEndType: TGameEndTypes | null;
+  };
 
 export type TPreloadedState = {
   game: TGameState;
@@ -117,4 +121,20 @@ export type TUpdateFieldElement = {
   playerId: string;
   pieceIdx: number;
   piece: TGameFieldPiece;
+};
+
+export type TGameEndTypes = `${GameEndType}`;
+
+export type TGameAfterCheck = {
+  game: TCreateGameResponse;
+  endType: TGameEndTypes | null;
+};
+
+export type TGameAfterMoveItem = TGameAfterCheck & {
+  players: TPlayer[];
+  room: TRoomBase;
+};
+
+export type TUpdateGameState = TCreateGameResponse & {
+  endType?: TGameEndTypes | null;
 };

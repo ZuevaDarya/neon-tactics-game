@@ -15,17 +15,17 @@ import {
 import { SocketEvent } from 'src/constants/socket-event';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { SocketService } from 'src/socket/socket.service';
+import { GameSessionService } from '../shared-services/game-session.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { JoinRoomDTO } from './dto/join-room.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';
-import { PlayerRoomService } from './player-room.service';
 import { PlayerService } from './player.service';
 
 @Controller('players')
 export class PlayerController {
   constructor(
     private readonly playerService: PlayerService,
-    private readonly playerRoomService: PlayerRoomService,
+    private readonly gameSessionService: GameSessionService,
     private readonly socketService: SocketService,
   ) {}
 
@@ -104,7 +104,7 @@ export class PlayerController {
     @Body() playerData: CreatePlayerDTO,
     @Headers('x-socket-id') socketId: string,
   ) {
-    const data = await this.playerRoomService.createWithRoom(playerData);
+    const data = await this.gameSessionService.createWithRoom(playerData);
 
     await this.socketService.joinRoom(socketId, data.room.id, data.player.id);
     this.socketService.emitToRoom(data.room.id, SocketEvent.CreateRoom, data);
@@ -120,7 +120,7 @@ export class PlayerController {
     @Body() playerData: JoinRoomDTO,
     @Headers('x-socket-id') socketId: string,
   ) {
-    const data = await this.playerRoomService.createWithJoinInRoom(playerData);
+    const data = await this.gameSessionService.createWithJoinInRoom(playerData);
 
     await this.socketService.joinRoom(socketId, data.room.id, data.player.id);
     this.socketService.emitToRoom(data.room.id, SocketEvent.JoinRoom, data);

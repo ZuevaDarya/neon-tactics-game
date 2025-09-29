@@ -3,15 +3,8 @@ import uuid from "react-uuid";
 import useActivePlayer from "../../hooks/use-active-player";
 import useModal from "../../hooks/use-modal";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import {
-  decrementPieceCount,
-  incrementCountTurn,
-  setActivePlayer,
-  updateFieldElement,
-  updateGame,
-} from "../../services/thunks";
+import { decrementPieceCount, makePlayerMove } from "../../services/thunks";
 import { TGameFieldPiece } from "../../types/services-types";
-import isWin from "../../utils/functions/is-win";
 import translateError from "../../utils/functions/translate-error";
 import Card from "../card/card";
 import GamePiece from "../game-piece/game-piece";
@@ -31,7 +24,7 @@ function GameField() {
 
       try {
         await dispatch(
-          updateFieldElement({
+          makePlayerMove({
             roomId: id,
             playerId: activePlayer.id,
             pieceIdx: cardIdx,
@@ -39,19 +32,11 @@ function GameField() {
           })
         ).unwrap();
         await dispatch(decrementPieceCount({ id: activePlayer.id })).unwrap();
-
-        if (isWin(cardIdx, piece.type, field)) {
-          await dispatch(updateGame({ id, winnerId: activePlayer.id })).unwrap();
-          return;
-        }
-
-        await dispatch(setActivePlayer({ id })).unwrap();
-        await dispatch(incrementCountTurn({ id })).unwrap();
       } catch {
         openModal();
       }
     },
-    [activePlayer, id, dispatch, openModal, field]
+    [activePlayer, id, dispatch, openModal]
   );
 
   return (

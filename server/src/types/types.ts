@@ -1,4 +1,5 @@
 import { CardType } from 'src/constants/card-types';
+import { GameEndType } from 'src/constants/game-end-type';
 import { PieceType } from 'src/constants/piece-type';
 import { RoomStatus } from 'src/constants/room-status';
 import { SocketEvent } from 'src/constants/socket-event';
@@ -56,10 +57,22 @@ export type TGameFieldPiece = {
   type: TPieceTypes;
 };
 
-export type TGameFiled = (TCard | TGameFieldPiece)[];
+export type TGameField = (TCard | TGameFieldPiece)[];
 
 export type TResetRameResponse = {
   players: Player[];
   room: Room;
   game: Game;
+};
+
+export type TGameEndTypes = `${GameEndType}`;
+
+export type TGameAfterCheck = {
+  game: Game;
+  endType: TGameEndTypes | null;
+};
+
+export type TGameAfterMoveItem = TGameAfterCheck & {
+  players: Player[];
+  room: Room;
 };

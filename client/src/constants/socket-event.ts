@@ -19,4 +19,5 @@ export enum SocketEvent {
   ShuffleField = "shuffle_field",
   LeaveRoom = "leaved_room",
   RedirectPlayers = "redirect_players",
+  MakeMove = "make_move",
 }

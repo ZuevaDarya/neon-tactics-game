@@ -13,7 +13,10 @@ import { Game } from './models/game.model';
 export class GameService {
   private readonly allCards = generateCards();
 
-  constructor(@InjectModel(Game) private readonly gameModel: typeof Game) {}
+  constructor(
+    @InjectModel(Game)
+    private readonly gameModel: typeof Game,
+  ) {}
 
   private getShuffledField(): TCard[] {
     return shuffleField([...this.allCards]);
@@ -107,7 +110,7 @@ export class GameService {
     { piece, pieceIdx }: UpdateFieldElementDTO,
     options?: TransactionOptions,
   ): Promise<Game> {
-    const game = await this.findByRoomId(roomId);
+    const game = await this.findByRoomId(roomId, options);
 
     if (pieceIdx < 0 || pieceIdx > game.field.length) {
       throw new NotFoundException(`Index ${pieceIdx} is out of bounds`);
@@ -125,7 +128,7 @@ export class GameService {
     return await this.update(
       roomId,
       { field: updatedField, targetCard },
-      { ...options },
+      options,
     );
   }
 }

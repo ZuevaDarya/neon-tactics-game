@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { Player } from 'src/player/models/player.model';
 import { Room } from 'src/room/models/room.model';
-import { TCard, TGameFiled } from 'src/types/types';
+import { TCard, TGameField } from 'src/types/types';
 
 @Table({
   tableName: 'game',
@@ -40,7 +40,7 @@ export class Game extends Model {
     comment: 'Массив карточек игрового поля',
     field: 'field',
   })
-  declare field: TGameFiled;
+  declare field: TGameField;
 
   @Column({
     type: JSONB,

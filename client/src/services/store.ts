@@ -11,6 +11,7 @@ const preloadedState: TPreloadedState = {
     countTurn: 0,
     winnerId: null,
     error: null,
+    gameEndType: null,
     isSuccess: false,
     isRequest: false,
   },

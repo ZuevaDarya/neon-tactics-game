@@ -9,6 +9,7 @@ import {
   deleteRoom,
   getRoom,
   leaveGame,
+  makePlayerMove,
   resetGame,
   updateRoomStatus,
 } from "../thunks";
@@ -200,6 +201,29 @@ const roomSlice = createSlice({
         state.creatorId = null;
         state.status = null;
         sessionStorage.removeItem(SessionStorageKey.RoomId);
+      })
+      .addCase(makePlayerMove.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(makePlayerMove.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(makePlayerMove.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        if ("room" in payload) {
+          state.playerId = payload.room.playerId;
+          state.creatorId = payload.room.creatorId;
+          state.id = payload.room.id;
+          state.status = payload.room.status;
+          sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
+        }
       });
   },
 });

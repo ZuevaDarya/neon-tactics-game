@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TransactionOptions } from 'sequelize';
-import { AvatarService } from 'src/utils/services/avatar.service';
+import { AvatarService } from 'src/shared-services/avatar.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';
 import { Player } from './models/player.model';

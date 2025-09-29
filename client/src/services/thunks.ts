@@ -9,6 +9,8 @@ import {
   TCreateGameResponse,
   TCreatePlayer,
   TCreatePlayerWithJoinInRoom,
+  TGameAfterCheck,
+  TGameAfterMoveItem,
   TPlayer,
   TPlayerWithRoomResponse,
   TRejectValue,
@@ -345,7 +347,7 @@ export const leaveGame = createAsyncThunk<void, TBaseRoomParam>(
   }
 );
 
-export const updateFieldElement = createAsyncThunk<TUpdateGameResponse, TUpdateFieldElement>(
+export const makePlayerMove = createAsyncThunk<TGameAfterCheck | TGameAfterMoveItem, TUpdateFieldElement>(
   `${SliceNamespace.Game}/updateFieldElement`,
   async ({ roomId, ...data }) => {
     const options = {
@@ -359,3 +361,4 @@ export const updateFieldElement = createAsyncThunk<TUpdateGameResponse, TUpdateF
     return await request(`${API_PATHS.game}/${roomId}${API_PATHS.field}`, options);
   }
 );
+

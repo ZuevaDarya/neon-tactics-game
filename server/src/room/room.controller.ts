@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 
 import { SocketEvent } from 'src/constants/socket-event';
-import { PlayerRoomService } from 'src/player/player-room.service';
+import { GameSessionService } from 'src/shared-services/game-session.service';
 import { SocketService } from 'src/socket/socket.service';
 import { TRoomStatus } from 'src/types/types';
 import { CreateRoomDTO } from './dto/create-room.dto';
@@ -23,7 +23,7 @@ import { RoomService } from './room.service';
 export class RoomController {
   constructor(
     private readonly roomService: RoomService,
-    private readonly playerRoomService: PlayerRoomService,
+    private readonly gameSessionService: GameSessionService,
     private readonly socketService: SocketService,
   ) {}
 
@@ -71,7 +71,7 @@ export class RoomController {
   @Patch(':roomId/assign-piece-type')
   @HttpCode(HttpStatus.OK)
   async assignRandomPieceType(@Param('roomId') roomId: string) {
-    const data = await this.playerRoomService.assignRandomPieceType(roomId);
+    const data = await this.gameSessionService.assignRandomPieceType(roomId);
     this.socketService.emitToRoom(roomId, SocketEvent.AssignPieceType, data);
 
     return data;
@@ -80,7 +80,7 @@ export class RoomController {
   @Patch(':roomId/select-active-player')
   @HttpCode(HttpStatus.OK)
   async selectActivePlayer(@Param('roomId') roomId: string) {
-    const data = await this.playerRoomService.selectActivePlayer(roomId);
+    const data = await this.gameSessionService.selectActivePlayer(roomId);
     this.socketService.emitToRoom(roomId, SocketEvent.SelectActivePlayer, data);
 
     return data;
@@ -89,7 +89,7 @@ export class RoomController {
   @Patch(':roomId/set-active-player')
   @HttpCode(HttpStatus.OK)
   async setActivePlayer(@Param('roomId') roomId: string) {
-    const data = await this.playerRoomService.setActivePlayer(roomId);
+    const data = await this.gameSessionService.setActivePlayer(roomId);
     this.socketService.emitToRoom(roomId, SocketEvent.SetActivePlayer, data);
 
     return data;

@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { SocketEvent } from 'src/constants/socket-event';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
-import { PlayerRoomService } from 'src/player/player-room.service';
+import { GameSessionService } from 'src/shared-services/game-session.service';
 import { SocketService } from 'src/socket/socket.service';
 import { CreateGameDTO } from './dto/create-game.dto';
 import { UpdateFieldElementDTO } from './dto/update-field-element.dto';
@@ -26,7 +26,7 @@ export class GameController {
   constructor(
     private readonly gameService: GameService,
     private readonly socketService: SocketService,
-    private readonly playerRoomService: PlayerRoomService,
+    private readonly gameSessionService: GameSessionService,
   ) {}
 
   @Post()
@@ -69,7 +69,7 @@ export class GameController {
 
   @Patch(':roomId/reset-game')
   async resetGame(@Param('roomId') id: string) {
-    const data = await this.playerRoomService.resetGame(id);
+    const data = await this.gameSessionService.resetGame(id);
     this.socketService.emitToRoom(id, SocketEvent.ResetGame, data);
 
     return data;
@@ -91,18 +91,20 @@ export class GameController {
     @Headers('x-socket-id') socketId: string,
   ) {
     await this.socketService.leaveRoom(socketId, id);
-    return await this.playerRoomService.leaveGame(id);
+    return await this.gameSessionService.leaveGame(id);
   }
 
   @Patch(':roomId/field')
-  async updateFieldElement(
+  async makePlayerMove(
     @Param('roomId') id: string,
     @Body() data: UpdateFieldElementDTO,
   ) {
-    const field =
-      await this.playerRoomService.updateFieldElementWithCheckPlayer(id, data);
-    this.socketService.emitToRoom(id, SocketEvent.UpdateGame, field);
+    const dataAfterMove = await this.gameSessionService.makePlayerMove(
+      id,
+      data,
+    );
+    this.socketService.emitToRoom(id, SocketEvent.MakeMove, dataAfterMove);
 
-    return field;
+    return dataAfterMove;
   }
 }

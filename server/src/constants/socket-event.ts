@@ -16,4 +16,5 @@ export enum SocketEvent {
   ResetGame = 'reset_game',
   ShuffleField = 'shuffle_field',
   LeaveRoom = 'leaved_room',
+  MakeMove = 'make_move',
 }

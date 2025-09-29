@@ -1,9 +1,9 @@
 import { IsNumber, IsOptional, IsUUID } from 'class-validator';
-import { TCard, TGameFiled } from 'src/types/types';
+import { TCard, TGameField } from 'src/types/types';
 
 export class UpdateGameDTO {
   @IsOptional()
-  field?: TGameFiled;
+  field?: TGameField;
 
   @IsOptional()
   targetCard?: TCard | null;

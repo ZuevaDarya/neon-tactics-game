@@ -4,6 +4,8 @@ import { SocketEvent } from "../../constants/socket-event";
 import { SessionStorageKey } from "../../constants/storage-keys";
 import {
   TCreateGameResponse,
+  TGameAfterCheck,
+  TGameAfterMoveItem,
   TPlayer,
   TPlayerWithRoomResponse,
   TResetRameResponse,
@@ -153,6 +155,19 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           dispatch(resetPlayersState());
           dispatch(resetRoomState());
           dispatch(resetGameState());
+        });
+
+        socket.on(SocketEvent.MakeMove, (data: TGameAfterCheck | TGameAfterMoveItem) => {
+          console.log("Make move");
+          dispatch(updateGameState({ ...data.game, endType: data.endType }));
+
+          if ("room" in data) {
+            dispatch(updateRoomState(data.room));
+          }
+
+          if ("players" in data) {
+            data.players.map((player) => dispatch(setPlayer(player)));
+          }
         });
       }
 

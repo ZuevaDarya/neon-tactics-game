@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { TCreateGameResponse, TGameState } from "../../types/services-types";
+import { TGameState, TUpdateGameState } from "../../types/services-types";
 import {
   createGame,
   deleteGame,
   getGame,
   incrementCountTurn,
   leaveGame,
+  makePlayerMove,
   resetGame,
   shuffleField,
-  updateFieldElement,
   updateGame,
 } from "../thunks";
 
@@ -19,6 +19,7 @@ export const initialState: TGameState = {
   countTurn: 0,
   winnerId: null,
   error: null,
+  gameEndType: null,
   isRequest: false,
   isSuccess: false,
 };
@@ -27,11 +28,15 @@ const gameFieldSlice = createSlice({
   name: SliceNamespace.Game,
   initialState,
   reducers: {
-    updateGameState: (state, { payload }: PayloadAction<TCreateGameResponse>) => {
+    updateGameState: (state, { payload }: PayloadAction<TUpdateGameState>) => {
       state.field = payload.field;
       state.targetCard = payload.targetCard;
       state.countTurn = payload.countTurn;
       state.winnerId = payload.winnerId;
+
+      if (payload.endType) {
+        state.gameEndType = payload.endType;
+      }
     },
     resetGameState: (state) => {
       state.field = [];
@@ -41,6 +46,7 @@ const gameFieldSlice = createSlice({
       state.error = null;
       state.isRequest = false;
       state.isSuccess = false;
+      state.gameEndType = null;
     },
   },
   extraReducers: (builder) => {
@@ -101,6 +107,7 @@ const gameFieldSlice = createSlice({
         state.targetCard = null;
         state.countTurn = 0;
         state.winnerId = null;
+        state.gameEndType = null;
       })
       .addCase(updateGame.pending, (state) => {
         state.isRequest = true;
@@ -155,6 +162,7 @@ const gameFieldSlice = createSlice({
         state.countTurn = payload.game.countTurn;
         state.targetCard = payload.game.targetCard;
         state.winnerId = payload.game.winnerId;
+        state.gameEndType = null;
       })
       .addCase(shuffleField.pending, (state) => {
         state.isRequest = true;
@@ -191,26 +199,28 @@ const gameFieldSlice = createSlice({
         state.targetCard = null;
         state.countTurn = 0;
         state.winnerId = null;
+        state.gameEndType = null;
       })
-      .addCase(updateFieldElement.pending, (state) => {
+      .addCase(makePlayerMove.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
         state.error = null;
       })
-      .addCase(updateFieldElement.rejected, (state, { error }) => {
+      .addCase(makePlayerMove.rejected, (state, { error }) => {
         state.isRequest = false;
         state.isSuccess = false;
         state.error = String(error.message);
-        console.log(error)
       })
-      .addCase(updateFieldElement.fulfilled, (state, { payload }) => {
+      .addCase(makePlayerMove.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
         state.error = null;
-        state.field = payload.field;
-        state.targetCard = payload.targetCard;
-        state.countTurn = payload.countTurn;
-        state.winnerId = payload.winnerId;
+
+        state.field = payload.game.field;
+        state.targetCard = payload.game.targetCard;
+        state.countTurn = payload.game.countTurn;
+        state.winnerId = payload.game.winnerId;
+        state.gameEndType = payload.endType;
       });
   },
 });

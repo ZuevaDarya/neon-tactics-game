@@ -13,6 +13,7 @@ import {
   getAllPlayersInRoom,
   getPlayer,
   leaveGame,
+  makePlayerMove,
   resetGame,
   selectActivePlayer,
   setActivePlayer,
@@ -305,6 +306,30 @@ const playersSlice = createSlice({
         state.creator = null;
         state.player = null;
         sessionStorage.removeItem(SessionStorageKey.PlayerId);
+      })
+      .addCase(makePlayerMove.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(makePlayerMove.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(makePlayerMove.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        if ("players" in payload) {
+          payload.players.forEach((player) => {
+            if (player.isCreator) {
+              state.creator = player;
+            }
+            state.player = player;
+          });
+        }
       });
   },
 });

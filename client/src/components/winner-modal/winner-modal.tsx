@@ -46,7 +46,7 @@ function WinnerModal({ winner, gameEndType }: TWinnerModalProps) {
     <Modal>
       <div className={st["winner-modal"]}>
         {winner && (gameEndType === GameEndType.Win || gameEndType === GameEndType.NoMoves) && (
-          <WinnerModalContent winners={[winner, winner]} title="Победа" />
+          <WinnerModalContent winners={[winner]} title="Победа" />
         )}
         {creator && player && gameEndType === GameEndType.Draw && (
           <WinnerModalContent winners={[creator, player]} title="Ничья" />

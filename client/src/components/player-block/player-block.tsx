@@ -6,7 +6,13 @@ import st from "./player-block.module.css";
 
 function PlayerBlock({ player, position }: TPlayerBlockProps) {
   return (
-    <div className={cn(st["player-block"], st[`player-block--${player.pieceType}`])}>
+    <div
+      className={cn(
+        st["player-block"],
+        st[`player-block--${player.pieceType}`],
+        player.isActive && st["player-block--active"]
+      )}
+    >
       {position === "left" && (
         <Player
           src={player.avatarPath || ""}
@@ -22,6 +28,7 @@ function PlayerBlock({ player, position }: TPlayerBlockProps) {
           src={player.avatarPath || ""}
           name={player.name}
           type={player.pieceType || undefined}
+          isRight={true}
         />
       )}
     </div>

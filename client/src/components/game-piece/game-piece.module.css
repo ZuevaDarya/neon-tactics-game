@@ -13,10 +13,30 @@
 
 .game-piece--cyan {
   --shadowColor: var(--color-cyan-600);
+  --animateShadowColor: var(--color-cyan-600-rgb);
   background-image: url("../../assets/images/piece-cyan.png");
 }
 
 .game-piece--pink {
   --shadowColor: var(--color-pink-600);
+  --animateShadowColor: var(--color-pink-600-rgb);
   background-image: url("../../assets/images/piece-pink.png");
+}
+
+.game-piece--active {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    filter: drop-shadow(0 0 10px transparent);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px var(--animateShadowColor));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 10px transparent);
+  }
 }

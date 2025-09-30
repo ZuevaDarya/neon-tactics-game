@@ -74,6 +74,7 @@ export type TStartForm = {
 
 export type TAvatarProps = {
   src: string;
+  isRight?: boolean;
 };
 
 export type TProtectedRoute = {

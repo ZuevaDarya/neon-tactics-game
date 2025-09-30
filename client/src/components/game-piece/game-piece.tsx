@@ -20,7 +20,7 @@ function GamePiece({ type, isDraggible }: TGamePieceProps) {
   });
 
   return activePlayer && activePlayer.pieceType === type && isDraggible ? (
-    drag(<div className={cn(st["game-piece"], st[`game-piece--${type}`])} />)
+    drag(<div className={cn(st["game-piece"], st[`game-piece--${type}`], st["game-piece--active"])} />)
   ) : (
     <div className={cn(st["game-piece"], st[`game-piece--${type}`])} />
   );

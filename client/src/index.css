@@ -28,6 +28,9 @@
   --btn-hover-color-cyan: oklch(46.497% 0.0875 224.977);
   --btn-hover-color-pink: oklch(48.926% 0.19673 4.575);
 
+  --color-cyan-600-rgb: rgb(0, 146, 184);
+  --color-pink-600-rgb: rgb(230, 0, 118);
+
   --color-red-dark: oklch(0.334 0.133 28.586);
   --color-red: oklch(0.49 0.2 29);
   --color-red-light: oklch(0.73 0.16 21.74);

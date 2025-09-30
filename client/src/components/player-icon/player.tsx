@@ -4,10 +4,10 @@ import cn from "../../utils/functions/cn";
 import Avatar from "../avatar/avatar";
 import st from "./player.module.css";
 
-function Player({ name, src, type }: TPlayerIconProps) {
+function Player({ name, src, type, isRight }: TPlayerIconProps) {
   return (
     <div className={cn(st.player, st[`player--${type}`])}>
-      <Avatar src={src} />
+      <Avatar src={src} isRight={isRight} />
       <p className={cn(st["player__name"], mx["responsiveFont"])}>{name}</p>
     </div>
   );

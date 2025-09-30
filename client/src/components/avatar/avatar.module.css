@@ -8,3 +8,7 @@
   width: 100%;
   object-fit: cover;
 }
+
+.avatar__img--right {
+  transform: scale(-1, 1);
+}

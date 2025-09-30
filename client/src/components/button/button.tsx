@@ -10,6 +10,9 @@ const buttonVariants = cva(st.button, {
       cyan: st["button--cyan"],
       pink: st["button--pink"],
       closedCyan: [st["button--closed"], st["button--closed-cyan"]],
+      copy: st["button--copy"],
+      copyCyan: [st["button--copy"], st["button--copy-cyan"]],
+      checkCyan: [st["button--check"], st["button--check-cyan"]],
     },
   },
   defaultVariants: {

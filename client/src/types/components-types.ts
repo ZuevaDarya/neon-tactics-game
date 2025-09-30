@@ -113,3 +113,7 @@ export type TWinnerModalContentProps = {
   winners: TPlayer[];
   title: string;
 };
+
+export type TCopyItem = {
+  children: React.ReactNode;
+};

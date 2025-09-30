@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AppRoute } from "../../constants/app-route";
 import { StartFormInputName } from "../../constants/input-name";
 import { RoomStatus } from "../../constants/room-status";
+import useCopy from "../../hooks/use-copy";
 import useRoomStatus from "../../hooks/use-room-status";
 import mx from "../../mixins.module.css";
 import { redirectPlayers } from "../../services/slices/socket-slice";
@@ -20,6 +21,7 @@ import { TStartForm } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
 import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
+import CopyItem from "../copy-item/copy-item";
 import FormItem from "../form-item/form-item";
 import FormSection from "../form-section/form-section";
 import Form from "../form/form";
@@ -28,10 +30,12 @@ import WaitingBlock from "../waiting-block/waiting-block";
 
 function FormCreateRoom() {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
+  const { register, handleSubmit, formState, setValue, watch } = useForm<TStartForm>();
   const { id, status, playerId, creatorId, error } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
   const { isWaiting, isPlayersJoined } = useRoomStatus();
+  const { isCopied, copyToClipboard } = useCopy();
+  const roomIdValue = watch(StartFormInputName.RoomId);
 
   useEffect(() => {
     setValue(StartFormInputName.RoomId, id || "");
@@ -68,6 +72,15 @@ function FormCreateRoom() {
     }
   };
 
+  const handleCopyBtnClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (roomIdValue) {
+      await copyToClipboard(roomIdValue);
+    }
+  };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <h2 className={cn(st["form__title"], mx["responsiveFont"])}>Инициализация сессии</h2>
@@ -83,15 +96,21 @@ function FormCreateRoom() {
           disabled={isWaiting}
         />
 
-        <FormItem<TStartForm>
-          label="Номер комнаты"
-          name={StartFormInputName.RoomId}
-          type="text"
-          register={register}
-          variant="cyanDisabled"
-          disabled
-        />
-
+        <CopyItem>
+          <FormItem<TStartForm>
+            label="Номер комнаты"
+            name={StartFormInputName.RoomId}
+            type="text"
+            register={register}
+            variant="cyanDisabled"
+            disabled
+          />
+          <Button
+            variant={isCopied ? "checkCyan" : "copyCyan"}
+            type="button"
+            onClick={handleCopyBtnClick}
+          />
+        </CopyItem>
         {formState.errors.player && (
           <span className={st["form__error"]}>Заполните обязательные поля</span>
         )}

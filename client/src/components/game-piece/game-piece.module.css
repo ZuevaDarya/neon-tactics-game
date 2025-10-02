@@ -40,3 +40,8 @@
     filter: drop-shadow(0 0 10px transparent);
   }
 }
+
+.game-piece--non-played {
+  width: var(--target-card-size);
+  height: var(--target-card-size);
+}

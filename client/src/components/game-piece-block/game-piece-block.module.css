@@ -8,7 +8,7 @@
 }
 
 .text {
-  --minFontSize: 14px;
+  --minFontSize: 12px;
   --maxFontSize: 18px;
   --recommendFontSize: 16;
   --lineHeightRatio: var(--text-16px--line-height-ratio);
@@ -18,9 +18,9 @@
 }
 
 .text--cyan {
-  --textColor: var(--color-cyan-700)
+  --textColor: var(--color-cyan-700);
 }
 
 .text--pink {
-  --textColor: var(--color-pink-500)
+  --textColor: var(--color-pink-500);
 }

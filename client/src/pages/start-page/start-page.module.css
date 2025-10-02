@@ -22,15 +22,15 @@
   flex-direction: column;
   gap: clamp(20px, calc(50 * 100vw / var(--base-viewport-size)), 50px);
 
-  @media (max-width: 1156px) {
+  @media (width <= 1155px) {
     width: clamp(250px, 60vw, 60vw);
   }
 
-  @media (max-width: 771px) {
+  @media (width <= 770px) {
     width: clamp(250px, 80vw, 80vw);
   }
 
-  @media (max-width: 581px) {
+  @media (width <= 580px) {
     width: clamp(250px, 90vw, 90vw);
   }
 }

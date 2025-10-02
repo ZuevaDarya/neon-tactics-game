@@ -24,6 +24,7 @@ export type TPieceTypes = `${PieceType}`;
 export type TGamePieceProps = {
   type: TPieceTypes;
   isDraggible: boolean;
+  isNonPlayed: boolean;
 };
 
 export type TGamePieceBlockProps = Pick<TGamePieceProps, "type"> & {
@@ -39,7 +40,7 @@ export type TPlayerBlockProps = {
 
 export type TPlayerIconProps = TAvatarProps & {
   name: string;
-  type?: TPieceTypes;
+  type: TPieceTypes | null;
 };
 
 export type TModalOverlayProps = {

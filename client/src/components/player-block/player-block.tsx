@@ -14,11 +14,7 @@ function PlayerBlock({ player, position }: TPlayerBlockProps) {
       )}
     >
       {position === "left" && (
-        <Player
-          src={player.avatarPath || ""}
-          name={player.name}
-          type={player.pieceType || undefined}
-        />
+        <Player src={player.avatarPath || ""} name={player.name} type={player.pieceType} />
       )}
       {player.pieceType && (
         <GamePieceBlock countPieces={player.countPiece} type={player.pieceType} />
@@ -27,7 +23,7 @@ function PlayerBlock({ player, position }: TPlayerBlockProps) {
         <Player
           src={player.avatarPath || ""}
           name={player.name}
-          type={player.pieceType || undefined}
+          type={player.pieceType}
           isRight={true}
         />
       )}

@@ -38,6 +38,8 @@
   --borderType: dashed;
   --borderColor: var(--color-red);
   --shadowColor: transparent;
+  width: var(--target-card-size);
+  height: var(--target-card-size);
 }
 
 .card.card--available {
@@ -60,4 +62,6 @@
   --borderType: dashed;
   --borderColor: var(--color-cyan-700);
   --shadowColor: transparent;
+  width: var(--target-card-size);
+  height: var(--target-card-size);
 }

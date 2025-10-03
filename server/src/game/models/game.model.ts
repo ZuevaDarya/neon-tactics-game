@@ -7,9 +7,10 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { GameEndType } from 'src/constants/game-end-type';
 import { Player } from 'src/player/models/player.model';
 import { Room } from 'src/room/models/room.model';
-import { TCard, TGameField } from 'src/types/types';
+import { TCard, TGameEndTypes, TGameField } from 'src/types/types';
 
 @Table({
   tableName: 'game',
@@ -75,4 +76,18 @@ export class Game extends Model {
     field: 'winner_id',
   })
   declare winnerId: string;
+
+  @Column({
+    type: DataType.ENUM(
+      GameEndType.Draw,
+      GameEndType.GiveUp,
+      GameEndType.NoMoves,
+      GameEndType.Win,
+    ),
+    allowNull: true,
+    defaultValue: null,
+    comment: 'Тип победы игрока',
+    field: 'end_type',
+  })
+  declare endType: TGameEndTypes | null;
 }

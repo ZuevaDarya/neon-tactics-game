@@ -11,6 +11,7 @@ import {
   leaveGame,
   makePlayerMove,
   resetGame,
+  startGame,
   updateRoomStatus,
 } from "../thunks";
 
@@ -224,6 +225,26 @@ const roomSlice = createSlice({
           state.status = payload.room.status;
           sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
         }
+      })
+      .addCase(startGame.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(startGame.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(startGame.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+        state.id = payload.room.id;
+        state.creatorId = payload.room.creatorId;
+        state.playerId = payload.room.playerId;
+        state.status = payload.room.status;
+        sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
       });
   },
 });

@@ -12,11 +12,12 @@ export type TGame = {
   targetCard: TCard | null;
   countTurn: number;
   winnerId: string | null;
+  endType: TGameEndTypes | null;
 };
 
 export type TGameState = TGame &
   TThunkState & {
-    gameEndType: TGameEndTypes | null;
+    endType: TGameEndTypes | null;
   };
 
 export type TPreloadedState = {
@@ -110,7 +111,7 @@ export type TBaseRoomParam = Pick<TRoomResponse, "id">;
 
 export type TChangeActiveStatus = Pick<TPlayer, "id" | "isActive">;
 
-export type TResetRameResponse = {
+export type TResetGameResponse = {
   players: TPlayer[];
   room: TRoomBase;
   game: TCreateGameResponse;
@@ -125,16 +126,21 @@ export type TUpdateFieldElement = {
 
 export type TGameEndTypes = `${GameEndType}`;
 
-export type TGameAfterCheck = {
-  game: TCreateGameResponse;
-  endType: TGameEndTypes | null;
-};
-
-export type TGameAfterMoveItem = TGameAfterCheck & {
+export type TGameAfterMoveItem = {
   players: TPlayer[];
   room: TRoomBase;
 };
+export type TMakeMoveResponse = TResetGameResponse | Pick<TResetGameResponse, "game">;
 
-export type TUpdateGameState = TCreateGameResponse & {
-  endType?: TGameEndTypes | null;
+export type TUpdateGameState = TCreateGameResponse;
+
+export type TStartGameResponse = TResetGameResponse;
+
+export type TPlayAgainResponse = Omit<TResetGameResponse, "room">;
+
+export type TAssignWinnerResponse = Pick<TResetGameResponse, "game">;
+
+export type TAssignWinnerParam = {
+  id: string;
+  playerId: string;
 };

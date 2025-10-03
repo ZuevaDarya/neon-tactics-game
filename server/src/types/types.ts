@@ -59,7 +59,7 @@ export type TGameFieldPiece = {
 
 export type TGameField = (TCard | TGameFieldPiece)[];
 
-export type TResetRameResponse = {
+export type TResetGameResponse = {
   players: Player[];
   room: Room;
   game: Game;
@@ -67,12 +67,16 @@ export type TResetRameResponse = {
 
 export type TGameEndTypes = `${GameEndType}`;
 
-export type TGameAfterCheck = {
+export type TMakeMove = TResetGameResponse;
+
+export type TStartGame = TResetGameResponse;
+
+export type TPlayAgain = Omit<TResetGameResponse, 'room'>;
+
+export type TCheckGameEnd = {
   game: Game;
-  endType: TGameEndTypes | null;
 };
 
-export type TGameAfterMoveItem = TGameAfterCheck & {
-  players: Player[];
-  room: Room;
+export type TAssignWinner = {
+  game: Game;
 };

@@ -9,13 +9,10 @@ import mx from "../../mixins.module.css";
 import { redirectPlayers } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
-  assignRandomPieceType,
-  createGame,
   createPlayerWithCreateRoom,
   deletePlayer,
   deleteRoom,
-  selectActivePlayer,
-  updateRoomStatus,
+  startGame,
 } from "../../services/thunks";
 import { TStartForm } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
@@ -53,12 +50,8 @@ function FormCreateRoom() {
     e.stopPropagation();
     e.preventDefault();
     if (id) {
+      await dispatch(startGame({ id })).unwrap();
       dispatch(redirectPlayers({ roomId: id, url: AppRoute.GamePage }));
-      await dispatch(createGame({ id })).unwrap();
-      await dispatch(updateRoomStatus({ id, status: "playing" })).unwrap();
-
-      await dispatch(assignRandomPieceType({ id })).unwrap();
-      await dispatch(selectActivePlayer({ id })).unwrap();
     }
   };
 

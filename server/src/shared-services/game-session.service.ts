@@ -8,15 +8,19 @@ import { TransactionOptions } from 'sequelize';
 import { DEFAULT_PIECE_COUNT } from 'src/constants/game-constants';
 import { GameEndType } from 'src/constants/game-end-type';
 import { PieceType } from 'src/constants/piece-type';
+import { AssignWinnerDTO } from 'src/game/dto/assign-winner.dto';
 import { UpdateFieldElementDTO } from 'src/game/dto/update-field-element.dto';
 import { GameService } from 'src/game/game.service';
 import { Room } from 'src/room/models/room.model';
 import { RoomService } from 'src/room/room.service';
 import { WinCheckService } from 'src/shared-services/win-check.service';
 import {
-  TGameAfterCheck,
-  TGameAfterMoveItem,
-  TResetRameResponse,
+  TAssignWinner,
+  TCheckGameEnd,
+  TMakeMove,
+  TPlayAgain,
+  TResetGameResponse,
+  TStartGame,
 } from 'src/types/types';
 import { TransactionService } from 'src/utils/services/transaction.service';
 import { CreatePlayerDTO } from '../player/dto/create-player.dto';
@@ -152,7 +156,7 @@ export class GameSessionService {
     });
   }
 
-  async resetGame(roomId: string): Promise<TResetRameResponse> {
+  async resetGame(roomId: string): Promise<TResetGameResponse> {
     return this.transactionService.useTransaction(async (transaction) => {
       const options = { transaction };
       const players = await this.playerService.getAllInRoom(roomId, options);
@@ -184,6 +188,7 @@ export class GameSessionService {
           targetCard: null,
           winnerId: null,
           countTurn: 0,
+          endType: null,
         },
         options,
       );
@@ -211,7 +216,7 @@ export class GameSessionService {
     roomId: string,
     { piece, pieceIdx, playerId }: UpdateFieldElementDTO,
     options?: TransactionOptions,
-  ): Promise<TGameAfterCheck> {
+  ): Promise<TCheckGameEnd> {
     let game = await this.gameService.findByRoomId(roomId, options);
 
     const isWin = this.winCheckService.checkWin(
@@ -223,7 +228,7 @@ export class GameSessionService {
     const isDraw = !isWin && this.winCheckService.checkDraw(game.field);
 
     if (isWin || isDraw) {
-      game = await this.gameService.update(
+      await this.gameService.update(
         roomId,
         { winnerId: isWin ? playerId : null },
         options,
@@ -232,16 +237,19 @@ export class GameSessionService {
       await this.roomService.updateRoomStatus(roomId, 'finished', options);
     }
 
-    return {
-      game,
-      endType: isWin ? GameEndType.Win : isDraw ? GameEndType.Draw : null,
-    };
+    game = await this.gameService.update(
+      roomId,
+      { endType: isWin ? GameEndType.Win : isDraw ? GameEndType.Draw : null },
+      options,
+    );
+
+    return { game };
   }
 
   async makePlayerMove(
     roomId: string,
     data: UpdateFieldElementDTO,
-  ): Promise<TGameAfterMoveItem | TGameAfterCheck> {
+  ): Promise<TMakeMove | TCheckGameEnd> {
     return this.transactionService.useTransaction(async (transaction) => {
       const options = { transaction };
 
@@ -257,7 +265,7 @@ export class GameSessionService {
 
       const checkedGameData = await this.checkGameEnd(roomId, data, options);
 
-      if (checkedGameData.endType) {
+      if (checkedGameData.game.endType) {
         return checkedGameData;
       }
 
@@ -278,7 +286,7 @@ export class GameSessionService {
           if (winnerPlayer) {
             const endedGame = await this.gameService.update(
               roomId,
-              { winnerId: winnerPlayer.id },
+              { winnerId: winnerPlayer.id, endType: GameEndType.NoMoves },
               options,
             );
 
@@ -292,7 +300,6 @@ export class GameSessionService {
               game: endedGame,
               players,
               room,
-              endType: GameEndType.NoMoves,
             };
           }
         }
@@ -302,8 +309,74 @@ export class GameSessionService {
         game,
         players,
         room,
-        endType: null,
       };
+    });
+  }
+
+  async startGame(roomId: string): Promise<TStartGame> {
+    return this.transactionService.useTransaction(async (transaction) => {
+      const options = { transaction };
+
+      const game = await this.gameService.create({ roomId }, options);
+      const room = await this.roomService.updateRoomStatus(
+        roomId,
+        'playing',
+        options,
+      );
+      let players = await this.assignRandomPieceType(roomId);
+      const updatedPlayer = await this.selectActivePlayer(roomId);
+
+      players = players.map((player) =>
+        player.id === updatedPlayer.id ? updatedPlayer : player,
+      );
+
+      return {
+        game,
+        room,
+        players,
+      };
+    });
+  }
+
+  async playAgain(roomId: string): Promise<TPlayAgain> {
+    return this.transactionService.useTransaction(async (transaction) => {
+      const options = { transaction };
+
+      await this.resetGame(roomId);
+
+      let players = await this.assignRandomPieceType(roomId);
+      const updatedPlayer = await this.selectActivePlayer(roomId);
+
+      players = players.map((player) =>
+        player.id === updatedPlayer.id ? updatedPlayer : player,
+      );
+
+      const game = await this.gameService.shuffleField(roomId, options);
+
+      return {
+        game,
+        players,
+      };
+    });
+  }
+
+  async assignWinner(
+    roomId: string,
+    { playerId }: AssignWinnerDTO,
+  ): Promise<TAssignWinner> {
+    return this.transactionService.useTransaction(async (transaction) => {
+      const options = { transaction };
+
+      const players = await this.playerService.getAllInRoom(roomId, options);
+      const winner = players.filter((player) => player.id !== playerId)[0];
+
+      const game = await this.gameService.update(
+        roomId,
+        { winnerId: winner.id, endType: GameEndType.GiveUp },
+        options,
+      );
+
+      return { game };
     });
   }
 }

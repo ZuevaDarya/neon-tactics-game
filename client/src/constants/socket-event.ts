@@ -20,4 +20,7 @@ export enum SocketEvent {
   LeaveRoom = "leaved_room",
   RedirectPlayers = "redirect_players",
   MakeMove = "make_move",
+  StartGame = "start_game",
+  PlayAgain = "play_again",
+  AssignWinner = "assign_winner",
 }

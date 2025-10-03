@@ -124,7 +124,7 @@ export class SocketService
     }
   }
 
-  emitToRoom(roomId: string, event: TSocketEvent, data: any) {
+  emitToRoom(roomId: string, event: TSocketEvent, data?: any) {
     this.server.to(roomId).emit(event, data);
   }
 

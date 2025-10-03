@@ -14,9 +14,11 @@ import {
   getPlayer,
   leaveGame,
   makePlayerMove,
+  playAgain,
   resetGame,
   selectActivePlayer,
   setActivePlayer,
+  startGame,
 } from "../thunks";
 
 const initialState: TPlayersState = {
@@ -330,6 +332,50 @@ const playersSlice = createSlice({
             state.player = player;
           });
         }
+      })
+      .addCase(startGame.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(startGame.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(startGame.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        payload.players.forEach((player) => {
+          if (player.isCreator) {
+            state.creator = player;
+          }
+          state.player = player;
+        });
+      })
+      .addCase(playAgain.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(playAgain.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(playAgain.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+
+        payload.players.forEach((player) => {
+          if (player.isCreator) {
+            state.creator = player;
+          }
+          state.player = player;
+        });
       });
   },
 });

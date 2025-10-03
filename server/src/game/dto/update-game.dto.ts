@@ -1,4 +1,5 @@
-import { IsNumber, IsOptional, IsUUID } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsUUID } from 'class-validator';
+import { GameEndType } from 'src/constants/game-end-type';
 import { TCard, TGameField } from 'src/types/types';
 
 export class UpdateGameDTO {
@@ -15,4 +16,8 @@ export class UpdateGameDTO {
   @IsUUID()
   @IsOptional()
   winnerId?: string | null;
+
+  @IsOptional()
+  @IsEnum(GameEndType)
+  endType?: GameEndType | null;
 }

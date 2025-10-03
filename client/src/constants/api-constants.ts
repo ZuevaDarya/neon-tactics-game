@@ -20,4 +20,7 @@ export const API_PATHS = {
   shuffleField: "/shuffle-field",
   leaveGame: "/leave-game",
   field: "/field",
+  startGame: "/start",
+  playAgain: "/play-again",
+  assignWinner: "/assign-winner",
 };

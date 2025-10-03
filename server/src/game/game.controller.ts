@@ -16,6 +16,7 @@ import { SocketEvent } from 'src/constants/socket-event';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { GameSessionService } from 'src/shared-services/game-session.service';
 import { SocketService } from 'src/socket/socket.service';
+import { AssignWinnerDTO } from './dto/assign-winner.dto';
 import { CreateGameDTO } from './dto/create-game.dto';
 import { UpdateFieldElementDTO } from './dto/update-field-element.dto';
 import { UpdateGameDTO } from './dto/update-game.dto';
@@ -106,5 +107,34 @@ export class GameController {
     this.socketService.emitToRoom(id, SocketEvent.MakeMove, dataAfterMove);
 
     return dataAfterMove;
+  }
+
+  @Post(':roomId/start')
+  @HttpCode(HttpStatus.CREATED)
+  @Header('Content-Type', 'application/json')
+  async startGame(@Param('roomId') id: string) {
+    const data = await this.gameSessionService.startGame(id);
+    this.socketService.emitToRoom(id, SocketEvent.StartGame, data);
+
+    return data;
+  }
+
+  @Patch(':roomId/play-again')
+  async playAgain(@Param('roomId') id: string) {
+    const data = await this.gameSessionService.playAgain(id);
+    this.socketService.emitToRoom(id, SocketEvent.PlayAgain, data);
+
+    return data;
+  }
+
+  @Patch(':roomId/assign-winner')
+  async assignWinner(
+    @Param('roomId') id: string,
+    @Body() data: AssignWinnerDTO,
+  ) {
+    const game = await this.gameSessionService.assignWinner(id, data);
+    this.socketService.emitToRoom(id, SocketEvent.AssignWinner, game);
+
+    return game;
   }
 }

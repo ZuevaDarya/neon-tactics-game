@@ -3,12 +3,14 @@ import { io, Socket } from "socket.io-client";
 import { SocketEvent } from "../../constants/socket-event";
 import { SessionStorageKey } from "../../constants/storage-keys";
 import {
+  TAssignWinnerResponse,
   TCreateGameResponse,
-  TGameAfterCheck,
-  TGameAfterMoveItem,
+  TMakeMoveResponse,
+  TPlayAgainResponse,
   TPlayer,
   TPlayerWithRoomResponse,
-  TResetRameResponse,
+  TResetGameResponse,
+  TStartGameResponse,
   TUpdateGameResponse,
 } from "../../types/services-types";
 import { resetGameState, updateGameState } from "../slices/game-slice";
@@ -138,7 +140,7 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           data.forEach((player) => dispatch(setPlayer(player)));
         });
 
-        socket.on(SocketEvent.ResetGame, (data: TResetRameResponse) => {
+        socket.on(SocketEvent.ResetGame, (data: TResetGameResponse) => {
           console.log("Reset game");
           data.players.forEach((player) => dispatch(setPlayer(player)));
           dispatch(updateGameState(data.game));
@@ -157,9 +159,10 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           dispatch(resetGameState());
         });
 
-        socket.on(SocketEvent.MakeMove, (data: TGameAfterCheck | TGameAfterMoveItem) => {
+        socket.on(SocketEvent.MakeMove, (data: TMakeMoveResponse) => {
           console.log("Make move");
-          dispatch(updateGameState({ ...data.game, endType: data.endType }));
+
+          dispatch(updateGameState(data.game));
 
           if ("room" in data) {
             dispatch(updateRoomState(data.room));
@@ -168,6 +171,24 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           if ("players" in data) {
             data.players.map((player) => dispatch(setPlayer(player)));
           }
+        });
+
+        socket.on(SocketEvent.StartGame, (data: TStartGameResponse) => {
+          console.log("Start game");
+          data.players.forEach((player) => dispatch(setPlayer(player)));
+          dispatch(updateGameState(data.game));
+          dispatch(updateRoomState(data.room));
+        });
+
+        socket.on(SocketEvent.PlayAgain, (data: TPlayAgainResponse) => {
+          console.log("Play Again");
+          data.players.forEach((player) => dispatch(setPlayer(player)));
+          dispatch(updateGameState(data.game));
+        });
+
+        socket.on(SocketEvent.AssignWinner, (data: TAssignWinnerResponse) => {
+          console.log("Give up");
+          dispatch(updateGameState(data.game));
         });
       }
 

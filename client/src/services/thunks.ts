@@ -3,18 +3,19 @@ import { API_PATHS } from "../constants/api-constants";
 import { SliceNamespace } from "../constants/slice-namespace";
 import { SessionStorageKey } from "../constants/storage-keys";
 import {
+  TAssignWinnerParam,
+  TAssignWinnerResponse,
   TBasePlayerParam,
   TBaseRoomParam,
   TChangeActiveStatus,
   TCreateGameResponse,
   TCreatePlayer,
   TCreatePlayerWithJoinInRoom,
-  TGameAfterCheck,
-  TGameAfterMoveItem,
+  TMakeMoveResponse,
   TPlayer,
   TPlayerWithRoomResponse,
   TRejectValue,
-  TResetRameResponse,
+  TResetGameResponse,
   TRoomResponse,
   TUpdateFieldElement,
   TUpdateGame,
@@ -298,7 +299,7 @@ export const incrementCountTurn = createAsyncThunk<TUpdateGameResponse, TBaseRoo
   }
 );
 
-export const resetGame = createAsyncThunk<TResetRameResponse, TBaseRoomParam>(
+export const resetGame = createAsyncThunk<TResetGameResponse, TBaseRoomParam>(
   `${SliceNamespace.Game}/resetGame`,
   async ({ id }) => {
     const options = {
@@ -347,7 +348,7 @@ export const leaveGame = createAsyncThunk<void, TBaseRoomParam>(
   }
 );
 
-export const makePlayerMove = createAsyncThunk<TGameAfterCheck | TGameAfterMoveItem, TUpdateFieldElement>(
+export const makePlayerMove = createAsyncThunk<TMakeMoveResponse, TUpdateFieldElement>(
   `${SliceNamespace.Game}/updateFieldElement`,
   async ({ roomId, ...data }) => {
     const options = {
@@ -362,3 +363,45 @@ export const makePlayerMove = createAsyncThunk<TGameAfterCheck | TGameAfterMoveI
   }
 );
 
+export const startGame = createAsyncThunk<TResetGameResponse, TBaseRoomParam>(
+  `${SliceNamespace.Game}/startGame`,
+  async ({ id }) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.game}/${id}${API_PATHS.startGame}`, options);
+  }
+);
+
+export const playAgain = createAsyncThunk<TResetGameResponse, TBaseRoomParam>(
+  `${SliceNamespace.Game}/playAgain`,
+  async ({ id }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+
+    return await request(`${API_PATHS.game}/${id}${API_PATHS.playAgain}`, options);
+  }
+);
+
+export const assignWinner = createAsyncThunk<TAssignWinnerResponse, TAssignWinnerParam>(
+  `${SliceNamespace.Game}/assignWinner`,
+  async ({ id, ...data }) => {
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    };
+
+    return await request(`${API_PATHS.game}/${id}${API_PATHS.assignWinner}`, options);
+  }
+);

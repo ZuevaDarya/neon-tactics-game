@@ -5,6 +5,10 @@
   background-color: var(--color-white);
   border-radius: var(--radius);
   padding: clamp(5px, calc(15 * 100vw / var(--base-viewport-size)), 15px);
+
+  @media (width <= 850px) {
+    order: 2;
+  }
 }
 
 .text {

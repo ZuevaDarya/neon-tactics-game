@@ -8,6 +8,10 @@
 
   background-color: var(--color-white);
   color: var(--textColor);
+
+  @media (width <= 850px) {
+    order: 1;
+  }
 }
 
 .player__name {

@@ -10,5 +10,7 @@
 }
 
 .avatar__img--right {
-  transform: scale(-1, 1);
+  @media (width >= 850px) {
+    transform: scale(-1, 1);
+  }
 }

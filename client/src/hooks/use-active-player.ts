@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { SessionStorageKey } from "../constants/storage-keys";
 import { useAppSelector } from "../services/store";
 
 const useActivePlayer = () => {
@@ -21,10 +22,16 @@ const useActivePlayer = () => {
       : { activePlayer: player, nonActivePlayer: creator };
   }, [creator, player]);
 
+  const isCurrentDevicePlayer = useMemo(
+    () => activePlayer?.id === sessionStorage.getItem(SessionStorageKey.PlayerId),
+    [activePlayer]
+  );
+
   return {
     activePlayer,
     nonActivePlayer,
     winner,
+    isCurrentDevicePlayer
   };
 };
 

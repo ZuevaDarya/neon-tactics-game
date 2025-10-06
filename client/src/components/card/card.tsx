@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { RU_CARD_TYPES } from "../../constants/card-types";
 import { LOCKED_CARDS_IDX } from "../../constants/game-constants";
+import useActivePlayer from "../../hooks/use-active-player";
 import { useAppSelector } from "../../services/store";
 import { TCardProps } from "../../types/components-types";
 import { TGameFieldPiece } from "../../types/services-types";
@@ -11,6 +12,7 @@ import st from "./card.module.css";
 
 function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
   const { targetCard, countTurn } = useAppSelector((state) => state.game);
+  const { isCurrentDevicePlayer } = useActivePlayer();
 
   const isAvailable = useMemo(
     () => (targetCard && card ? isAvailableCard(targetCard.types, card.types) : false),
@@ -57,7 +59,9 @@ function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
   }
 
   return dropTarget(
-    <div className={cn(st.card, isPieceMoving && st["card--available"])}>{renderCardContent()}</div>
+    <div className={cn(st.card, (isPieceMoving || isCurrentDevicePlayer) && st["card--available"])}>
+      {renderCardContent()}
+    </div>
   );
 }
 

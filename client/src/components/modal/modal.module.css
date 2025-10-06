@@ -7,7 +7,7 @@
 
   background-color: var(--color-white);
   border-radius: var(--radius);
-  width: clamp(200px, calc(600 * 100vw / var(--base-viewport-size)), 600px);
+  width: clamp(250px, calc(600 * 100vw / var(--base-viewport-size)), 600px);
   height: 55vh;
 
   padding: 20px;

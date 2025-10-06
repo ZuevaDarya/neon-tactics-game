@@ -8,7 +8,7 @@ import cn from "../../utils/functions/cn";
 import st from "./game-piece.module.css";
 
 function GamePiece({ type, isDraggible, isNonPlayed }: TGamePieceProps) {
-  const { activePlayer } = useActivePlayer();
+  const { activePlayer, isCurrentDevicePlayer } = useActivePlayer();
 
   const [, drag] = useDrag({
     type: "piece",
@@ -16,29 +16,23 @@ function GamePiece({ type, isDraggible, isNonPlayed }: TGamePieceProps) {
     collect: (monitor) => ({
       isDragged: monitor.didDrop(),
     }),
-    canDrag: () => activePlayer?.id === sessionStorage.getItem(SessionStorageKey.PlayerId),
+    canDrag: isCurrentDevicePlayer,
   });
 
-  return activePlayer && activePlayer.pieceType === type && isDraggible ? (
-    drag(
-      <div
-        className={cn(
-          st["game-piece"],
-          st[`game-piece--${type}`],
-          st["game-piece--active"],
-          isNonPlayed && st["game-piece--non-played"]
-        )}
-      />
-    )
-  ) : (
+  if (!activePlayer) return null;
+
+  const pieceElement = (
     <div
       className={cn(
         st["game-piece"],
         st[`game-piece--${type}`],
+        activePlayer?.pieceType === type && isDraggible && st["game-piece--active"],
         isNonPlayed && st["game-piece--non-played"]
       )}
     />
   );
+
+  return activePlayer.pieceType === type && isDraggible ? drag(pieceElement) : pieceElement;
 }
 
 export default memo(GamePiece);

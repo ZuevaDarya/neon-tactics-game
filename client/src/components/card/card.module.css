@@ -48,6 +48,9 @@
   --backgroundColor: var(--color-green-light);
   --shadowColor: var(--color-green-dark);
   --textColor: var(--color-green);
+
+  animation: pulse 2s infinite;
+  transition: all;
 }
 
 .card.card--locked {
@@ -64,4 +67,17 @@
   --shadowColor: transparent;
   width: var(--target-card-size);
   height: var(--target-card-size);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    border-color: transparent;
+    box-shadow: 0 0 5px transparent;
+  }
+
+  50% {
+    border-color: var(--borderColor);
+    box-shadow: 0 0 5px var(--shadowColor);
+  }
 }

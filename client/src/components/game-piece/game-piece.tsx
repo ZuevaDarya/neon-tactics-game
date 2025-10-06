@@ -1,7 +1,6 @@
 import { memo } from "react";
 import { useDrag } from "react-dnd";
 import uuid from "react-uuid";
-import { SessionStorageKey } from "../../constants/storage-keys";
 import useActivePlayer from "../../hooks/use-active-player";
 import { TGamePieceProps } from "../../types/components-types";
 import cn from "../../utils/functions/cn";

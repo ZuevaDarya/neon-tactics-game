@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 import { useDrop } from "react-dnd";
+import uuid from "react-uuid";
 import { RU_CARD_TYPES } from "../../constants/card-types";
 import { LOCKED_CARDS_IDX } from "../../constants/game-constants";
 import useActivePlayer from "../../hooks/use-active-player";
 import { useAppSelector } from "../../services/store";
-import { TCardProps } from "../../types/components-types";
+import { TCardProps, TPieceTypes } from "../../types/components-types";
 import { TGameFieldPiece } from "../../types/services-types";
 import cn from "../../utils/functions/cn";
 import isAvailableCard from "../../utils/functions/is-available-card";
@@ -12,7 +13,7 @@ import st from "./card.module.css";
 
 function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
   const { targetCard, countTurn } = useAppSelector((state) => state.game);
-  const { isCurrentDevicePlayer } = useActivePlayer();
+  const { isCurrentDevicePlayer, activePlayer } = useActivePlayer();
 
   const isAvailable = useMemo(
     () => (targetCard && card ? isAvailableCard(targetCard.types, card.types) : false),
@@ -59,7 +60,12 @@ function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
   }
 
   return dropTarget(
-    <div className={cn(st.card, (isPieceMoving || isCurrentDevicePlayer) && st["card--available"])}>
+    <div
+      className={cn(st.card, (isPieceMoving || isCurrentDevicePlayer) && st["card--available"])}
+      onClick={() =>
+        onDrop && onDrop(cardIdx, { id: uuid(), type: activePlayer?.pieceType as TPieceTypes })
+      }
+    >
       {renderCardContent()}
     </div>
   );

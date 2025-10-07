@@ -17,23 +17,23 @@
 }
 
 .tab--cyan {
-  --textColor: var(--color-cyan-700);
-  --hoverBackgroundColor: var(--hover-color-cyan-300);
+  --textColor: var(--tab-text-color-cyan);
+  --hoverBackgroundColor: var(--tab-text-hover-color-cyan);
 }
 
 .tab--pink {
-  --textColor: var(--color-pink-700);
-  --hoverBackgroundColor: var(--hover-color-pink-300);
+  --textColor: var(--tab-text-color-pink);
+  --hoverBackgroundColor: var(--tab-text-hover-color-pink);
 }
 
 .tab--cyan.tab--active {
-  --backgroundColor: var(--color-cyan-600);
-  --textColor: var(--color-white);
+  --backgroundColor: var(--tab-active-background-cyan);
+  --textColor: var(--tab-active-text-color-cyan);
 }
 
 .tab--pink.tab--active {
-  --backgroundColor: var(--color-pink-600);
-  --textColor: var(--color-white);
+  --backgroundColor: var(--tab-active-background-color-pink);
+  --textColor: var(--tab-active-text-color-pink);
 }
 
 .tab__content {

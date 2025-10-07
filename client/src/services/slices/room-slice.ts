@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { SessionStorageKey } from "../../constants/storage-keys";
+import { StorageKey } from "../../constants/storage-keys";
 import { TRoomBase, TRoomState } from "../../types/services-types";
 import {
   createPlayerWithCreateRoom,
@@ -34,7 +34,7 @@ const roomSlice = createSlice({
       state.creatorId = payload.creatorId;
       state.id = payload.id;
       state.status = payload.status;
-      sessionStorage.setItem(SessionStorageKey.RoomId, payload.id);
+      sessionStorage.setItem(StorageKey.RoomId, payload.id);
     },
     resetRoomState: (state) => {
       state.id = null;
@@ -44,7 +44,7 @@ const roomSlice = createSlice({
       state.isRequest = false;
       state.isSuccess = false;
       state.error = null;
-      sessionStorage.removeItem(SessionStorageKey.RoomId);
+      sessionStorage.removeItem(StorageKey.RoomId);
     },
   },
   extraReducers: (builder) => {
@@ -67,7 +67,7 @@ const roomSlice = createSlice({
         state.creatorId = payload.creatorId;
         state.playerId = payload.playerId;
         state.status = payload.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.id);
+        sessionStorage.setItem(StorageKey.RoomId, payload.id);
       })
       .addCase(createPlayerWithCreateRoom.pending, (state) => {
         state.isRequest = true;
@@ -87,7 +87,7 @@ const roomSlice = createSlice({
         state.creatorId = payload.room.creatorId;
         state.playerId = payload.room.playerId;
         state.status = payload.room.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
+        sessionStorage.setItem(StorageKey.RoomId, payload.room.id);
       })
       .addCase(getRoom.pending, (state) => {
         state.isRequest = true;
@@ -107,7 +107,7 @@ const roomSlice = createSlice({
         state.creatorId = payload.creatorId;
         state.playerId = payload.playerId;
         state.status = payload.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.id);
+        sessionStorage.setItem(StorageKey.RoomId, payload.id);
       })
       .addCase(createPlayerWithJoinInRoom.pending, (state) => {
         state.isRequest = true;
@@ -127,7 +127,7 @@ const roomSlice = createSlice({
         state.creatorId = payload.room.creatorId;
         state.id = payload.room.id;
         state.status = payload.room.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
+        sessionStorage.setItem(StorageKey.RoomId, payload.room.id);
       })
       .addCase(deleteRoom.pending, (state) => {
         state.isRequest = true;
@@ -147,7 +147,7 @@ const roomSlice = createSlice({
         state.id = null;
         state.creatorId = null;
         state.status = null;
-        sessionStorage.removeItem(SessionStorageKey.RoomId);
+        sessionStorage.removeItem(StorageKey.RoomId);
       })
       .addCase(updateRoomStatus.pending, (state) => {
         state.isRequest = true;
@@ -201,7 +201,7 @@ const roomSlice = createSlice({
         state.id = null;
         state.creatorId = null;
         state.status = null;
-        sessionStorage.removeItem(SessionStorageKey.RoomId);
+        sessionStorage.removeItem(StorageKey.RoomId);
       })
       .addCase(makePlayerMove.pending, (state) => {
         state.isRequest = true;
@@ -223,7 +223,7 @@ const roomSlice = createSlice({
           state.creatorId = payload.room.creatorId;
           state.id = payload.room.id;
           state.status = payload.room.status;
-          sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
+          sessionStorage.setItem(StorageKey.RoomId, payload.room.id);
         }
       })
       .addCase(startGame.pending, (state) => {
@@ -244,7 +244,7 @@ const roomSlice = createSlice({
         state.creatorId = payload.room.creatorId;
         state.playerId = payload.room.playerId;
         state.status = payload.room.status;
-        sessionStorage.setItem(SessionStorageKey.RoomId, payload.room.id);
+        sessionStorage.setItem(StorageKey.RoomId, payload.room.id);
       });
   },
 });

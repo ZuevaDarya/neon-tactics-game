@@ -12,14 +12,14 @@
 }
 
 .game-piece--cyan {
-  --shadowColor: var(--color-cyan-600);
-  --animateShadowColor: var(--color-cyan-600-rgb);
+  --shadowColor: var(--color-cyan-700);
+  --animateShadowColor: var(--color-cyan-700-rgb);
   background-image: url("../../assets/images/piece-cyan.png");
 }
 
 .game-piece--pink {
-  --shadowColor: var(--color-pink-600);
-  --animateShadowColor: var(--color-pink-600-rgb);
+  --shadowColor: var(--color-pink-700);
+  --animateShadowColor: var(--color-pink-700-rgb);
   background-image: url("../../assets/images/piece-pink.png");
 }
 

@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import DragPiecePreview from "./components/drag-piece-preview/drag-piece-preview.tsx";
+import ThemeProvider from "./components/theme-provider/theme-provider.tsx";
 import "./index.css";
 import "./reset.css";
 import { store } from "./services/store.ts";
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")!).render(
       <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <Provider store={store}>
           <DragPiecePreview />
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </Provider>
       </DndProvider>
     </BrowserRouter>

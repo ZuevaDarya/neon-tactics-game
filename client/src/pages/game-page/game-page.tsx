@@ -4,7 +4,7 @@ import GameField from "../../components/game-field/game-field";
 import GameStatePanel from "../../components/game-state-panel/game-state-panel";
 import PlayerBlock from "../../components/player-block/player-block";
 import WinnerModal from "../../components/winner-modal/winner-modal";
-import { SessionStorageKey } from "../../constants/storage-keys";
+import { StorageKey } from "../../constants/storage-keys";
 import useActivePlayer from "../../hooks/use-active-player";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { getAllPlayersInRoom, getGame, getRoom } from "../../services/thunks";
@@ -18,7 +18,7 @@ function GamePage() {
 
   useEffect(() => {
     const preloadedData = async () => {
-      const roomId = sessionStorage.getItem(SessionStorageKey.RoomId);
+      const roomId = sessionStorage.getItem(StorageKey.RoomId);
       if (!roomId) return;
 
       await dispatch(getRoom({ id: roomId })).unwrap();

@@ -21,32 +21,31 @@
       var(--hoverBackgroundGradientEndColor)
     );
     background-color: var(--hoverBackgroundColor);
-    box-shadow: 0 0 10px var(--hoverShadowColor);
+    box-shadow: 0 0 5px var(--hoverShadowColor);
   }
 }
 
-.button--gray {
-  --backgroundColor: var(--color-gray);
-  --textColor: var(--color-white);
-  --hoverBackgroundColor: var(--color-gray);
+.button--default {
+  --backgroundColor: var(--button-default);
+  --textColor: var(--button-default-text-color);
+  --hoverBackgroundColor: var(--button-default);
   cursor: default;
 }
 
 .button--cyan {
-  --backgroundColor: var(--color-cyan-700);
+  --backgroundColor: var(--button-background-cyan);
   --textColor: var(--color-white);
-  --hoverBackgroundGradientStartColor: var(--color-cyan-500);
-  --hoverBackgroundGradientEndColor: var(--color-cyan-700);
-  --hoverShadowColor: oklch(55.163% 0.10356 224.629);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-cyan);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-cyan);
+  --hoverShadowColor: var(--input-shadow-color-cyan);
 }
 
 .button--pink {
-  --backgroundColor: var(--color-pink-700);
+  --backgroundColor: var(--button-background-pink);
   --textColor: var(--color-white);
-  --hoverBackgroundColor: var(--btn-hover-color-pink);
-  --hoverBackgroundGradientStartColor: var(--color-pink-500);
-  --hoverBackgroundGradientEndColor: var(--color-pink-700);
-  --hoverShadowColor: oklch(47.723% 0.19203 4.114);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
+  --hoverShadowColor: var(--input-shadow-color-pink);
 }
 
 .button--closed {
@@ -114,16 +113,43 @@
 
 .button--copy-cyan,
 .button--check-cyan {
-  --backgroundColor: var(--color-cyan-700);
-  --hoverBackgroundGradientStartColor: var(--color-cyan-500);
-  --hoverBackgroundGradientEndColor: var(--color-cyan-700);
-  --hoverBackgroundColor: var(--btn-hover-color-cyan);
+  --backgroundColor: var(--button-background-cyan);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-cyan);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-cyan);
+  --hoverBackgroundColor: var(--button-background-cyan);
 }
 
 .button--copy-pink,
 .button--check-pink {
-  --backgroundColor: var(--color-pink-700);
-  --hoverBackgroundGradientStartColor: var(--color-pink-500);
-  --hoverBackgroundGradientEndColor: var(--color-pink-700);
-  --hoverBackgroundColor: var(--btn-hover-color-pink);
+  --backgroundColor: var(--button-background-pink);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
+  --hoverBackgroundColor: var(--button-background-pink);
+}
+
+.button--toggle-theme {
+  position: relative;
+  mask-image: var(--svgIconPath);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  width: 30px;
+  height: 30px;
+  background-color: var(--button-theme-icon-color);
+}
+
+.button--toggle-theme-light {
+  --svgIconPath: url("../../assets/icons/sun.svg");
+  --backgroundColor: var(--button-background-pink);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
+  --hoverBackgroundColor: var(--button-background-pink);
+}
+
+.button--toggle-theme-dark {
+  --svgIconPath: url("../../assets/icons/moon.svg");
+  --backgroundColor: var(--button-background-pink);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
+  --hoverBackgroundColor: var(--button-background-pink);
 }

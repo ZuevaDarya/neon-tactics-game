@@ -118,3 +118,14 @@ export type TWinnerModalContentProps = {
 export type TCopyItem = {
   children: React.ReactNode;
 };
+
+export type TTheme = "light" | "dark";
+
+export type TThemeContext = {
+  theme: TTheme;
+  toggleTheme: () => void;
+};
+
+export type TThemeProviderProps = {
+  children: React.ReactNode;
+};

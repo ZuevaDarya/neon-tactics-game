@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { API_PATHS } from "../constants/api-constants";
 import { SliceNamespace } from "../constants/slice-namespace";
-import { SessionStorageKey } from "../constants/storage-keys";
+import { StorageKey } from "../constants/storage-keys";
 import {
   TAssignWinnerParam,
   TAssignWinnerResponse,
@@ -44,7 +44,7 @@ export const createPlayerWithCreateRoom = createAsyncThunk<
   TCreatePlayer,
   TRejectValue
 >(`${SliceNamespace.Players}/createPlayerWithCreateRoom`, async (player, { rejectWithValue }) => {
-  const socketId = sessionStorage.getItem(SessionStorageKey.SocketId);
+  const socketId = sessionStorage.getItem(StorageKey.SocketId);
 
   if (!socketId) {
     return rejectWithValue("Подключение к сокету не установлено");
@@ -67,7 +67,7 @@ export const createPlayerWithJoinInRoom = createAsyncThunk<
   TCreatePlayerWithJoinInRoom,
   TRejectValue
 >(`${SliceNamespace.Players}/createPlayerWithJoinInRoom`, async (player, { rejectWithValue }) => {
-  const socketId = sessionStorage.getItem(SessionStorageKey.SocketId);
+  const socketId = sessionStorage.getItem(StorageKey.SocketId);
 
   if (!socketId) {
     return rejectWithValue("Подключение к сокету не установлено");
@@ -330,7 +330,7 @@ export const shuffleField = createAsyncThunk<TUpdateGameResponse, TBasePlayerPar
 export const leaveGame = createAsyncThunk<void, TBaseRoomParam>(
   `${SliceNamespace.Game}/leaveGame`,
   async ({ id }, { rejectWithValue }) => {
-    const socketId = sessionStorage.getItem(SessionStorageKey.SocketId);
+    const socketId = sessionStorage.getItem(StorageKey.SocketId);
 
     if (!socketId) {
       return rejectWithValue("Подключение к сокету не установлено");

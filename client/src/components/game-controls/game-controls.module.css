@@ -8,8 +8,8 @@
   gap: 5px;
   width: clamp(80px, calc(200 * 100vw / var(--base-viewport-size)), 200px);
 
-  background-color: oklch(0.5 0.09372 232.208 / 0.195);
+  background-color: var(--panel-background);
   padding: clamp(5px, calc(10 * 100vw / var(--base-viewport-size)), 10px);
   border-radius: var(--radius);
-  border: 1px solid rgba(3, 97, 132, 0.195);
+  border: 1px solid var(--panel-border-color);
 }

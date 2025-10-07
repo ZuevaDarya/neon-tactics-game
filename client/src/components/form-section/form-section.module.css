@@ -11,7 +11,7 @@
 
   text-align: center;
   font-family: var(--font-exo-2);
-  color: var(--color-slate-600);
+  color: var(--form-section-title-color);
 }
 
 .form__items {

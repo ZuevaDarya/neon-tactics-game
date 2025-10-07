@@ -16,7 +16,7 @@
 
   text-align: center;
   text-transform: uppercase;
-  color: var(--color-black);
+  color: var(--form-title-color);
   font-family: var(--font-exo-2);
   font-weight: 700;
 }
@@ -30,15 +30,16 @@
   --minFontSize: 14px;
   --maxFontSize: 22px;
   --recommendFontSize: 18;
+  color: var(--form-message-base-color);
 }
 
 .form__message--acent-cyan {
-  color: var(--color-cyan-700);
+  color: var(--form-message-cyan);
   font-weight: var(--font-weight-bold);
 }
 
 .form__message--acent-pink {
-  color: var(--color-pink-700);
+  color: var(--form-message-pink);
   font-weight: var(--font-weight-bold);
 }
 
@@ -49,6 +50,6 @@
 .form__error {
   position: absolute;
   font-size: 14px;
-  color: red;
+  color: var(--color-error);
   transform: translateY(calc(60 * 100vw / var(--base-viewport-size)));
 }

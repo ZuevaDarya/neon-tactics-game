@@ -6,10 +6,10 @@
   gap: 15px;
   align-self: center;
   width: clamp(300px, calc(400 * 100vw / var(--base-viewport-size)), 500px);
-  background-color: oklch(0.5 0.09372 232.208 / 0.195);
+  background-color: var(--panel-background);
   padding: 10px;
   border-radius: var(--radius);
-  border: 1px solid rgba(3, 97, 132, 0.195);
+  border: 1px solid var(--panel-border-color);
 }
 
 .text {
@@ -17,7 +17,7 @@
   --maxFontSize: 18px;
   --recommendFontSize: 16;
   --lineHeightRatio: var(--text-16px--line-height-ratio);
-  color: var(--color-black);
+  color: var(--panel-text-color-default);
 }
 
 .text__name {
@@ -35,9 +35,9 @@
 }
 
 .name.name--cyan {
-  --textColor: var(--color-cyan-700);
+  --textColor: var(--panel-text-color-cyan);
 }
 
 .name.name--pink {
-  --textColor: var(--color-pink-700);
+  --textColor: var(--panel-text-color-pink);
 }

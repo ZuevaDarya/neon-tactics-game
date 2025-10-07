@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { SessionStorageKey } from "../constants/storage-keys";
+import { StorageKey } from "../constants/storage-keys";
 import { useAppSelector } from "../services/store";
 
 const useActivePlayer = () => {
@@ -23,7 +23,7 @@ const useActivePlayer = () => {
   }, [creator, player]);
 
   const isCurrentDevicePlayer = useMemo(
-    () => activePlayer?.id === sessionStorage.getItem(SessionStorageKey.PlayerId),
+    () => activePlayer?.id === sessionStorage.getItem(StorageKey.PlayerId),
     [activePlayer]
   );
 
@@ -31,7 +31,7 @@ const useActivePlayer = () => {
     activePlayer,
     nonActivePlayer,
     winner,
-    isCurrentDevicePlayer
+    isCurrentDevicePlayer,
   };
 };
 

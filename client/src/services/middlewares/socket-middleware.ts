@@ -1,7 +1,7 @@
 import { Middleware } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
 import { SocketEvent } from "../../constants/socket-event";
-import { SessionStorageKey } from "../../constants/storage-keys";
+import { StorageKey } from "../../constants/storage-keys";
 import {
   TAssignWinnerResponse,
   TCreateGameResponse,
@@ -27,7 +27,7 @@ import { RootState } from "../store";
 
 export function createSocketMiddleware(): Middleware<unknown, RootState> {
   let socket: Socket | null = null;
-  const roomId = sessionStorage.getItem(SessionStorageKey.RoomId);
+  const roomId = sessionStorage.getItem(StorageKey.RoomId);
 
   return (({ dispatch }) =>
     (next) =>
@@ -49,7 +49,7 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           reconnectionAttempts: 5,
           reconnectionDelay: 1000,
           auth: {
-            token: sessionStorage.getItem(SessionStorageKey.SocketId),
+            token: sessionStorage.getItem(StorageKey.SocketId),
             roomId,
           },
         });
@@ -58,7 +58,7 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           console.log("Socket connected");
 
           const socketId = socket?.id || "";
-          sessionStorage.setItem(SessionStorageKey.SocketId, socketId);
+          sessionStorage.setItem(StorageKey.SocketId, socketId);
           dispatch(connected({ socketId }));
         });
 
@@ -73,7 +73,7 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
         socket.on(SocketEvent.Disconnect, () => {
           console.log("Socket disconnected");
 
-          sessionStorage.removeItem(SessionStorageKey.SocketId);
+          sessionStorage.removeItem(StorageKey.SocketId);
           dispatch(disconnected());
         });
 

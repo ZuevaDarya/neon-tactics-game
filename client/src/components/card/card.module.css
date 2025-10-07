@@ -5,7 +5,7 @@
   border-radius: var(--radius);
   background-color: var(--backgroundColor, var(--color-white));
   border: 1px var(--borderType) var(--borderColor, var(--color-black));
-  box-shadow: 0 0 5px var(--shadowColor);
+  box-shadow: 0 0 10px var(--shadowColor);
 
   text-transform: uppercase;
   text-decoration: underline;
@@ -23,21 +23,22 @@
 
   &:nth-child(2n) {
     --borderType: solid;
-    --borderColor: var(--color-cyan-500);
-    --shadowColor: var(--color-cyan-500);
+    --borderColor: var(--card-border-color-cyan);
+    --shadowColor:  var(--card-border-color-cyan);
   }
 
   &:nth-child(2n + 1) {
     --borderType: solid;
-    --borderColor: var(--color-pink-500);
-    --shadowColor: var(--color-pink-500);
+    --borderColor: var(--card-border-color-pink);
+    --shadowColor: var(--card-border-color-pink);
   }
 }
 
 .card.card--empty {
   --borderType: dashed;
-  --borderColor: var(--color-red);
+  --borderColor: var(--card-empty-border-color);
   --shadowColor: transparent;
+  --backgroundColor: var(--card-empty-background);
   width: var(--target-card-size);
   height: var(--target-card-size);
 }
@@ -46,7 +47,7 @@
   --borderColor: var(--color-green);
   --borderType: solid;
   --backgroundColor: var(--color-green-light);
-  --shadowColor: var(--color-green-dark);
+  --shadowColor: var(--card-shadow-color-green);
   --textColor: var(--color-green);
 
   animation: pulse 2s infinite;

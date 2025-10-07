@@ -2,6 +2,7 @@ import FormCreateRoom from "../../components/form-create-room/form-create-room";
 import FormJoinRoom from "../../components/form-join-room/form-join-room";
 import Tab from "../../components/tab/tab";
 import Tabs from "../../components/tabs/tabs";
+import ThemeToggle from "../../components/theme-toggle/theme-toggle";
 import useRoomStatus from "../../hooks/use-room-status";
 import mx from "../../mixins.module.css";
 import cn from "../../utils/functions/cn";
@@ -11,23 +12,26 @@ function StartPage() {
   const { isWaiting, isPlayersJoined } = useRoomStatus();
 
   return (
-    <main className={st["start-page-wrapper"]}>
-      <h1 className={cn(st.title, st["title--upperline"], mx["responsiveFont"])}>
-        NEON_TACTICS.EXE
-      </h1>
-      <Tabs>
-        <Tab label="Создать комнату" disabled={isPlayersJoined} variant="cyan">
-          <FormCreateRoom />
-        </Tab>
-        <Tab
-          label="Присоединиться к комнате"
-          disabled={isWaiting || isPlayersJoined}
-          variant="pink"
-        >
-          <FormJoinRoom />
-        </Tab>
-      </Tabs>
-    </main>
+    <>
+      <ThemeToggle />
+      <main className={st["start-page-wrapper"]}>
+        <h1 className={cn(st.title, st["title--upperline"], mx["responsiveFont"])}>
+          NEON_TACTICS.EXE
+        </h1>
+        <Tabs>
+          <Tab label="Создать комнату" disabled={isPlayersJoined} variant="cyan">
+            <FormCreateRoom />
+          </Tab>
+          <Tab
+            label="Присоединиться к комнате"
+            disabled={isWaiting || isPlayersJoined}
+            variant="pink"
+          >
+            <FormJoinRoom />
+          </Tab>
+        </Tabs>
+      </main>
+    </>
   );
 }
 

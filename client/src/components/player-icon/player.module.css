@@ -5,9 +5,13 @@
   gap: 5px;
   padding: 5px;
   border-radius: var(--radius);
-
-  background-color: var(--color-white);
   color: var(--textColor);
+
+  background: var(--glass-background);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid var(--glass-background);
 
   @media (width <= 850px) {
     order: 1;
@@ -25,9 +29,9 @@
 }
 
 .player--cyan {
-  --textColor: var(--color-cyan-700);
+  --textColor: var(--color-cyan-800);
 }
 
 .player--pink {
-  --textColor: var(--color-pink-500);
+  --textColor: var(--color-pink-700);
 }

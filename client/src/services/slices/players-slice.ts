@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { SessionStorageKey } from "../../constants/storage-keys";
+import { StorageKey } from "../../constants/storage-keys";
 import { TPlayer, TPlayersState } from "../../types/services-types";
 import {
   assignRandomPieceType,
@@ -46,7 +46,7 @@ const playersSlice = createSlice({
       state.isRequest = false;
       state.isSuccess = false;
       state.error = null;
-      sessionStorage.removeItem(SessionStorageKey.PlayerId);
+      sessionStorage.removeItem(StorageKey.PlayerId);
     },
   },
   extraReducers: (builder) => {
@@ -66,7 +66,7 @@ const playersSlice = createSlice({
         state.isSuccess = true;
         state.player = payload;
         state.error = null;
-        sessionStorage.setItem(SessionStorageKey.PlayerId, payload.id);
+        sessionStorage.setItem(StorageKey.PlayerId, payload.id);
       })
       .addCase(createPlayerWithCreateRoom.pending, (state) => {
         state.isRequest = true;
@@ -83,7 +83,7 @@ const playersSlice = createSlice({
         state.isSuccess = true;
         state.creator = payload.player;
         state.error = null;
-        sessionStorage.setItem(SessionStorageKey.PlayerId, payload.player.id);
+        sessionStorage.setItem(StorageKey.PlayerId, payload.player.id);
       })
       .addCase(getPlayer.pending, (state) => {
         state.isRequest = true;
@@ -116,7 +116,7 @@ const playersSlice = createSlice({
         state.isSuccess = true;
         state.player = payload.player;
         state.error = null;
-        sessionStorage.setItem(SessionStorageKey.PlayerId, payload.player.id);
+        sessionStorage.setItem(StorageKey.PlayerId, payload.player.id);
       })
       .addCase(getAllPlayersInRoom.pending, (state) => {
         state.isRequest = true;
@@ -160,7 +160,7 @@ const playersSlice = createSlice({
         } else {
           state.player = null;
         }
-        sessionStorage.removeItem(SessionStorageKey.PlayerId);
+        sessionStorage.removeItem(StorageKey.PlayerId);
       })
       .addCase(assignRandomPieceType.pending, (state) => {
         state.isRequest = true;
@@ -307,7 +307,7 @@ const playersSlice = createSlice({
         state.error = null;
         state.creator = null;
         state.player = null;
-        sessionStorage.removeItem(SessionStorageKey.PlayerId);
+        sessionStorage.removeItem(StorageKey.PlayerId);
       })
       .addCase(makePlayerMove.pending, (state) => {
         state.isRequest = true;

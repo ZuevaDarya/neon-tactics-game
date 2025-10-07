@@ -1,0 +1,18 @@
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--button-theme-border-color);
+  border-radius: var(--radius);
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--button-theme-background);
+}
+
+.theme-toggle:hover {
+  box-shadow: 0 0 5px var(--input-shadow-color-cyan);
+}

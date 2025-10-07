@@ -6,13 +6,15 @@ import st from "./button.module.css";
 const buttonVariants = cva(st.button, {
   variants: {
     variant: {
-      default: st["button--gray"],
+      default: st["button--default"],
       cyan: st["button--cyan"],
       pink: st["button--pink"],
       closedCyan: [st["button--closed"], st["button--closed-cyan"]],
       copy: st["button--copy"],
       copyCyan: [st["button--copy"], st["button--copy-cyan"]],
       checkCyan: [st["button--check"], st["button--check-cyan"]],
+      lightTheme: [st["button--toggle-theme"], st["button--toggle-theme-light"]],
+      darkTheme: [st["button--toggle-theme"], st["button--toggle-theme-dark"]],
     },
   },
   defaultVariants: {

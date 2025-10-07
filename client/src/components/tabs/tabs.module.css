@@ -20,8 +20,8 @@
   padding: 4px;
 
   border-radius: var(--radius);
-  border: 1px solid var(--color-cyan-600);
-  background-color: var(--color-slate-50);
+  border: 1px solid var(--tabs-border-color);
+  background-color: var(--tabs-background);
 
   text-transform: uppercase;
 

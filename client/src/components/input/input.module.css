@@ -13,7 +13,8 @@
   padding-inline: 8px;
   border-radius: var(--radius);
   border: 1px solid var(--borderColor);
-  color: var(--color-slate-800);
+  color: var(--input-text-color);
+  background-color: var(--input-background);
 
   transition: var(--base-transition);
 
@@ -24,31 +25,35 @@
   &:focus {
     box-shadow: 0 0 0 2px var(--focusShadowColor);
   }
+
+  &::placeholder {
+    color: var(--input-text-color);
+  }
 }
 
 .input--cyan {
-  --borderColor: var(--color-cyan-600);
-  --shadowColor: var(--btn-hover-color-cyan);
-  --focusShadowColor: var(--color-cyan-500);
+  --borderColor: var(--input-border-color-cyan);
+  --shadowColor: var(--input-shadow-color-cyan);
+  --focusShadowColor: var(--input-focus-shadow-color-cyan);
 }
 
 .input--pink {
-  --borderColor: var(--color-pink-600);
-  --shadowColor: var(--btn-hover-color-pink);
-  --focusShadowColor: var(--color-pink-500);
+  --borderColor: var(--input-border-color-pink);
+  --shadowColor: var(--input-shadow-color-pink);
+  --focusShadowColor: var(--input-focus-shadow-color-pink);
 }
 
 .input--cyan-disabled,
 .input--pink-disabled {
-  --shadowColor: var(--color-white);
-  background-color: var(--color-slate-100);
-  color: var(--color-black);
+  --shadowColor: transparent;
+  background-color: var(--input-disabled-background);
+  color: var(--input-disabled-text-color);
 }
 
 .input--cyan-disabled {
-  --borderColor: var(--color-cyan-600);
+  --borderColor: var(--input-border-color-cyan);
 }
 
 .input--pink-disabled {
-  --borderColor: var(--color-pink-600);
+  --borderColor: var(--input-border-color-pink);
 }

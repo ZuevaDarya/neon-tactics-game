@@ -5,7 +5,7 @@
   --recommendFontSize: 16;
 
   text-transform: uppercase;
-  color: var(--color-black);
+  color: var(--input-label-color);
   font-family: var(--font-exo-2);
 
   display: flex;

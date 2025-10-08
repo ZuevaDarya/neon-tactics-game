@@ -18,9 +18,9 @@
 .waiting-block__text {
   background: linear-gradient(
     90deg,
-    var(--color-cyan-700),
-    var(--color-pink-700),
-    var(--color-cyan-700)
+    var(--color-cyan-600),
+    var(--color-pink-600),
+    var(--color-cyan-600)
   );
   background-size: 200% auto;
   background-clip: text;

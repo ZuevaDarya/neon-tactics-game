@@ -82,10 +82,10 @@
 }
 
 .button--closed-cyan {
-  --backgroundColor: var(--color-cyan-50);
-  --closeIconColor: var(--color-cyan-700);
-  --hoverBackgroundColor: var(--color-cyan-700);
-  --hoverShadowColor: var(--color-cyan-700);
+  --backgroundColor: var(--button-closed-background-cyan);
+  --closeIconColor: var(--button-closed-icon-color-cyan);
+  --hoverBackgroundColor: var(--button-closed-hover-background-cyan);
+  --hoverShadowColor: var(--button-closed-shadow-color-cyan);
 }
 
 .button--copy,

@@ -62,6 +62,7 @@
   --panel-border-color: rgba(3, 97, 132, 0.195);
 
   --glass-background: rgba(255, 255, 255, 0.5);
+  --glass-background-light: rgba(255, 255, 255, 0.2);
 
   --radius: 0.5rem;
   --cell-size: 20px;
@@ -91,7 +92,7 @@
 
 [data-theme="light"] {
   --background-main: var(--color-slate-50);
-  --background-cell-color: oklch(52% 0.105 223.128 / 0.05);
+  --background-cell-color: oklch(52% 0.105 223.128 / 0.07);
   --start-modal-background: var(--color-white);
   --start-modal-border-color: var(--color-cyan-600);
   --start-title-color: var(--color-slate-800);
@@ -137,17 +138,28 @@
   --card-border-color-cyan: var(--color-cyan-500);
   --card-border-color-pink: var(--color-pink-500);
   --card-shadow-color-green: var(--color-green-dark);
+  --card-border-color-green: var(--color-green);
+  --card-background-green: var(--color-green-light);
+  --card-text-color-green: var(--color-green);
   --modal-text-color: var(--color-black);
   --button-theme-border-color: var(--color-slate-300);
   --button-theme-background: var(--color-slate-100);
   --button-theme-icon-color: var(--color-pink-600);
   --card-empty-border-color: var(--color-cyan-700);
   --card-empty-background: var(--color-white);
+  --button-closed-background-cyan: var(--color-cyan-50);
+  --button-closed-icon-color-cyan: var(--color-cyan-700);
+  --button-closed-hover-background-cyan: var(--color-cyan-700);
+  --button-closed-shadow-color-cyan: var(--color-cyan-700);
+  --player-background-glass: var(--glass-background);
+  --winner-background-glass: var(--panel-border-color);
+  --winner-text-color-cyan: var(--color-cyan-700);
+  --winner-text-color-pink: var(--color-pink-700);
 }
 
 [data-theme="dark"] {
   --background-main: var(--cornflower-blue-950);
-  --background-cell-color: oklch(72.283% 0.13683 225.576 / 0.05);
+  --background-cell-color: oklch(72.283% 0.13683 225.576 / 0.12);
   --start-modal-background: var(--cornflower-blue-900);
   --start-modal-border-color: var(--color-cyan-800);
   --start-title-color: var(--color-white);
@@ -192,13 +204,24 @@
   --panel-text-color-pink: var(--color-pink-500);
   --card-border-color-cyan: var(--color-cyan-400);
   --card-border-color-pink: var(--color-pink-400);
-  --card-shadow-color-green: oklch(86.645% 0.29481 142.511);
+  --card-shadow-color-green: var(--color-green-light);
+  --card-border-color-green: var(--color-green-light);
+  --card-background-green: oklch(41.459% 0.11954 143.058);
+  --card-text-color-green: var(--color-green-light);
   --modal-text-color: var(--color-white);
   --button-theme-border-color: var(--color-cyan-800);
   --button-theme-background: var(--cornflower-blue-950);
   --button-theme-icon-color: var(--color-pink-600);
   --card-empty-border-color: var(--color-cyan-600);
   --card-empty-background: var(--cornflower-blue-950);
+  --button-closed-background-cyan: var(--cornflower-blue-950);
+  --button-closed-icon-color-cyan: var(--color-cyan-500);
+  --button-closed-hover-background-cyan: var(--color-cyan-500);
+  --button-closed-shadow-color-cyan: var(--color-cyan-500);
+  --player-background-glass: var(--glass-background);
+  --winner-background-glass: var(--glass-background-light);
+  --winner-text-color-cyan: var(--color-cyan-400);
+  --winner-text-color-pink: var(--color-pink-400);
 }
 
 body {

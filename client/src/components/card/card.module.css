@@ -44,11 +44,11 @@
 }
 
 .card.card--available {
-  --borderColor: var(--color-green);
+  --borderColor: var(--card-border-color-green);
   --borderType: solid;
-  --backgroundColor: var(--color-green-light);
+  --backgroundColor: var(--card-background-green);
   --shadowColor: var(--card-shadow-color-green);
-  --textColor: var(--color-green);
+  --textColor: var(--card-text-color-green);
 
   animation: pulse 2s infinite;
   transition: all;

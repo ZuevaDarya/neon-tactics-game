@@ -15,6 +15,10 @@ function WinnerModalContent({ winners, title }: TWinnerModalContentProps) {
             src={winner.avatarPath || ""}
             name={winner.name}
             type={winner.pieceType}
+            classes={cn(
+              st["winner-modal__player"],
+              st[`winner-modal__player--${winner.pieceType}`]
+            )}
           />
         ))}
       </div>

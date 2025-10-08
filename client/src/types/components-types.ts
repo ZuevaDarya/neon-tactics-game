@@ -41,6 +41,7 @@ export type TPlayerBlockProps = {
 export type TPlayerIconProps = TAvatarProps & {
   name: string;
   type: TPieceTypes | null;
+  classes?: string;
 };
 
 export type TModalOverlayProps = {

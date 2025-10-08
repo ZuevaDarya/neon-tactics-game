@@ -29,6 +29,16 @@
   &::placeholder {
     color: var(--input-text-color);
   }
+
+  &:-webkit-autofill {
+    animation-name: autofillBackground;
+    animation-fill-mode: both;
+    animation-duration: 0.01s;
+    -webkit-box-shadow: 0 0 0 1000px var(--input-background) inset;
+    box-shadow: 0 0 0 1000px var(--input-background) inset;
+    -webkit-text-fill-color: var(--input-text-color);
+    caret-color: var(--input-text-color);
+  }
 }
 
 .input--cyan {
@@ -56,4 +66,13 @@
 
 .input--pink-disabled {
   --borderColor: var(--input-border-color-pink);
+}
+
+@keyframes autofillBackground {
+  0% {
+    background-color: var(--input-background);
+  }
+  100% {
+    background-color: var(--input-background);
+  }
 }

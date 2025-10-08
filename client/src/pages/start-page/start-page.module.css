@@ -20,6 +20,7 @@
 
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: clamp(20px, calc(50 * 100vw / var(--base-viewport-size)), 50px);
 
   @media (width <= 1155px) {
@@ -59,10 +60,48 @@
     bottom: 0;
     right: 0;
     margin: 0 auto;
-    width: 20%;
+    width: 40%;
     height: 5px;
 
     background-image: linear-gradient(90deg, var(--color-cyan-500), var(--color-pink-500));
     border-radius: var(--radius);
+  }
+}
+
+.start-page__theme-toggle {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.typing-effect {
+  width: 14ch;
+  animation: typing 2s steps(14), blink-caret 0.75s step-end infinite 2s,
+    final-hide 0.5s 4.5s forwards;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+}
+
+@keyframes blink-caret {
+  0%,
+  50% {
+    border-color: currentColor;
+  }
+  51%,
+  100% {
+    border-color: transparent;
+  }
+}
+
+@keyframes final-hide {
+  to {
+    border-color: transparent;
   }
 }

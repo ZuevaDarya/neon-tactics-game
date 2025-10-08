@@ -12,10 +12,19 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
+}
 
-  @media (width <= 655px) {
-    flex-direction: column;
-  }
+.winner-modal__player {
+  --backgroundGlass: var(--winner-background-glass);
+}
+
+.winner-modal__player--cyan {
+  --textColor: var(--winner-text-color-cyan);
+}
+
+.winner-modal__player--pink {
+  --textColor: var(--winner-text-color-pink);
 }
 
 .winner-modal__title {

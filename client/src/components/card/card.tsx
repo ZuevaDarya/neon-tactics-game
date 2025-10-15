@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { useDrop } from "react-dnd";
 import uuid from "react-uuid";
-import { RU_CARD_TYPES } from "../../constants/card-types";
 import { LOCKED_CARDS_IDX } from "../../constants/game-constants";
 import useActivePlayer from "../../hooks/use-active-player";
 import { useAppSelector } from "../../services/store";
@@ -38,10 +37,10 @@ function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
   });
 
   const renderCardContent = () => (
-    <>
-      <p>{card?.types[0] ? RU_CARD_TYPES[card.types[0]] : ""}</p>
-      <p>{card?.types[1] ? RU_CARD_TYPES[card.types[1]] : ""}</p>
-    </>
+    <div className={st["card__image-container"]}>
+      <span className={cn(st.image, st[`image--${card?.types[0]}`])} />
+      <span className={cn(st.image, st[`image--${card?.types[1]}`])} />
+    </div>
   );
 
   if (!card) return <div className={cn(st.card, st["card--empty"])} />;

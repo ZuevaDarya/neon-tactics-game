@@ -5,67 +5,67 @@ import { TCard } from "../types/components-types";
 const CARDS: TCard[] = [
   {
     id: uuid(),
-    types: [CardType.Maple, CardType.Sun],
+    types: [CardType.Hacker, CardType.QrCode],
   },
   {
     id: uuid(),
-    types: [CardType.Maple, CardType.Paper],
+    types: [CardType.Hacker, CardType.Gun],
   },
   {
     id: uuid(),
-    types: [CardType.Maple, CardType.Bird],
+    types: [CardType.Hacker, CardType.Flask],
   },
   {
     id: uuid(),
-    types: [CardType.Maple, CardType.Rain],
+    types: [CardType.Hacker, CardType.Hologram],
   },
   {
     id: uuid(),
-    types: [CardType.Sakura, CardType.Sun],
+    types: [CardType.Robot, CardType.QrCode],
   },
   {
     id: uuid(),
-    types: [CardType.Sakura, CardType.Paper],
+    types: [CardType.Robot, CardType.Gun],
   },
   {
     id: uuid(),
-    types: [CardType.Sakura, CardType.Bird],
+    types: [CardType.Robot, CardType.Flask],
   },
   {
     id: uuid(),
-    types: [CardType.Sakura, CardType.Rain],
+    types: [CardType.Robot, CardType.Hologram],
   },
   {
     id: uuid(),
-    types: [CardType.Pine, CardType.Sun],
+    types: [CardType.Vr, CardType.QrCode],
   },
   {
     id: uuid(),
-    types: [CardType.Pine, CardType.Paper],
+    types: [CardType.Vr, CardType.Gun],
   },
   {
     id: uuid(),
-    types: [CardType.Pine, CardType.Bird],
+    types: [CardType.Vr, CardType.Flask],
   },
   {
     id: uuid(),
-    types: [CardType.Pine, CardType.Rain],
+    types: [CardType.Vr, CardType.Hologram],
   },
   {
     id: uuid(),
-    types: [CardType.Iris, CardType.Sun],
+    types: [CardType.Chip, CardType.QrCode],
   },
   {
     id: uuid(),
-    types: [CardType.Iris, CardType.Paper],
+    types: [CardType.Chip, CardType.Gun],
   },
   {
     id: uuid(),
-    types: [CardType.Iris, CardType.Bird],
+    types: [CardType.Chip, CardType.Flask],
   },
   {
     id: uuid(),
-    types: [CardType.Iris, CardType.Rain],
+    types: [CardType.Chip, CardType.Hologram],
   },
 ];
 

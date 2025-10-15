@@ -3,7 +3,6 @@
   height: var(--piece-size);
   padding: 5px;
   border-radius: var(--radius);
-  background-color: var(--backgroundColor, var(--color-white));
   border: 1px var(--borderType) var(--borderColor, var(--color-black));
   box-shadow: 0 0 10px var(--shadowColor);
 
@@ -17,6 +16,14 @@
   justify-content: center;
   align-items: center;
 
+  background: linear-gradient(
+    135deg,
+    var(--card-default-gradient-start) 0%,
+    var(--card-default-gradient-end) 100%
+  );
+  position: relative;
+  overflow: hidden;
+
   &:hover {
     cursor: pointer;
   }
@@ -24,7 +31,7 @@
   &:nth-child(2n) {
     --borderType: solid;
     --borderColor: var(--card-border-color-cyan);
-    --shadowColor:  var(--card-border-color-cyan);
+    --shadowColor: var(--card-border-color-cyan);
   }
 
   &:nth-child(2n + 1) {
@@ -34,11 +41,70 @@
   }
 }
 
+.card:not(.card--empty, .card--locked, .card--targeted) {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, oklch(79.906% 0.12957 228.431 / 0.062) 1px, transparent 1px),
+      linear-gradient(0deg, oklch(0.77 0.13135 194.811 / 0) 1px, transparent 1px),
+      radial-gradient(
+        circle at 20% 30%,
+        var(--card-default-before-radial-gradient) 0%,
+        transparent 25%
+      ),
+      radial-gradient(circle at 80% 70%, oklch(60.562% 0.1835 255.49 / 0.37) 0%, transparent 25%);
+    background-size: 50px 50px, 50px 50px, 200px 200px, 200px 200px;
+    animation: gridPulse 4s ease-in-out infinite;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--card-default-after-gradient-start),
+      var(--card-default-after-gradient-middle),
+      var(--card-default-after-gradient-end),
+      transparent
+    );
+    animation: neonSweep 5s linear infinite;
+    mix-blend-mode: overlay;
+  }
+}
+
+@keyframes gridPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes neonSweep {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
 .card.card--empty {
   --borderType: dashed;
   --borderColor: var(--card-empty-border-color);
   --shadowColor: transparent;
-  --backgroundColor: var(--card-empty-background);
+  background-color: var(--card-empty-background);
   width: var(--target-card-size);
   height: var(--target-card-size);
 }
@@ -46,20 +112,37 @@
 .card.card--available {
   --borderColor: var(--card-border-color-green);
   --borderType: solid;
-  --backgroundColor: var(--card-background-green);
   --shadowColor: var(--card-shadow-color-green);
   --textColor: var(--card-text-color-green);
+  background-color: var(--card-background-green);
 
   animation: pulse 2s infinite;
   transition: all;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: var(--card-available-background);
+  }
 }
 
 .card.card--locked {
   --borderColor: var(--color-red);
   --borderType: solid;
-  --backgroundColor: var(--color-red-light);
   --shadowColor: transparent;
   --textColor: var(--color-red-dark);
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: var(--card-lock-background);
+  }
 }
 
 .card.card--targeted {
@@ -68,6 +151,66 @@
   --shadowColor: transparent;
   width: var(--target-card-size);
   height: var(--target-card-size);
+}
+
+.card__image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+}
+
+.card .image {
+  display: inline;
+  width: 45%;
+  height: 45%;
+  mask-image: var(--svgIconPath);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--imgBackground);
+}
+
+.image.image--hacker {
+  --svgIconPath: url("../../assets/icons/card-types/hacker-2.png");
+  --imgBackground: var(--icon-hacker-color);
+}
+
+.image.image--robot {
+  --svgIconPath: url("../../assets/icons/card-types/robot.png");
+  --imgBackground: var(--icon-robot-color);
+}
+
+.image.image--chip {
+  --svgIconPath: url("../../assets/icons/card-types/chip.png");
+  --imgBackground: var(--icon-chip-color);
+}
+
+.image.image--gun {
+  --svgIconPath: url("../../assets/icons/card-types/gun.png");
+  --imgBackground: var(--icon-gun-color);
+}
+
+.image.image--hologram {
+  --svgIconPath: url("../../assets/icons/card-types/hologram-2.png");
+  --imgBackground: var(--icon-hologram-color);
+}
+
+.image.image--flask {
+  --svgIconPath: url("../../assets/icons/card-types/flask.png");
+  --imgBackground: var(--icon-flask-color);
+}
+
+.image.image--qr-code {
+  --svgIconPath: url("../../assets/icons/card-types/qr-code-2.png");
+  --imgBackground: var(--icon-qr-code-color);
+}
+
+.image.image--vr-glasses {
+  --svgIconPath: url("../../assets/icons/card-types/vr-glasses.png");
+  --imgBackground: var(--icon-vr-glasses-color);
 }
 
 @keyframes pulse {

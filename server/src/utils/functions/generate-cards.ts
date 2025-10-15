@@ -3,16 +3,16 @@ import { CardType } from 'src/constants/card-types';
 import { TCard } from 'src/types/types';
 
 const BASE_TYPES = [
-  CardType.Maple,
-  CardType.Sakura,
-  CardType.Pine,
-  CardType.Iris,
+  CardType.Hacker,
+  CardType.Robot,
+  CardType.Hologram,
+  CardType.Flask,
 ];
 const MODIFIER_TYPES = [
-  CardType.Sun,
-  CardType.Paper,
-  CardType.Bird,
-  CardType.Rain,
+  CardType.Gun,
+  CardType.Chip,
+  CardType.QrCode,
+  CardType.VrGlasses,
 ];
 
 function generateCards(): TCard[] {

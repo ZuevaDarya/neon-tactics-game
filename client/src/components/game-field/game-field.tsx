@@ -15,28 +15,28 @@ function GameField() {
   const dispatch = useAppDispatch();
   const { field, error } = useAppSelector((state) => state.game);
   const { id } = useAppSelector((state) => state.room);
-  const { activePlayer } = useActivePlayer();
+  const { currentPlayerId } = useActivePlayer();
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const handleDrop = useCallback(
     async (cardIdx: number, piece: TGameFieldPiece) => {
-      if (!activePlayer || !id) return;
+      if (!currentPlayerId || !id) return;
 
       try {
         await dispatch(
           makePlayerMove({
             roomId: id,
-            playerId: activePlayer.id,
+            playerId: currentPlayerId,
             pieceIdx: cardIdx,
             piece,
           })
         ).unwrap();
-        await dispatch(decrementPieceCount({ id: activePlayer.id })).unwrap();
+        await dispatch(decrementPieceCount({ id: currentPlayerId })).unwrap();
       } catch {
         openModal();
       }
     },
-    [activePlayer, id, dispatch, openModal]
+    [currentPlayerId, id, dispatch, openModal]
   );
 
   return (

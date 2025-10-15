@@ -27,11 +27,14 @@ const useActivePlayer = () => {
     [activePlayer]
   );
 
+  const currentPlayerId = useMemo(() => sessionStorage.getItem(StorageKey.PlayerId), []);
+
   return {
     activePlayer,
     nonActivePlayer,
     winner,
     isCurrentDevicePlayer,
+    currentPlayerId,
   };
 };
 

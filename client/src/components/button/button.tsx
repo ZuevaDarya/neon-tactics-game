@@ -15,6 +15,7 @@ const buttonVariants = cva(st.button, {
       checkCyan: [st["button--check"], st["button--check-cyan"]],
       lightTheme: [st["button--toggle-theme"], st["button--toggle-theme-light"]],
       darkTheme: [st["button--toggle-theme"], st["button--toggle-theme-dark"]],
+      hint: st["button--hint"],
     },
   },
   defaultVariants: {

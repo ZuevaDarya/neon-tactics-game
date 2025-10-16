@@ -131,3 +131,15 @@ export type TThemeContext = {
 export type TThemeProviderProps = {
   children: React.ReactNode;
 };
+
+export type TToggleWrapper = {
+  children: React.ReactNode;
+  handleClick: () => void;
+  classes?: string;
+  ariaLabel?: string;
+  isOn?: boolean;
+};
+
+export type TThemeToggleProps = Pick<TToggleWrapper, "classes">;
+
+export type THintToggleProps = Pick<TToggleWrapper, "classes">;

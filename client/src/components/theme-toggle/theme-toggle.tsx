@@ -1,23 +1,19 @@
 import { useTheme } from "../../hooks/use-theme";
-import cn from "../../utils/functions/cn";
+import { TThemeToggleProps } from "../../types/components-types";
 import Button from "../button/button";
-import st from "./theme-toggle.module.css";
-
-type TThemeToggleProps = {
-  classes?: string;
-};
+import ToggleWrapper from "../toggle-wrapper/toggle-wrapper";
 
 function ThemeToggle({ classes }: TThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div
-      className={cn(st["theme-toggle"], classes)}
-      onClick={toggleTheme}
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
+    <ToggleWrapper
+      classes={classes}
+      handleClick={toggleTheme}
+      ariaLabel={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
     >
       <Button type="button" variant={theme === "light" ? "darkTheme" : "lightTheme"} />
-    </div>
+    </ToggleWrapper>
   );
 }
 

@@ -13,12 +13,13 @@ export type TGame = {
   countTurn: number;
   winnerId: string | null;
   endType: TGameEndTypes | null;
-  animatePieceIdx: number | null;
 };
 
 export type TGameState = TGame &
   TThunkState & {
     endType: TGameEndTypes | null;
+    animatePieceIdx: number | null;
+    isHintOn: boolean;
   };
 
 export type TPreloadedState = {

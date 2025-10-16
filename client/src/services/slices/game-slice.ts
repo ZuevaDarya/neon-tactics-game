@@ -26,6 +26,7 @@ export const initialState: TGameState = {
   isRequest: false,
   isSuccess: false,
   animatePieceIdx: null,
+  isHintOn: false,
 };
 
 const gameFieldSlice = createSlice({
@@ -51,6 +52,9 @@ const gameFieldSlice = createSlice({
     },
     updateAnimatePieceIdx: (state, { payload }: PayloadAction<number | null>) => {
       state.animatePieceIdx = payload;
+    },
+    setIsHintOn: (state, { payload }: PayloadAction<boolean>) => {
+      state.isHintOn = payload;
     },
   },
   extraReducers: (builder) => {
@@ -294,5 +298,5 @@ const gameFieldSlice = createSlice({
   },
 });
 
-export const { updateGameState, resetGameState, updateAnimatePieceIdx } = gameFieldSlice.actions;
+export const { updateGameState, resetGameState, updateAnimatePieceIdx, setIsHintOn } = gameFieldSlice.actions;
 export default gameFieldSlice.reducer;

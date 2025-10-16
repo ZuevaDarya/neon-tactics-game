@@ -159,6 +159,8 @@
   --button-closed-icon-color-cyan: var(--color-cyan-700);
   --button-closed-hover-background-cyan: var(--color-cyan-700);
   --button-closed-shadow-color-cyan: var(--color-cyan-700);
+  --button-toogle-on-background: oklch(0.38 0.15657 0.74);
+  --button-toogle-on-shadow-color: var(--color-slate-700);
   --player-background-glass: var(--glass-background);
   --winner-background-glass: var(--panel-border-color);
   --winner-text-color-cyan: var(--color-cyan-700);
@@ -242,6 +244,8 @@
   --button-closed-icon-color-cyan: var(--color-cyan-500);
   --button-closed-hover-background-cyan: var(--color-cyan-500);
   --button-closed-shadow-color-cyan: var(--color-cyan-500);
+  --button-toogle-on-background: var(--color-cyan-500);
+  --button-toogle-on-shadow-color: var(--color-cyan-500);
   --player-background-glass: var(--glass-background);
   --winner-background-glass: var(--glass-background-light);
   --winner-text-color-cyan: var(--color-cyan-400);

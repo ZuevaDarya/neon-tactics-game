@@ -127,7 +127,8 @@
   --hoverBackgroundColor: var(--button-background-pink);
 }
 
-.button--toggle-theme {
+.button--toggle-theme,
+.button--hint {
   position: relative;
   mask-image: var(--svgIconPath);
   mask-size: contain;
@@ -152,4 +153,12 @@
   --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
   --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
   --hoverBackgroundColor: var(--button-background-pink);
+}
+
+.button--hint {
+  --svgIconPath: url("../../assets/icons/hint.png");
+  --backgroundColor: var(--button-background-pink);
+  --hoverBackgroundColor: var(--button-background-pink);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
 }

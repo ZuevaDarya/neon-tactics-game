@@ -25,6 +25,7 @@ export const initialState: TGameState = {
   endType: null,
   isRequest: false,
   isSuccess: false,
+  animatePieceIdx: null,
 };
 
 const gameFieldSlice = createSlice({
@@ -47,6 +48,9 @@ const gameFieldSlice = createSlice({
       state.isRequest = false;
       state.isSuccess = false;
       state.endType = null;
+    },
+    updateAnimatePieceIdx: (state, { payload }: PayloadAction<number | null>) => {
+      state.animatePieceIdx = payload;
     },
   },
   extraReducers: (builder) => {
@@ -290,5 +294,5 @@ const gameFieldSlice = createSlice({
   },
 });
 
-export const { updateGameState, resetGameState } = gameFieldSlice.actions;
+export const { updateGameState, resetGameState, updateAnimatePieceIdx } = gameFieldSlice.actions;
 export default gameFieldSlice.reducer;

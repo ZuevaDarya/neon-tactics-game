@@ -3,6 +3,7 @@ import { io, Socket } from "socket.io-client";
 import { SocketEvent } from "../../constants/socket-event";
 import { StorageKey } from "../../constants/storage-keys";
 import {
+  TAnimatePieceResponse,
   TAssignWinnerResponse,
   TCreateGameResponse,
   TMakeMoveResponse,
@@ -13,7 +14,7 @@ import {
   TStartGameResponse,
   TUpdateGameResponse,
 } from "../../types/services-types";
-import { resetGameState, updateGameState } from "../slices/game-slice";
+import { resetGameState, updateAnimatePieceIdx, updateGameState } from "../slices/game-slice";
 import { resetPlayersState, setPlayer } from "../slices/players-slice";
 import { resetRoomState, updateRoomState } from "../slices/room-slice";
 import {
@@ -189,6 +190,11 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
         socket.on(SocketEvent.AssignWinner, (data: TAssignWinnerResponse) => {
           console.log("Give up");
           dispatch(updateGameState(data.game));
+        });
+
+        socket.on(SocketEvent.AnimatePiece, (data: TAnimatePieceResponse) => {
+          console.log("Animate piece");
+          dispatch(updateAnimatePieceIdx(data.pieceIdx));
         });
       }
 

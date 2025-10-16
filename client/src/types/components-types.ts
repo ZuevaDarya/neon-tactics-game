@@ -25,6 +25,7 @@ export type TGamePieceProps = {
   type: TPieceTypes;
   isDraggible: boolean;
   isNonPlayed: boolean;
+  isAnimated: boolean;
 };
 
 export type TGamePieceBlockProps = Pick<TGamePieceProps, "type"> & {

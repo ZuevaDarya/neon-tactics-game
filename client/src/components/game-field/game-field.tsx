@@ -1,7 +1,8 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import uuid from "react-uuid";
 import useActivePlayer from "../../hooks/use-active-player";
 import useModal from "../../hooks/use-modal";
+import { updateAnimatePieceIdx } from "../../services/slices/game-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { decrementPieceCount, makePlayerMove } from "../../services/thunks";
 import { TGameFieldPiece } from "../../types/services-types";
@@ -13,10 +14,20 @@ import st from "./game-field.module.css";
 
 function GameField() {
   const dispatch = useAppDispatch();
-  const { field, error } = useAppSelector((state) => state.game);
+  const { field, error, animatePieceIdx } = useAppSelector((state) => state.game);
   const { id } = useAppSelector((state) => state.room);
   const { currentPlayerId } = useActivePlayer();
   const { isModalOpen, openModal, closeModal } = useModal();
+
+  useEffect(() => {
+    if (animatePieceIdx !== null) {
+      const timer = setTimeout(() => {
+        dispatch(updateAnimatePieceIdx(null));
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [animatePieceIdx, dispatch]);
 
   const handleDrop = useCallback(
     async (cardIdx: number, piece: TGameFieldPiece) => {
@@ -34,6 +45,7 @@ function GameField() {
         await dispatch(decrementPieceCount({ id: currentPlayerId })).unwrap();
       } catch {
         openModal();
+        dispatch(updateAnimatePieceIdx(null));
       }
     },
     [currentPlayerId, id, dispatch, openModal]
@@ -49,8 +61,16 @@ function GameField() {
           if ("types" in card) {
             return <Card key={card.id} card={card} cardIdx={idx} onDrop={handleDrop} />;
           }
+
+          console.log(idx === animatePieceIdx, animatePieceIdx);
           return (
-            <GamePiece key={uuid()} type={card.type} isDraggible={false} isNonPlayed={false} />
+            <GamePiece
+              key={uuid()}
+              type={card.type}
+              isDraggible={false}
+              isNonPlayed={false}
+              isAnimated={idx === animatePieceIdx}
+            />
           );
         })}
       </div>

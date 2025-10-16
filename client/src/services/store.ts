@@ -14,6 +14,7 @@ const preloadedState: TPreloadedState = {
     endType: null,
     isSuccess: false,
     isRequest: false,
+    animatePieceIdx: null,
   },
   players: {
     creator: null,

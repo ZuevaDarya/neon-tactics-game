@@ -7,7 +7,7 @@ import st from "./game-piece-block.module.css";
 function GamePieceBlock({ countPieces, type }: TGamePieceBlockProps) {
   return (
     <div className={st["piece-container"]}>
-      <GamePiece type={type} isDraggible={true} isNonPlayed={true} />
+      <GamePiece type={type} isDraggible={true} isNonPlayed={true} isAnimated={false} />
       <span className={cn(st.text, st[`text--${type}`], mx["responsiveFont"])}>Осталось: {countPieces}</span>
     </div>
   );

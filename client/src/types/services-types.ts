@@ -13,6 +13,7 @@ export type TGame = {
   countTurn: number;
   winnerId: string | null;
   endType: TGameEndTypes | null;
+  animatePieceIdx: number | null;
 };
 
 export type TGameState = TGame &
@@ -144,3 +145,5 @@ export type TAssignWinnerParam = {
   id: string;
   playerId: string;
 };
+
+export type TAnimatePieceResponse = Pick<TUpdateFieldElement, "pieceIdx">;

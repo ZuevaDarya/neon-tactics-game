@@ -105,6 +105,9 @@ export class GameController {
       data,
     );
     this.socketService.emitToRoom(id, SocketEvent.MakeMove, dataAfterMove);
+    this.socketService.emitToRoom(id, SocketEvent.AnimatePiece, {
+      pieceIdx: data.pieceIdx,
+    });
 
     return dataAfterMove;
   }

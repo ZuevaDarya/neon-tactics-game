@@ -23,4 +23,5 @@ export enum SocketEvent {
   StartGame = "start_game",
   PlayAgain = "play_again",
   AssignWinner = "assign_winner",
+  AnimatePiece = "animated_piece",
 }

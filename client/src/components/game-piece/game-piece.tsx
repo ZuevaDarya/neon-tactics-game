@@ -6,7 +6,7 @@ import { TGamePieceProps } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
 import st from "./game-piece.module.css";
 
-function GamePiece({ type, isDraggible, isNonPlayed }: TGamePieceProps) {
+function GamePiece({ type, isDraggible, isNonPlayed, isAnimated }: TGamePieceProps) {
   const { activePlayer, isCurrentDevicePlayer } = useActivePlayer();
 
   const [, drag] = useDrag({
@@ -26,7 +26,8 @@ function GamePiece({ type, isDraggible, isNonPlayed }: TGamePieceProps) {
         st["game-piece"],
         st[`game-piece--${type}`],
         activePlayer?.pieceType === type && isDraggible && st["game-piece--active"],
-        isNonPlayed && st["game-piece--non-played"]
+        isNonPlayed && st["game-piece--non-played"],
+        isAnimated && st["game-piece--animated"]
       )}
     />
   );

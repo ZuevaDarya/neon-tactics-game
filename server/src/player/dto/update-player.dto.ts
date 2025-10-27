@@ -14,7 +14,7 @@ import { PieceType } from 'src/constants/piece-type';
 export class UpdatePlayerDTO {
   @IsOptional()
   @IsString()
-  @Length(3, 20)
+  @Length(2, 12)
   name?: string;
 
   @IsOptional()

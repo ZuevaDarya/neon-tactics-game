@@ -18,12 +18,23 @@ const inputVariants = cva(st.input, {
 export type TInputProps<T extends FieldValues> = VariantProps<typeof inputVariants> & {
   register: UseFormRegister<T>;
   name: Path<T>;
+  isUpperCase?: boolean;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "name">;
 
-function Input<T extends FieldValues>({ variant, register, required, ...props }: TInputProps<T>) {
+function Input<T extends FieldValues>({
+  variant,
+  register,
+  required,
+  isUpperCase,
+  ...props
+}: TInputProps<T>) {
   return (
     <input
-      className={cn(mx["responsiveFont"], inputVariants({ variant }))}
+      className={cn(
+        mx["responsiveFont"],
+        inputVariants({ variant }),
+        isUpperCase && st["input--text-upper"]
+      )}
       {...register(props.name, { required, maxLength: 30 })}
       {...props}
     />

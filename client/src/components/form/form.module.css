@@ -48,8 +48,6 @@
 }
 
 .form__error {
-  position: absolute;
   font-size: 14px;
   color: var(--color-error);
-  transform: translateY(calc(60 * 100vw / var(--base-viewport-size)));
 }

@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { StartFormInputName } from "../../constants/input-name";
 import useRoomStatus from "../../hooks/use-room-status";
+import useStartForm from "../../hooks/use-start-form";
 import mx from "../../mixins.module.css";
+import { joinRoomFormSchema, TJoinRoomForm } from "../../schemas/form-join-room.zop";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { createPlayerWithJoinInRoom, getAllPlayersInRoom } from "../../services/thunks";
-import { TStartForm } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
 import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
@@ -17,18 +18,24 @@ import WaitingBlock from "../waiting-block/waiting-block";
 
 function FormJoinRoom() {
   const dispatch = useAppDispatch();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    onError,
+    isSubmitError,
+    setIsSubmitError,
+    isPlayerValueEmpty,
+  } = useStartForm<TJoinRoomForm>({
+    zodSchema: joinRoomFormSchema,
+    defaultValues: {
+      [StartFormInputName.Player]: "",
+      [StartFormInputName.RoomId]: "",
+    },
+  });
   const { id, isRequest, error } = useAppSelector((state) => state.room);
-  const { creator, player } = useAppSelector((state) => state.players);
-  const { register, handleSubmit, formState, setValue } = useForm<TStartForm>();
+  const { creator } = useAppSelector((state) => state.players);
   const { isPlayersJoined } = useRoomStatus();
-
-  useEffect(() => {
-    setValue(StartFormInputName.RoomId, id || "");
-  }, [id, setValue]);
-
-  useEffect(() => {
-    setValue(StartFormInputName.Player, player?.name || "");
-  }, [player, setValue]);
 
   useEffect(() => {
     if (id) {
@@ -36,15 +43,16 @@ function FormJoinRoom() {
     }
   }, [id, dispatch]);
 
-  const onSubmit: SubmitHandler<TStartForm> = async (data) => {
+  const onSubmit: SubmitHandler<TJoinRoomForm> = async (data) => {
+    setIsSubmitError(false);
     await dispatch(createPlayerWithJoinInRoom({ name: data.player, roomId: data.roomId })).unwrap();
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <h2 className={cn(st["form__title"], mx["responsiveFont"])}>Подключение к сессии</h2>
       <FormSection title="Введите имя игрока и номер комнаты">
-        <FormItem<TStartForm>
+        <FormItem<TJoinRoomForm>
           label="Имя игрока"
           name={StartFormInputName.Player}
           placeholder="игрок1"
@@ -53,8 +61,9 @@ function FormJoinRoom() {
           required
           variant={isPlayersJoined ? "pinkDisabled" : "pink"}
           disabled={isPlayersJoined}
+          errorMessage={errors.player?.message ?? null}
         />
-        <FormItem<TStartForm>
+        <FormItem<TJoinRoomForm>
           label="Номер комнаты"
           name={StartFormInputName.RoomId}
           type="text"
@@ -64,11 +73,9 @@ function FormJoinRoom() {
           maxLength={8}
           variant={isPlayersJoined ? "pinkDisabled" : "pink"}
           disabled={isPlayersJoined}
+          errorMessage={errors.roomId?.message ?? null}
+          isUpperCase={true}
         />
-        {formState.errors.player && (
-          <span className={st["form__error"]}>Заполните обязательные поля</span>
-        )}
-
         <Button
           type="submit"
           variant={isPlayersJoined ? "default" : "pink"}
@@ -77,11 +84,11 @@ function FormJoinRoom() {
         >
           Подключиться
         </Button>
-        {formState.errors.roomId && (
-          <span className={st["form__error"]}>Заполните обязательные поля</span>
-        )}
       </FormSection>
 
+      {isSubmitError && isPlayerValueEmpty && (
+        <span className={st["form__error"]}>Заполните поля корректно</span>
+      )}
       {isRequest && <WaitingBlock text="Подключение к комнате" />}
       {error && (
         <span className={cn(st["form__message"], st["form__message--mb-10"], mx["responsiveFont"])}>

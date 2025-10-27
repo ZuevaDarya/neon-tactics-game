@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class JoinRoomDTO {
   @IsNotEmpty()
-  @Length(3, 20)
+  @Length(2, 12)
   name: string;
 
   @IsString()

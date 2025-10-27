@@ -15,7 +15,14 @@ function StartPage() {
     <>
       <ThemeToggle classes={st["start-page__theme-toggle"]} />
       <main className={st["start-page-wrapper"]}>
-        <h1 className={cn(st.title, st["title--upperline"], mx["responsiveFont"], st["typing-effect"])}>
+        <h1
+          className={cn(
+            st.title,
+            st["title--upperline"],
+            mx["responsiveFont"],
+            st["typing-effect"]
+          )}
+        >
           NEON_TACTICS.EXE
         </h1>
         <Tabs>

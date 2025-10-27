@@ -68,6 +68,10 @@
   --borderColor: var(--input-border-color-pink);
 }
 
+.input--text-upper {
+  text-transform: uppercase;
+}
+
 @keyframes autofillBackground {
   0% {
     background-color: var(--input-background);

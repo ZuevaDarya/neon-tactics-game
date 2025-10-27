@@ -57,6 +57,7 @@ export type TStartModalProps = TModalOverlayProps;
 
 export type TFormItemProps<T extends FieldValues> = TInputProps<T> & {
   label: string;
+  errorMessage?: string | null;
 };
 
 export type TFormBtnProps = {

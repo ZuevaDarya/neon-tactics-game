@@ -9,7 +9,7 @@ import {
 export class CreatePlayerDTO {
   @IsString()
   @IsNotEmpty()
-  @Length(3, 20)
+  @Length(2, 12)
   name: string;
 
   @IsOptional()

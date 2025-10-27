@@ -34,8 +34,8 @@ export class Player extends Model {
     validate: {
       notEmpty: { msg: 'Имя игрока не может быть пустым' },
       len: {
-        args: [3, 20],
-        msg: 'Имя игрока должно быть от 3 до 20 символов',
+        args: [2, 12],
+        msg: 'Имя игрока должно быть от 2 до 12 символов',
       },
     },
     comment: 'Имя игрока',

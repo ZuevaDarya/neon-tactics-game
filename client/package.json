@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@reduxjs/toolkit": "^2.7.0",
     "class-variance-authority": "^0.7.1",
     "copy-to-clipboard": "^3.3.3",
@@ -22,10 +23,11 @@
     "react-dnd-preview": "^9.0.0",
     "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.56.3",
+    "react-hook-form": "^7.65.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

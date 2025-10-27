@@ -1,11 +1,12 @@
-import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { AppRoute } from "../../constants/app-route";
 import { StartFormInputName } from "../../constants/input-name";
 import { RoomStatus } from "../../constants/room-status";
 import useCopy from "../../hooks/use-copy";
 import useRoomStatus from "../../hooks/use-room-status";
+import useStartForm from "../../hooks/use-start-form";
 import mx from "../../mixins.module.css";
+import { createRoomFormSchema, TCreateRoomForm } from "../../schemas/form-create-room.zod";
 import { redirectPlayers } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
@@ -14,7 +15,6 @@ import {
   deleteRoom,
   startGame,
 } from "../../services/thunks";
-import { TStartForm } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
 import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
@@ -27,22 +27,30 @@ import WaitingBlock from "../waiting-block/waiting-block";
 
 function FormCreateRoom() {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, formState, setValue, watch } = useForm<TStartForm>();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    onError,
+    isSubmitError,
+    setIsSubmitError,
+    isFieldValueEmpty,
+    isRoomIdValueEmpty,
+    roomIdValue,
+  } = useStartForm<TCreateRoomForm>({
+    zodSchema: createRoomFormSchema,
+    defaultValues: {
+      [StartFormInputName.Player]: "",
+      [StartFormInputName.RoomId]: "",
+    },
+  });
   const { id, status, playerId, creatorId, error } = useAppSelector((state) => state.room);
-  const { creator, player } = useAppSelector((state) => state.players);
+  const { player } = useAppSelector((state) => state.players);
   const { isWaiting, isPlayersJoined } = useRoomStatus();
   const { isCopied, copyToClipboard } = useCopy();
-  const roomIdValue = watch(StartFormInputName.RoomId);
 
-  useEffect(() => {
-    setValue(StartFormInputName.RoomId, id || "");
-  }, [id, setValue]);
-
-  useEffect(() => {
-    setValue(StartFormInputName.Player, creator?.name || "");
-  }, [creator, setValue]);
-
-  const onSubmit: SubmitHandler<TStartForm> = async (data) => {
+  const onSubmit: SubmitHandler<TCreateRoomForm> = async (data) => {
+    setIsSubmitError(false);
     await dispatch(createPlayerWithCreateRoom({ name: data.player })).unwrap();
   };
 
@@ -69,16 +77,16 @@ function FormCreateRoom() {
     e.stopPropagation();
     e.preventDefault();
 
-    if (roomIdValue) {
+    if (!isRoomIdValueEmpty) {
       await copyToClipboard(roomIdValue);
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <h2 className={cn(st["form__title"], mx["responsiveFont"])}>Инициализация сессии</h2>
       <FormSection title="Введите имя игрока">
-        <FormItem<TStartForm>
+        <FormItem<TCreateRoomForm>
           label="Имя игрока"
           name={StartFormInputName.Player}
           placeholder="игрок1"
@@ -87,16 +95,18 @@ function FormCreateRoom() {
           required
           variant={isWaiting ? "cyanDisabled" : "cyan"}
           disabled={isWaiting}
+          errorMessage={errors.player?.message ?? null}
         />
 
         <CopyItem>
-          <FormItem<TStartForm>
+          <FormItem<TCreateRoomForm>
             label="Номер комнаты"
             name={StartFormInputName.RoomId}
             type="text"
             register={register}
             variant="cyanDisabled"
             disabled
+            isUpperCase={true}
           />
           <Button
             variant={isCopied ? "checkCyan" : "copyCyan"}
@@ -104,9 +114,7 @@ function FormCreateRoom() {
             onClick={handleCopyBtnClick}
           />
         </CopyItem>
-        {formState.errors.player && (
-          <span className={st["form__error"]}>Заполните обязательные поля</span>
-        )}
+
         {status !== RoomStatus.Waiting && (
           <Button
             type="submit"
@@ -119,6 +127,9 @@ function FormCreateRoom() {
         )}
       </FormSection>
 
+      {isSubmitError && isFieldValueEmpty && (
+        <span className={st["form__error"]}>Заполните поля корректно</span>
+      )}
       {status === RoomStatus.Waiting && !playerId && (
         <WaitingBlock text="Ожидание подключения второго игрока">
           <Button type="button" variant="closedCyan" onClick={handleStopBtnClick}></Button>

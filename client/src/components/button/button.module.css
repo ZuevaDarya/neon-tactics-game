@@ -16,6 +16,13 @@
 
   position: relative;
 
+  &:hover {
+    background-color: var(--hoverBackgroundColor);
+    box-shadow: 0 0 5px var(--hoverShadowColor);
+  }
+}
+
+.button:not(.button--closed) {
   &::before {
     content: "";
     position: absolute;
@@ -35,9 +42,6 @@
   }
 
   &:hover {
-    background-color: var(--hoverBackgroundColor);
-    box-shadow: 0 0 5px var(--hoverShadowColor);
-
     &::before {
       opacity: 1;
     }
@@ -89,7 +93,6 @@
   &::before {
     transform: translate(-50%, -50%) rotate(45deg);
   }
-
   &::after {
     transform: translate(-50%, -50%) rotate(-45deg);
   }

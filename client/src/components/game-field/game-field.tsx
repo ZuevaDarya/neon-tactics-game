@@ -62,7 +62,6 @@ function GameField() {
             return <Card key={card.id} card={card} cardIdx={idx} onDrop={handleDrop} />;
           }
 
-          console.log(idx === animatePieceIdx, animatePieceIdx);
           return (
             <GamePiece
               key={uuid()}

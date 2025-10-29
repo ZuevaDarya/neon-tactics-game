@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo, useState } from "react";
-import { DefaultValues, FieldValues, Path, useForm, PathValue } from "react-hook-form";
+import { DefaultValues, FieldValues, Path, PathValue, useForm } from "react-hook-form";
 import { ZodType } from "zod";
 import { StartFormInputName } from "../constants/input-name";
 import { useAppSelector } from "../services/store";
@@ -29,6 +29,7 @@ const useStartForm = <T extends FieldValues>({
     clearErrors,
     setValue,
     trigger,
+    reset,
   } = formMethods;
 
   const playerValue = watch(StartFormInputName.Player as Path<T>);
@@ -62,8 +63,17 @@ const useStartForm = <T extends FieldValues>({
     }
   }, [player, creator, setValue, trigger]);
 
+  useEffect(() => {
+    reset(defaultValues);
+  }, []);
+
   const onError = () => {
     setIsSubmitError(true);
+  };
+
+  const resetForm = () => {
+    reset(defaultValues);
+    setIsSubmitError(false);
   };
 
   const isFieldValueEmpty = useMemo(
@@ -84,6 +94,7 @@ const useStartForm = <T extends FieldValues>({
     roomIdValue,
     isPlayerValueEmpty,
     playerValue,
+    resetForm,
   };
 };
 

@@ -21,7 +21,7 @@ function FormJoinRoom() {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
     onError,
     isSubmitError,
     setIsSubmitError,
@@ -79,7 +79,7 @@ function FormJoinRoom() {
         <Button
           type="submit"
           variant={isPlayersJoined ? "default" : "pink"}
-          disabled={isPlayersJoined}
+          disabled={isPlayersJoined || !isValid || isSubmitting}
           className={st["form__button"]}
         >
           Подключиться

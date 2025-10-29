@@ -148,6 +148,7 @@ const roomSlice = createSlice({
         state.creatorId = null;
         state.status = null;
         sessionStorage.removeItem(StorageKey.RoomId);
+        sessionStorage.removeItem(StorageKey.PlayerId);
       })
       .addCase(updateRoomStatus.pending, (state) => {
         state.isRequest = true;

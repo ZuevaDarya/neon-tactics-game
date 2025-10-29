@@ -7,14 +7,10 @@ import useRoomStatus from "../../hooks/use-room-status";
 import useStartForm from "../../hooks/use-start-form";
 import mx from "../../mixins.module.css";
 import { createRoomFormSchema, TCreateRoomForm } from "../../schemas/form-create-room.zod";
+import { resetPlayersState } from "../../services/slices/players-slice";
 import { redirectPlayers } from "../../services/slices/socket-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import {
-  createPlayerWithCreateRoom,
-  deletePlayer,
-  deleteRoom,
-  startGame,
-} from "../../services/thunks";
+import { createPlayerWithCreateRoom, deleteRoom, startGame } from "../../services/thunks";
 import cn from "../../utils/functions/cn";
 import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
@@ -30,13 +26,13 @@ function FormCreateRoom() {
   const {
     handleSubmit,
     register,
-    formState: { errors },
-    onError,
+    formState: { errors, isValid, isSubmitting },
     isSubmitError,
     setIsSubmitError,
     isFieldValueEmpty,
     isRoomIdValueEmpty,
     roomIdValue,
+    onError,
   } = useStartForm<TCreateRoomForm>({
     zodSchema: createRoomFormSchema,
     defaultValues: {
@@ -46,7 +42,7 @@ function FormCreateRoom() {
   });
   const { id, status, playerId, creatorId, error } = useAppSelector((state) => state.room);
   const { player } = useAppSelector((state) => state.players);
-  const { isWaiting, isPlayersJoined } = useRoomStatus();
+  const { isWaiting, isPlayersJoined, isGameNotExist } = useRoomStatus();
   const { isCopied, copyToClipboard } = useCopy();
 
   const onSubmit: SubmitHandler<TCreateRoomForm> = async (data) => {
@@ -69,7 +65,7 @@ function FormCreateRoom() {
 
     if (id && creatorId) {
       await dispatch(deleteRoom({ id })).unwrap();
-      await dispatch(deletePlayer({ id: creatorId })).unwrap();
+      dispatch(resetPlayersState());
     }
   };
 
@@ -93,8 +89,8 @@ function FormCreateRoom() {
           type="text"
           register={register}
           required
-          variant={isWaiting ? "cyanDisabled" : "cyan"}
-          disabled={isWaiting}
+          variant={isWaiting || isPlayersJoined ? "cyanDisabled" : "cyan"}
+          disabled={isWaiting || isPlayersJoined}
           errorMessage={errors.player?.message ?? null}
         />
 
@@ -115,11 +111,11 @@ function FormCreateRoom() {
           />
         </CopyItem>
 
-        {status !== RoomStatus.Waiting && (
+        {isGameNotExist && (
           <Button
             type="submit"
-            variant={isWaiting ? "default" : "cyan"}
-            disabled={isWaiting}
+            variant={isGameNotExist ? "cyan" : "default"}
+            disabled={isWaiting || !isValid || isSubmitting}
             className={st["form__button"]}
           >
             Создать

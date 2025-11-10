@@ -10,8 +10,8 @@ import cn from "../../utils/functions/cn";
 import isAvailableCard from "../../utils/functions/is-available-card";
 import st from "./card.module.css";
 
-function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
-  const { targetCard, countTurn, isHintOn } = useAppSelector((state) => state.game);
+function Card({ card, isTargetCard, cardIdx = -1, onDrop, isWinnerAnimation }: TCardProps) {
+  const { targetCard, countTurn, isHintOn, endType } = useAppSelector((state) => state.game);
   const { isCurrentDevicePlayer, activePlayer } = useActivePlayer();
 
   const isAvailable = useMemo(
@@ -60,7 +60,14 @@ function Card({ card, isTargetCard, cardIdx = -1, onDrop }: TCardProps) {
 
   return dropTarget(
     <div
-      className={cn(st.card, (isPieceMoving || isCurrentDevicePlayer) && isHintOn && st["card--available"])}
+      className={cn(
+        st.card,
+        (isPieceMoving || isCurrentDevicePlayer) &&
+          isHintOn &&
+          !isWinnerAnimation &&
+          !endType &&
+          st["card--available"]
+      )}
       onClick={() =>
         onDrop && onDrop(cardIdx, { id: uuid(), type: activePlayer?.pieceType as TPieceTypes })
       }

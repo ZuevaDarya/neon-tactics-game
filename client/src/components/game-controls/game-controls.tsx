@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../services/store";
 import { assignWinner } from "../../services/thunks";
 import Button from "../button/button";
 import ExitButton from "../exit-button/exit-button";
-import HintToggle from '../hint-toggle/hint-toggle';
+import HintToggle from "../hint-toggle/hint-toggle";
 import ThemeToggle from "../theme-toggle/theme-toggle";
 import st from "./game-controls.module.css";
 

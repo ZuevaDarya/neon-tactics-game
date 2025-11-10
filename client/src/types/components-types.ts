@@ -17,6 +17,7 @@ export type TCardProps = {
   isTargetCard?: boolean;
   cardIdx?: number;
   onDrop?: (cardIdx: number, piece: TGameFieldPiece) => Promise<void>;
+  isWinnerAnimation?: boolean;
 };
 
 export type TPieceTypes = `${PieceType}`;
@@ -26,6 +27,7 @@ export type TGamePieceProps = {
   isDraggible: boolean;
   isNonPlayed: boolean;
   isAnimated: boolean;
+  isWinnerAnimation?: boolean;
 };
 
 export type TGamePieceBlockProps = Pick<TGamePieceProps, "type"> & {
@@ -144,3 +146,7 @@ export type TToggleWrapper = {
 export type TThemeToggleProps = Pick<TToggleWrapper, "classes">;
 
 export type THintToggleProps = Pick<TToggleWrapper, "classes">;
+
+export type TPopupNotificationProps = {
+  text: string;
+};

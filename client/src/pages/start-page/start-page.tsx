@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import FormCreateRoom from "../../components/form-create-room/form-create-room";
 import FormJoinRoom from "../../components/form-join-room/form-join-room";
 import Tab from "../../components/tab/tab";
 import Tabs from "../../components/tabs/tabs";
 import ThemeToggle from "../../components/theme-toggle/theme-toggle";
+import { StorageKey } from "../../constants/storage-keys";
 import useRoomStatus from "../../hooks/use-room-status";
 import mx from "../../mixins.module.css";
 import cn from "../../utils/functions/cn";
@@ -10,6 +12,11 @@ import st from "./start-page.module.css";
 
 function StartPage() {
   const { isWaiting, isPlayersJoined } = useRoomStatus();
+
+  useEffect(() => {
+    sessionStorage.setItem(StorageKey.HasAnimationPlayed, String(false));
+    sessionStorage.setItem(StorageKey.IsWinnerModalOpen, String(false));
+  }, []);
 
   return (
     <>

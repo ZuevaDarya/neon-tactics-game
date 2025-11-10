@@ -185,6 +185,8 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           console.log("Play Again");
           data.players.forEach((player) => dispatch(setPlayer(player)));
           dispatch(updateGameState(data.game));
+          sessionStorage.setItem(StorageKey.HasAnimationPlayed, String(false));
+          sessionStorage.setItem(StorageKey.IsWinnerModalOpen, String(false));
         });
 
         socket.on(SocketEvent.AssignWinner, (data: TAssignWinnerResponse) => {

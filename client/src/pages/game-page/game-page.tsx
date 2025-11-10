@@ -3,9 +3,7 @@ import GameControls from "../../components/game-controls/game-controls";
 import GameField from "../../components/game-field/game-field";
 import GameStatePanel from "../../components/game-state-panel/game-state-panel";
 import PlayerBlock from "../../components/player-block/player-block";
-import WinnerModal from "../../components/winner-modal/winner-modal";
 import { StorageKey } from "../../constants/storage-keys";
-import useActivePlayer from "../../hooks/use-active-player";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { getAllPlayersInRoom, getGame, getRoom } from "../../services/thunks";
 import st from "./game-page.module.css";
@@ -13,8 +11,6 @@ import st from "./game-page.module.css";
 function GamePage() {
   const dispatch = useAppDispatch();
   const { creator, player } = useAppSelector((state) => state.players);
-  const { endType } = useAppSelector((state) => state.game);
-  const { winner } = useActivePlayer();
 
   useEffect(() => {
     const preloadedData = async () => {
@@ -34,7 +30,6 @@ function GamePage() {
       <GameControls />
       <div className={st["game-page-wrapper"]}>
         <GameStatePanel />
-        {(winner || endType) && <WinnerModal winner={winner} gameEndType={endType} />}
         <div className={st["game-field-container"]}>
           {creator && <PlayerBlock player={creator} position="left" />}
           <GameField />

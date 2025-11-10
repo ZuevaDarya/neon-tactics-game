@@ -3,4 +3,6 @@ export enum StorageKey {
   SocketId = "socketId",
   PlayerId = "playerId",
   Theme = "theme",
+  HasAnimationPlayed = "hasAnimationPlayed",
+  IsWinnerModalOpen = "isWinnerModalOpen",
 }

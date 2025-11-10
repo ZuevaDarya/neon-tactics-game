@@ -4,10 +4,17 @@ import uuid from "react-uuid";
 import useActivePlayer from "../../hooks/use-active-player";
 import { TGamePieceProps } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
+import gameFieldSt from "../game-field/game-field.module.css";
 import st from "./game-piece.module.css";
 
-function GamePiece({ type, isDraggible, isNonPlayed, isAnimated }: TGamePieceProps) {
-  const { activePlayer, isCurrentDevicePlayer } = useActivePlayer();
+function GamePiece({
+  type,
+  isDraggible,
+  isNonPlayed,
+  isAnimated,
+  isWinnerAnimation,
+}: TGamePieceProps) {
+  const { activePlayer, isCurrentDevicePlayer, winner } = useActivePlayer();
 
   const [, drag] = useDrag({
     type: "piece",
@@ -25,9 +32,13 @@ function GamePiece({ type, isDraggible, isNonPlayed, isAnimated }: TGamePiecePro
       className={cn(
         st["game-piece"],
         st[`game-piece--${type}`],
-        activePlayer?.pieceType === type && isDraggible && st["game-piece--active"],
+        !isWinnerAnimation &&
+          activePlayer?.pieceType === type &&
+          isDraggible &&
+          st["game-piece--active"],
         isNonPlayed && st["game-piece--non-played"],
-        isAnimated && st["game-piece--animated"]
+        !isWinnerAnimation && isAnimated && st["game-piece--animated"],
+        isWinnerAnimation && winner?.pieceType === type && gameFieldSt["game-end-animated"]
       )}
     />
   );

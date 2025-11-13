@@ -16,6 +16,7 @@ function StartPage() {
   useEffect(() => {
     sessionStorage.setItem(StorageKey.HasAnimationPlayed, String(false));
     sessionStorage.setItem(StorageKey.IsWinnerModalOpen, String(false));
+    sessionStorage.setItem(StorageKey.IsHintOn, String(false));
   }, []);
 
   return (

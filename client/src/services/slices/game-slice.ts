@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SliceNamespace } from "../../constants/slice-namespace";
+import { StorageKey } from "../../constants/storage-keys";
 import { TGameState, TUpdateGameState } from "../../types/services-types";
 import {
   assignWinner,
@@ -55,6 +56,7 @@ const gameFieldSlice = createSlice({
     },
     setIsHintOn: (state, { payload }: PayloadAction<boolean>) => {
       state.isHintOn = payload;
+      sessionStorage.setItem(StorageKey.IsHintOn, String(payload));
     },
   },
   extraReducers: (builder) => {
@@ -119,6 +121,8 @@ const gameFieldSlice = createSlice({
         state.winnerId = null;
         state.endType = null;
         state.endType = null;
+        state.isHintOn = false;
+        sessionStorage.removeItem(StorageKey.IsHintOn);
       })
       .addCase(updateGame.pending, (state) => {
         state.isRequest = true;
@@ -212,6 +216,8 @@ const gameFieldSlice = createSlice({
         state.countTurn = 0;
         state.winnerId = null;
         state.endType = null;
+        state.isHintOn = false;
+        sessionStorage.removeItem(StorageKey.IsHintOn);
       })
       .addCase(makePlayerMove.pending, (state) => {
         state.isRequest = true;
@@ -298,5 +304,6 @@ const gameFieldSlice = createSlice({
   },
 });
 
-export const { updateGameState, resetGameState, updateAnimatePieceIdx, setIsHintOn } = gameFieldSlice.actions;
+export const { updateGameState, resetGameState, updateAnimatePieceIdx, setIsHintOn } =
+  gameFieldSlice.actions;
 export default gameFieldSlice.reducer;

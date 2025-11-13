@@ -22,7 +22,7 @@
   }
 }
 
-.button:not(.button--closed) {
+.button:not(.button--closed, .button--closed-notification) {
   &::before {
     content: "";
     position: absolute;
@@ -72,12 +72,19 @@
 }
 
 .button--closed {
-  position: relative;
-
   width: clamp(20px, calc(30 * 100vw / var(--base-viewport-size)), 40px);
   height: clamp(20px, calc(30 * 100vw / var(--base-viewport-size)), 40px);
   box-shadow: 0 0 4px var(--closeIconColor);
+}
 
+.button--closed-notification {
+  width: clamp(18px, calc(20 * 100vw / var(--base-viewport-size)), 25px);
+  height: clamp(18px, calc(20 * 100vw / var(--base-viewport-size)), 25px);
+}
+
+.button--closed,
+.button--closed-notification {
+  position: relative;
   &::before,
   &::after {
     content: "";
@@ -99,7 +106,7 @@
 
   &:hover&::before,
   &:hover&::after {
-    background-color: var(--color-white);
+    background-color: var(--hoverIconColor);
   }
 }
 
@@ -108,6 +115,12 @@
   --closeIconColor: var(--button-closed-icon-color-cyan);
   --hoverBackgroundColor: var(--button-closed-hover-background-cyan);
   --hoverShadowColor: var(--button-closed-shadow-color-cyan);
+  --hoverIconColor: var(--color-white);
+}
+
+.button--closed-notification-cyan {
+  --closeIconColor: var(--button-closed-icon-color-cyan);
+  --hoverIconColor: var(--progressbar-close-icon-background);
 }
 
 .button--copy,

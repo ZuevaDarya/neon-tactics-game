@@ -148,5 +148,12 @@ export type TThemeToggleProps = Pick<TToggleWrapper, "classes">;
 export type THintToggleProps = Pick<TToggleWrapper, "classes">;
 
 export type TPopupNotificationProps = {
-  text: string;
+  children: React.ReactNode | string;
+  closeModal: () => void;
+  isPopupOpen: boolean;
+  durationS?: number;
+};
+
+export type TProgressBarProps = {
+  progressPercent: number;
 };

@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo } from "react";
+import { GameEndType } from "../../constants/game-end-type";
 import useActivePlayer from "../../hooks/use-active-player";
 import useGameEndAnimation from "../../hooks/use-game-end-animation";
 import useModal from "../../hooks/use-modal";
@@ -10,7 +11,7 @@ import cn from "../../utils/functions/cn";
 import translateError from "../../utils/functions/translate-error";
 import Card from "../card/card";
 import GamePiece from "../game-piece/game-piece";
-import NotificationModal from "../notification-modal/notification-modal";
+import PopupNotification from "../popup-notification/popup-notification";
 import WinnerModal from "../winner-modal/winner-modal";
 import st from "./game-field.module.css";
 
@@ -18,7 +19,7 @@ function GameField() {
   const dispatch = useAppDispatch();
   const { field, error, animatePieceIdx, endType } = useAppSelector((state) => state.game);
   const { id } = useAppSelector((state) => state.room);
-  const { currentPlayerId, winner } = useActivePlayer();
+  const { currentPlayerId, winner, activePlayer } = useActivePlayer();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { isAnimationStart, isWinnerModalOpen } = useGameEndAnimation({
     durationMs: 1900,
@@ -33,6 +34,12 @@ function GameField() {
       return () => clearTimeout(timer);
     }
   }, [animatePieceIdx, dispatch]);
+
+  useEffect(() => {
+    if (endType === GameEndType.NoMoves) {
+      openModal();
+    }
+  }, [endType, openModal]);
 
   const handleDrop = useCallback(
     async (cardIdx: number, piece: TGameFieldPiece) => {
@@ -85,8 +92,15 @@ function GameField() {
   return (
     <>
       {isWinnerModalOpen && <WinnerModal winner={winner} gameEndType={endType} />}
-      {isModalOpen && !isWinnerModalOpen && error && (
-        <NotificationModal onClose={closeModal}>{translateError(error)}</NotificationModal>
+      {error && (
+        <PopupNotification closeModal={closeModal} isPopupOpen={isModalOpen}>
+          {translateError(error)}
+        </PopupNotification>
+      )}
+      {endType === GameEndType.NoMoves && (
+        <PopupNotification closeModal={closeModal} isPopupOpen={isModalOpen}>
+          У {activePlayer?.name} не осталось ходов
+        </PopupNotification>
       )}
       <div className={cn(st["game-field"], isAnimationStart && st["game-field--animated"])}>
         {fieldElements}

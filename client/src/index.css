@@ -173,6 +173,9 @@
   --icon-flask-color: oklch(56.061% 0.20797 334.758);
   --icon-qr-code-color: oklch(72.214% 0.16209 64.904);
   --icon-vr-glasses-color: oklch(63.465% 0.25397 16.543);
+  --progressbar-background: var(--cornflower-blue-50);
+  --progressbar-progress-color: var(--color-cyan-500);
+  --progressbar-close-icon-background: var(--color-cyan-500);
 }
 
 [data-theme="dark"] {
@@ -258,6 +261,9 @@
   --icon-flask-color: oklch(0.78 0.17154 318.848);
   --icon-qr-code-color: oklch(0.75 0.17907 58.273);
   --icon-vr-glasses-color: oklch(0.66 0.22801 7.333);
+  --progressbar-background: var(--cornflower-blue-950);
+  --progressbar-progress-color: var(--color-pink-500);
+  --progressbar-close-icon-background: var(--color-cyan-400);
 }
 
 body {

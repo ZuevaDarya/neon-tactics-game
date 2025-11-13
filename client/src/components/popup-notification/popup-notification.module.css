@@ -1,0 +1,47 @@
+.notification {
+  --maxWidth: 300px;
+  --minFontSize: 16px;
+  --maxFontSize: 20px;
+  --recommendFontSize: 18;
+  --lineHeightRatio: var(--text-20px--line-height-ratio);
+
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  left: clamp(5%, calc(100vw - var(--maxWidth) - 5%), 95%);
+  z-index: 90;
+
+  background-color: var(--start-modal-background);
+  border-radius: var(--radius);
+
+  padding: 15px;
+  color: var(--modal-text-color);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  max-width: var(--maxWidth);
+  overflow-x: hidden;
+
+  transform: translateY(-100%);
+  opacity: 0;
+
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.notification__text {
+  margin-bottom: 10px;
+}
+
+.notification__button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  align-self: end;
+}
+
+.notification--animated-enter {
+  transform: translateY(0);
+  opacity: 1;
+}

@@ -30,6 +30,7 @@ const useStartForm = <T extends FieldValues>({
     setValue,
     trigger,
     reset,
+    resetField,
   } = formMethods;
 
   const playerValue = watch(StartFormInputName.Player as Path<T>);
@@ -51,8 +52,10 @@ const useStartForm = <T extends FieldValues>({
     if (id) {
       setValue(StartFormInputName.RoomId as Path<T>, id as PathValue<T, Path<T>>);
       trigger(StartFormInputName.RoomId as Path<T>);
+    } else {
+      resetField(StartFormInputName.RoomId as Path<T>);
     }
-  }, [id, setValue, trigger]);
+  }, [id, setValue, trigger, resetField]);
 
   useEffect(() => {
     const nameToSet = player?.name || creator?.name;
@@ -60,8 +63,10 @@ const useStartForm = <T extends FieldValues>({
     if (nameToSet) {
       setValue(StartFormInputName.Player as Path<T>, nameToSet as PathValue<T, Path<T>>);
       trigger(StartFormInputName.Player as Path<T>);
+    } else {
+      resetField(StartFormInputName.Player as Path<T>);
     }
-  }, [player, creator, setValue, trigger]);
+  }, [player, creator, setValue, trigger, resetField]);
 
   useEffect(() => {
     reset(defaultValues);

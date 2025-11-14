@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import GameControls from "../../components/game-controls/game-controls";
 import GameField from "../../components/game-field/game-field";
 import GameStatePanel from "../../components/game-state-panel/game-state-panel";
 import PlayerBlock from "../../components/player-block/player-block";
 import { StorageKey } from "../../constants/storage-keys";
+import useActivePlayer from "../../hooks/use-active-player";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { getAllPlayersInRoom, getGame, getRoom } from "../../services/thunks";
 import st from "./game-page.module.css";
@@ -11,6 +12,7 @@ import st from "./game-page.module.css";
 function GamePage() {
   const dispatch = useAppDispatch();
   const { creator, player } = useAppSelector((state) => state.players);
+  const { currentPlayerId } = useActivePlayer();
 
   useEffect(() => {
     const preloadedData = async () => {
@@ -25,15 +27,25 @@ function GamePage() {
     preloadedData();
   }, [dispatch]);
 
+  const leftPlayer = useMemo(
+    () => (creator?.id === currentPlayerId ? creator : player),
+    [creator, player, currentPlayerId]
+  );
+
+  const rightPlayer = useMemo(
+    () => (creator?.id === currentPlayerId ? player : creator),
+    [creator, player, currentPlayerId]
+  );
+
   return (
     <main>
       <GameControls />
       <div className={st["game-page-wrapper"]}>
         <GameStatePanel />
         <div className={st["game-field-container"]}>
-          {creator && <PlayerBlock player={creator} position="left" />}
+          {leftPlayer && <PlayerBlock player={leftPlayer} position="left" />}
           <GameField />
-          {player && <PlayerBlock player={player} position="right" />}
+          {rightPlayer && <PlayerBlock player={rightPlayer} position="right" />}
         </div>
       </div>
     </main>

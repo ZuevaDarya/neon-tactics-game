@@ -7,7 +7,7 @@
   border-radius: var(--radius);
   border: 1px solid var(--borderColor);
 
-  filter: drop-shadow(0 0 5px var(--shadowColor));
+  filter: drop-shadow(0 0 10px var(--shadowColor));
   background-color: var(--backgroundColor);
   background-image: linear-gradient(
     -45deg,

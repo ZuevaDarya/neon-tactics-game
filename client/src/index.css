@@ -85,7 +85,7 @@
   --text-18px--line-height-ratio: 1.75rem;
   --text-30px--line-height-ratio: 2.25rem;
 
-  --piece-size: clamp(75px, calc(120 * 100vw / var(--base-viewport-size)), 140px);
+  --piece-size: clamp(75px, calc(130 * 100vw / var(--base-viewport-size)), 140px);
   --target-card-size: clamp(60px, calc(120 * 100vw / var(--base-viewport-size)), 140px);
 }
 

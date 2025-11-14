@@ -5,6 +5,10 @@
   gap: clamp(20px, calc(30 * 100vw / var(--base-viewport-size)), 40px);
   width: 100vw;
   position: relative;
+
+  @media (width <= 1370px) {
+    gap: clamp(20px, calc(80 * 100vw / var(--base-viewport-size)), 80px)
+  }
 }
 
 .game-field-container {

@@ -20,6 +20,8 @@ const buttonVariants = cva(st.button, {
         st["button--closed-notification"],
         st["button--closed-notification-cyan"],
       ],
+      clearCyan: [st["button--clear"], st["button--clear-cyan"]],
+      clearPink: [st["button--clear"], st["button--clear-pink"]],
     },
   },
   defaultVariants: {

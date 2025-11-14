@@ -14,7 +14,7 @@ import { createPlayerWithCreateRoom, deleteRoom, startGame } from "../../service
 import cn from "../../utils/functions/cn";
 import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
-import CopyItem from "../copy-item/copy-item";
+import FormFieldWithAction from "../form-field-with-action/form-field-with-action";
 import FormItem from "../form-item/form-item";
 import FormSection from "../form-section/form-section";
 import Form from "../form/form";
@@ -33,6 +33,7 @@ function FormCreateRoom() {
     isRoomIdValueEmpty,
     roomIdValue,
     onError,
+    resetField,
   } = useStartForm<TCreateRoomForm>({
     zodSchema: createRoomFormSchema,
     defaultValues: {
@@ -78,23 +79,39 @@ function FormCreateRoom() {
     }
   };
 
+  const handleClearBtnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (status !== null) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    resetField(StartFormInputName.Player);
+  };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <h2 className={cn(st["form__title"], mx["responsiveFont"])}>Инициализация сессии</h2>
       <FormSection title="Введите имя игрока">
-        <FormItem<TCreateRoomForm>
-          label="Имя игрока"
-          name={StartFormInputName.Player}
-          placeholder="игрок1"
-          type="text"
-          register={register}
-          required
-          variant={isWaiting || isPlayersJoined ? "cyanDisabled" : "cyan"}
-          disabled={isWaiting || isPlayersJoined}
-          errorMessage={errors.player?.message ?? null}
-        />
-
-        <CopyItem>
+        <FormFieldWithAction>
+          <FormItem<TCreateRoomForm>
+            label="Имя игрока"
+            name={StartFormInputName.Player}
+            placeholder="игрок1"
+            type="text"
+            register={register}
+            required
+            variant={isWaiting || isPlayersJoined ? "cyanDisabled" : "cyan"}
+            disabled={isWaiting || isPlayersJoined}
+            errorMessage={errors.player?.message ?? null}
+          />
+          <Button
+            type="button"
+            variant="clearCyan"
+            onClick={handleClearBtnClick}
+            disabled={status !== null}
+          />
+        </FormFieldWithAction>
+        <FormFieldWithAction>
           <FormItem<TCreateRoomForm>
             label="Номер комнаты"
             name={StartFormInputName.RoomId}
@@ -109,7 +126,7 @@ function FormCreateRoom() {
             type="button"
             onClick={handleCopyBtnClick}
           />
-        </CopyItem>
+        </FormFieldWithAction>
 
         {isGameNotExist && (
           <Button

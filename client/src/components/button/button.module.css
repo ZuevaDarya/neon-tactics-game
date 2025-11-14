@@ -124,7 +124,8 @@
 }
 
 .button--copy,
-.button--check {
+.button--check,
+.button--clear {
   position: absolute;
   bottom: 0;
   right: 5px;
@@ -146,8 +147,13 @@
   --svgIconPath: url("../../assets/icons/copy.svg");
 }
 
+.button--clear {
+  --svgIconPath: url("../../assets/icons/close.svg");
+}
+
 .button--copy-cyan,
-.button--check-cyan {
+.button--check-cyan,
+.button--clear-cyan {
   --backgroundColor: var(--button-background-cyan);
   --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-cyan);
   --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-cyan);
@@ -155,7 +161,8 @@
 }
 
 .button--copy-pink,
-.button--check-pink {
+.button--check-pink,
+.button--clear-pink {
   --backgroundColor: var(--button-background-pink);
   --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
   --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);

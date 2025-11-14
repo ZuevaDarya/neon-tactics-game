@@ -10,6 +10,7 @@ import { createPlayerWithJoinInRoom, getAllPlayersInRoom } from "../../services/
 import cn from "../../utils/functions/cn";
 import translateError from "../../utils/functions/translate-error";
 import Button from "../button/button";
+import FormFieldWithAction from "../form-field-with-action/form-field-with-action";
 import FormItem from "../form-item/form-item";
 import FormSection from "../form-section/form-section";
 import Form from "../form/form";
@@ -26,6 +27,7 @@ function FormJoinRoom() {
     isSubmitError,
     setIsSubmitError,
     isPlayerValueEmpty,
+    resetField,
   } = useStartForm<TJoinRoomForm>({
     zodSchema: joinRoomFormSchema,
     defaultValues: {
@@ -52,30 +54,44 @@ function FormJoinRoom() {
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <h2 className={cn(st["form__title"], mx["responsiveFont"])}>Подключение к сессии</h2>
       <FormSection title="Введите имя игрока и номер комнаты">
-        <FormItem<TJoinRoomForm>
-          label="Имя игрока"
-          name={StartFormInputName.Player}
-          placeholder="игрок1"
-          type="text"
-          register={register}
-          required
-          variant={isPlayersJoined ? "pinkDisabled" : "pink"}
-          disabled={isPlayersJoined}
-          errorMessage={errors.player?.message ?? null}
-        />
-        <FormItem<TJoinRoomForm>
-          label="Номер комнаты"
-          name={StartFormInputName.RoomId}
-          type="text"
-          register={register}
-          required
-          placeholder="12345678"
-          maxLength={8}
-          variant={isPlayersJoined ? "pinkDisabled" : "pink"}
-          disabled={isPlayersJoined}
-          errorMessage={errors.roomId?.message ?? null}
-          isUpperCase={true}
-        />
+        <FormFieldWithAction>
+          <FormItem<TJoinRoomForm>
+            label="Имя игрока"
+            name={StartFormInputName.Player}
+            placeholder="игрок1"
+            type="text"
+            register={register}
+            required
+            variant={isPlayersJoined ? "pinkDisabled" : "pink"}
+            disabled={isPlayersJoined}
+            errorMessage={errors.player?.message ?? null}
+          />
+          <Button
+            type="button"
+            variant="clearPink"
+            onClick={() => resetField(StartFormInputName.Player)}
+          />
+        </FormFieldWithAction>
+        <FormFieldWithAction>
+          <FormItem<TJoinRoomForm>
+            label="Номер комнаты"
+            name={StartFormInputName.RoomId}
+            type="text"
+            register={register}
+            required
+            placeholder="12345678"
+            maxLength={8}
+            variant={isPlayersJoined ? "pinkDisabled" : "pink"}
+            disabled={isPlayersJoined}
+            errorMessage={errors.roomId?.message ?? null}
+            isUpperCase={true}
+          />
+          <Button
+            type="button"
+            variant="clearPink"
+            onClick={() => resetField(StartFormInputName.RoomId)}
+          />
+        </FormFieldWithAction>
         <Button
           type="submit"
           variant={isPlayersJoined ? "default" : "pink"}

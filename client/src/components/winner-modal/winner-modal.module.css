@@ -34,6 +34,13 @@
   --lineHeightRatio: var(--text-18px--line-height-ratio);
 }
 
+.winner-modal__text {
+  --minFontSize: 14px;
+  --maxFontSize: 18px;
+  --recommendFontSize: 16;
+  --lineHeightRatio: var(--text-16px--line-height-ratio);
+}
+
 .winner-modal__buttons {
   display: flex;
   flex-direction: column;

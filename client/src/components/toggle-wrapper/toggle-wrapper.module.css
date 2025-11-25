@@ -12,6 +12,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--backgroundColor);
+  z-index: 100;
 
   &:hover {
     box-shadow: 0 0 5px var(--input-shadow-color-cyan);

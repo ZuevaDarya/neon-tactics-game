@@ -61,6 +61,15 @@ export class Game extends Model {
   })
   declare countTurn: number;
 
+  @Column({
+    type: DataType.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: 'Timestamp дедлайна для хода',
+    field: 'time_to_turn',
+  })
+  declare timeToTurn: number;
+
   @ForeignKey(() => Player)
   @BelongsTo(() => Player, {
     foreignKey: 'winnerId',

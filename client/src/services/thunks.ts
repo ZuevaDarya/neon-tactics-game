@@ -11,6 +11,8 @@ import {
   TCreateGameResponse,
   TCreatePlayer,
   TCreatePlayerWithJoinInRoom,
+  TGetTimeToTurnResponse,
+  TGetTurnDurationSecResponse,
   TMakeMoveResponse,
   TPlayer,
   TPlayerWithRoomResponse,
@@ -403,5 +405,19 @@ export const assignWinner = createAsyncThunk<TAssignWinnerResponse, TAssignWinne
     };
 
     return await request(`${API_PATHS.game}/${id}${API_PATHS.assignWinner}`, options);
+  }
+);
+
+export const getTimeToTurn = createAsyncThunk<TGetTimeToTurnResponse, TBaseRoomParam>(
+  `${SliceNamespace.Game}/getTimeToTurn`,
+  async ({ id }) => {
+    return await request(`${API_PATHS.game}/${id}${API_PATHS.timeToTurn}`);
+  }
+);
+
+export const getTurnDuration = createAsyncThunk<TGetTurnDurationSecResponse>(
+  `${SliceNamespace.Game}/getTurnDuration`,
+  async () => {
+    return await request(`${API_PATHS.game}${API_PATHS.turnDuration}`);
   }
 );

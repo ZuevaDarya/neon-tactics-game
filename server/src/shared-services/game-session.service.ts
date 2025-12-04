@@ -189,6 +189,7 @@ export class GameSessionService {
           winnerId: null,
           countTurn: 0,
           endType: null,
+          timeToTurn: null,
         },
         options,
       );
@@ -317,12 +318,15 @@ export class GameSessionService {
     return this.transactionService.useTransaction(async (transaction) => {
       const options = { transaction };
 
-      const game = await this.gameService.create({ roomId }, options);
+      await this.gameService.create({ roomId }, options);
+      const game = await this.gameService.updateTimeToTurn(roomId, options);
+
       const room = await this.roomService.updateRoomStatus(
         roomId,
         'playing',
         options,
       );
+
       let players = await this.assignRandomPieceType(roomId);
       const updatedPlayer = await this.selectActivePlayer(roomId);
 
@@ -351,7 +355,8 @@ export class GameSessionService {
         player.id === updatedPlayer.id ? updatedPlayer : player,
       );
 
-      const game = await this.gameService.shuffleField(roomId, options);
+      await this.gameService.shuffleField(roomId, options);
+      const game = await this.gameService.updateTimeToTurn(roomId, options);
 
       return {
         game,

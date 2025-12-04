@@ -80,3 +80,7 @@ export type TCheckGameEnd = {
 export type TAssignWinner = {
   game: Game;
 };
+
+export type TGetTurnDurationSecResponse = {
+  turnDuration: number;
+};

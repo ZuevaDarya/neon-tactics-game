@@ -23,4 +23,6 @@ export const API_PATHS = {
   startGame: "/start",
   playAgain: "/play-again",
   assignWinner: "/assign-winner",
+  timeToTurn: "/time-to-turn",
+  turnDuration: "/turn-duration",
 };

@@ -156,4 +156,7 @@ export type TPopupNotificationProps = {
 
 export type TProgressBarProps = {
   progressPercent: number;
+  mode?: TProgressBarMode;
 };
+
+export type TProgressBarMode = "local" | "sync";

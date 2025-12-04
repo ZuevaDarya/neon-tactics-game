@@ -13,6 +13,7 @@ export type TGame = {
   countTurn: number;
   winnerId: string | null;
   endType: TGameEndTypes | null;
+  timeToTurn: number | null;
 };
 
 export type TGameState = TGame &
@@ -20,6 +21,7 @@ export type TGameState = TGame &
     endType: TGameEndTypes | null;
     animatePieceIdx: number | null;
     isHintOn: boolean;
+    turnDuration: number | null;
   };
 
 export type TPreloadedState = {
@@ -148,3 +150,9 @@ export type TAssignWinnerParam = {
 };
 
 export type TAnimatePieceResponse = Pick<TUpdateFieldElement, "pieceIdx">;
+
+export type TGetTimeToTurnResponse = Pick<TGame, "timeToTurn">;
+
+export type TGetTurnDurationSecResponse = {
+  turnDuration: number;
+};

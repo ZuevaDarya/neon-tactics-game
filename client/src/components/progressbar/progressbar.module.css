@@ -12,10 +12,23 @@
   top: 0;
   left: -100%;
   display: block;
+  width: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--progressbar-progress-color);
+  background-color: var(--progressbar-progress-color-default);
+}
 
-  transform-origin: left center;
-  will-change: transform;
+.progressbar--sync {
+  transition: transform .95s linear;
+  box-shadow: 0 0 7px 7px var(--progressbarShadowColor);
+}
+
+.progressbar--pink {
+  --progressbarShadowColor: var(--progressbar-progress-color-pink);
+  background-color: var(--progressbar-progress-color-pink);
+}
+
+.progressbar--cyan {
+  --progressbarShadowColor: var(--progressbar-progress-color-cyan);
+  background-color: var(--progressbar-progress-color-cyan);
 }

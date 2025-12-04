@@ -7,6 +7,8 @@ import {
   createGame,
   deleteGame,
   getGame,
+  getTimeToTurn,
+  getTurnDuration,
   incrementCountTurn,
   leaveGame,
   makePlayerMove,
@@ -28,6 +30,8 @@ export const initialState: TGameState = {
   isSuccess: false,
   animatePieceIdx: null,
   isHintOn: false,
+  timeToTurn: null,
+  turnDuration: null,
 };
 
 const gameFieldSlice = createSlice({
@@ -40,6 +44,7 @@ const gameFieldSlice = createSlice({
       state.countTurn = payload.countTurn;
       state.winnerId = payload.winnerId;
       state.endType = payload.endType;
+      state.timeToTurn = payload.timeToTurn;
     },
     resetGameState: (state) => {
       state.field = [];
@@ -50,6 +55,8 @@ const gameFieldSlice = createSlice({
       state.isRequest = false;
       state.isSuccess = false;
       state.endType = null;
+      state.timeToTurn = null;
+      state.turnDuration = null;
     },
     updateAnimatePieceIdx: (state, { payload }: PayloadAction<number | null>) => {
       state.animatePieceIdx = payload;
@@ -80,6 +87,7 @@ const gameFieldSlice = createSlice({
         state.countTurn = payload.countTurn;
         state.winnerId = payload.winnerId;
         state.endType = payload.endType;
+        state.timeToTurn = payload.timeToTurn;
       })
       .addCase(getGame.pending, (state) => {
         state.isRequest = true;
@@ -100,6 +108,7 @@ const gameFieldSlice = createSlice({
         state.countTurn = payload.countTurn;
         state.winnerId = payload.winnerId;
         state.endType = payload.endType;
+        state.timeToTurn = payload.timeToTurn;
       })
       .addCase(deleteGame.pending, (state) => {
         state.isRequest = true;
@@ -122,6 +131,8 @@ const gameFieldSlice = createSlice({
         state.endType = null;
         state.endType = null;
         state.isHintOn = false;
+        state.timeToTurn = null;
+        state.turnDuration = null;
         sessionStorage.removeItem(StorageKey.IsHintOn);
       })
       .addCase(updateGame.pending, (state) => {
@@ -143,6 +154,7 @@ const gameFieldSlice = createSlice({
         state.countTurn = payload.countTurn;
         state.winnerId = payload.winnerId;
         state.endType = payload.endType;
+        state.timeToTurn = payload.timeToTurn;
       })
       .addCase(incrementCountTurn.pending, (state) => {
         state.isRequest = true;
@@ -179,6 +191,8 @@ const gameFieldSlice = createSlice({
         state.targetCard = payload.game.targetCard;
         state.winnerId = payload.game.winnerId;
         state.endType = null;
+        state.timeToTurn = null;
+        state.turnDuration = null;
       })
       .addCase(shuffleField.pending, (state) => {
         state.isRequest = true;
@@ -217,6 +231,8 @@ const gameFieldSlice = createSlice({
         state.winnerId = null;
         state.endType = null;
         state.isHintOn = false;
+        state.timeToTurn = null;
+        state.turnDuration = null;
         sessionStorage.removeItem(StorageKey.IsHintOn);
       })
       .addCase(makePlayerMove.pending, (state) => {
@@ -239,6 +255,7 @@ const gameFieldSlice = createSlice({
         state.countTurn = payload.game.countTurn;
         state.winnerId = payload.game.winnerId;
         state.endType = payload.game.endType;
+        state.timeToTurn = payload.game.timeToTurn;
       })
       .addCase(startGame.rejected, (state, { error }) => {
         state.isRequest = false;
@@ -254,6 +271,7 @@ const gameFieldSlice = createSlice({
         state.countTurn = payload.game.countTurn;
         state.winnerId = payload.game.winnerId;
         state.endType = payload.game.endType;
+        state.timeToTurn = payload.game.timeToTurn;
       })
       .addCase(startGame.pending, (state) => {
         state.isRequest = true;
@@ -274,6 +292,7 @@ const gameFieldSlice = createSlice({
         state.countTurn = payload.game.countTurn;
         state.winnerId = payload.game.winnerId;
         state.endType = payload.game.endType;
+        state.timeToTurn = payload.game.timeToTurn;
       })
       .addCase(playAgain.pending, (state) => {
         state.isRequest = true;
@@ -300,6 +319,39 @@ const gameFieldSlice = createSlice({
         state.countTurn = payload.game.countTurn;
         state.winnerId = payload.game.winnerId;
         state.endType = payload.game.endType;
+        state.timeToTurn = payload.game.timeToTurn;
+      })
+      .addCase(getTimeToTurn.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(getTimeToTurn.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(getTimeToTurn.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+        state.timeToTurn = payload.timeToTurn;
+      })
+        .addCase(getTurnDuration.pending, (state) => {
+        state.isRequest = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(getTurnDuration.rejected, (state, { error }) => {
+        state.isRequest = false;
+        state.isSuccess = false;
+        state.error = String(error.message);
+      })
+      .addCase(getTurnDuration.fulfilled, (state, { payload }) => {
+        state.isRequest = false;
+        state.isSuccess = true;
+        state.error = null;
+        state.turnDuration = payload.turnDuration;
       });
   },
 });

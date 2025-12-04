@@ -6,7 +6,7 @@ import PlayerBlock from "../../components/player-block/player-block";
 import { StorageKey } from "../../constants/storage-keys";
 import useActivePlayer from "../../hooks/use-active-player";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import { getAllPlayersInRoom, getGame, getRoom } from "../../services/thunks";
+import { getAllPlayersInRoom, getGame, getRoom, getTurnDuration } from "../../services/thunks";
 import st from "./game-page.module.css";
 
 function GamePage() {
@@ -22,6 +22,7 @@ function GamePage() {
       await dispatch(getRoom({ id: roomId })).unwrap();
       await dispatch(getAllPlayersInRoom({ id: roomId })).unwrap();
       await dispatch(getGame({ id: roomId })).unwrap();
+      await dispatch(getTurnDuration()).unwrap();
     };
 
     preloadedData();

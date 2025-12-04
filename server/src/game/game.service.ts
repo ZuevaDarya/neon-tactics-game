@@ -1,6 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TransactionOptions } from 'sequelize';
+import { TurnTimerService } from 'src/shared-services/turn-time.service';
 import { TCard } from 'src/types/types';
 import generateCards from 'src/utils/functions/generate-cards';
 import shuffleField from 'src/utils/functions/shuffle-field';
@@ -16,6 +22,8 @@ export class GameService {
   constructor(
     @InjectModel(Game)
     private readonly gameModel: typeof Game,
+    @Inject(forwardRef(() => TurnTimerService))
+    private readonly turnTimeService: TurnTimerService,
   ) {}
 
   private getShuffledField(): TCard[] {
@@ -130,5 +138,20 @@ export class GameService {
       { field: updatedField, targetCard },
       options,
     );
+  }
+
+  async updateTimeToTurn(
+    roomId: string,
+    options?: TransactionOptions,
+  ): Promise<Game> {
+    return await this.update(
+      roomId,
+      { timeToTurn: this.turnTimeService.generateTurnDeadline() },
+      options,
+    );
+  }
+
+  getTurnDurationSec() {
+    return { turnDuration: this.turnTimeService.getTurnDurationSec() };
   }
 }

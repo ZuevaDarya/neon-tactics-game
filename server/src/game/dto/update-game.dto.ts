@@ -20,4 +20,7 @@ export class UpdateGameDTO {
   @IsOptional()
   @IsEnum(GameEndType)
   endType?: GameEndType | null;
+
+  @IsOptional()
+  timeToTurn?: number | null;
 }

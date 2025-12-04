@@ -140,4 +140,10 @@ export class GameController {
 
     return game;
   }
+
+  @Get(':roomId/time-to-turn')
+  async getTimeToTurn(@Param('roomId') id: string) {
+    const { timeToTurn } = await this.gameService.findByRoomId(id);
+    return { timeToTurn };
+  }
 }

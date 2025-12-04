@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import useTimer from "../../hooks/use-timer";
+import useProgress from "../../hooks/use-progress";
 import mx from "../../mixins.module.css";
 import { TPopupNotificationProps } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
@@ -16,8 +16,7 @@ function PopupNotification({
   isPopupOpen,
   durationS = 2,
 }: TPopupNotificationProps) {
-  const { start, progress, reset, isCompleted, pause, resume } = useTimer({ durationS });
-  const progressPercent = useMemo(() => progress * 100, [progress]);
+  const { start, progressPercent, reset, isCompleted, pause, resume } = useProgress({ durationS });
 
   useEffect(() => {
     if (isPopupOpen) {
@@ -36,10 +35,7 @@ function PopupNotification({
 
   return createPortal(
     <div
-      className={cn(
-        st["notification"],
-        isPopupOpen && st["notification--animated-enter"],
-      )}
+      className={cn(st["notification"], isPopupOpen && st["notification--animated-enter"])}
       role="status"
       aria-live="polite"
       aria-describedby="notification-message"

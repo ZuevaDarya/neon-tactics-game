@@ -24,4 +24,6 @@ export enum SocketEvent {
   PlayAgain = "play_again",
   AssignWinner = "assign_winner",
   AnimatePiece = "animated_piece",
+  EndedTimeToTurn = "ended_time_to_turn",
+  MakeRandomMove = "make_random_move",
 }

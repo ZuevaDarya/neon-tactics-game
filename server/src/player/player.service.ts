@@ -1,9 +1,4 @@
-import {
-  forwardRef,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TransactionOptions } from 'sequelize';
 import { AvatarService } from 'src/shared-services/avatar.service';
@@ -16,7 +11,6 @@ export class PlayerService {
   constructor(
     @InjectModel(Player)
     private readonly playerModel: typeof Player,
-    @Inject(forwardRef(() => AvatarService))
     private readonly avatarService: AvatarService,
   ) {}
 

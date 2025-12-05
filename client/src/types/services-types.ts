@@ -1,4 +1,5 @@
 import { API_PATHS } from "../constants/api-constants";
+import { AppRoute } from "../constants/app-route";
 import { GameEndType } from "../constants/game-end-type";
 import { RoomStatus } from "../constants/room-status";
 import { TCard, TGamePieceProps, TPieceTypes } from "./components-types";
@@ -7,8 +8,10 @@ export type TGameFieldPiece = Pick<TGamePieceProps, "type"> & {
   id: string;
 };
 
+export type TField = (TCard | TGameFieldPiece)[];
+
 export type TGame = {
-  field: (TCard | TGameFieldPiece)[];
+  field: TField;
   targetCard: TCard | null;
   countTurn: number;
   winnerId: string | null;
@@ -155,4 +158,17 @@ export type TGetTimeToTurnResponse = Pick<TGame, "timeToTurn">;
 
 export type TGetTurnDurationSecResponse = {
   turnDuration: number;
+};
+
+export type TRedirectPlayersPayload = {
+  roomId: string;
+  url: AppRoute;
+};
+
+export type TMakeRandomMovePayload = {
+  roomId: string;
+  data: {
+    playerId: string;
+    piece: TGameFieldPiece;
+  };
 };

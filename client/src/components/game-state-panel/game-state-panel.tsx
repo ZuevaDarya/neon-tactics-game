@@ -1,10 +1,13 @@
+import uuid from "react-uuid";
 import useActivePlayer from "../../hooks/use-active-player";
 import useModal from "../../hooks/use-modal";
 
 import useProgress from "../../hooks/use-progress";
 import useTurnTimer from "../../hooks/use-turn-timer";
 import mx from "../../mixins.module.css";
-import { useAppSelector } from "../../services/store";
+import { makeRandomMove } from "../../services/slices/socket-slice";
+import { useAppDispatch, useAppSelector } from "../../services/store";
+import { TPieceTypes } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
 import Card from "../card/card";
 import PopupNotification from "../popup-notification/popup-notification";
@@ -12,15 +15,30 @@ import Progressbar from "../progressbar/progressbar";
 import st from "./game-state-panel.module.css";
 
 function GameStatePanel() {
+  const dispatch = useAppDispatch();
   const { targetCard, timeToTurn, turnDuration } = useAppSelector((state) => state.game);
-  const { activePlayer, isCurrentDevicePlayer } = useActivePlayer();
+  const { id } = useAppSelector((state) => state.room);
+  const { activePlayer, isCurrentDevicePlayer, currentPlayerId } = useActivePlayer();
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const { remainingMs, remainingFormatted } = useTurnTimer({
     serverDeadline: timeToTurn || undefined,
     onExpired: () => {
-      console.log("Время вышло, делаем ход");
-      openModal();
+      if (id && activePlayer && currentPlayerId === activePlayer.id) {
+        const moveData = {
+          roomId: id,
+          data: {
+            playerId: activePlayer.id,
+            piece: {
+              id: uuid(),
+              type: activePlayer.pieceType as TPieceTypes,
+            },
+          },
+        };
+
+        dispatch(makeRandomMove(moveData));
+        openModal();
+      }
     },
   });
 

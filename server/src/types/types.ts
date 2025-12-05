@@ -84,3 +84,16 @@ export type TAssignWinner = {
 export type TGetTurnDurationSecResponse = {
   turnDuration: number;
 };
+
+export type TAvailableCardToMove = {
+  card: TCard;
+  idInField: number;
+};
+
+export type TMakeRandomMove = {
+  roomId: string;
+  data: {
+    playerId: string;
+    piece: TGameFieldPiece;
+  };
+};

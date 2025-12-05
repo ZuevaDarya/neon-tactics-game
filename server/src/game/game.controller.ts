@@ -14,8 +14,9 @@ import {
 } from '@nestjs/common';
 import { SocketEvent } from 'src/constants/socket-event';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
-import { GameSessionService } from 'src/shared-services/game-session.service';
+import { GameSessionService } from 'src/game-session/game-session.service';
 import { SocketService } from 'src/socket/socket.service';
+import { TGetTurnDurationSecResponse } from 'src/types/types';
 import { AssignWinnerDTO } from './dto/assign-winner.dto';
 import { CreateGameDTO } from './dto/create-game.dto';
 import { UpdateFieldElementDTO } from './dto/update-field-element.dto';
@@ -39,6 +40,12 @@ export class GameController {
     this.socketService.emitToRoom(data.roomId, SocketEvent.CreateGame, data);
 
     return data;
+  }
+
+  @Get('turn-duration')
+  getTurnDurationSec(): TGetTurnDurationSecResponse {
+    console.log(this.gameService.getTurnDurationSec());
+    return this.gameService.getTurnDurationSec();
   }
 
   @Get(':roomId')

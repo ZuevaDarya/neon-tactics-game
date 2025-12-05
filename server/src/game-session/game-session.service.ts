@@ -1,9 +1,4 @@
-import {
-  forwardRef,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TransactionOptions } from 'sequelize';
 import { DEFAULT_PIECE_COUNT } from 'src/constants/game-constants';
 import { GameEndType } from 'src/constants/game-end-type';
@@ -11,40 +6,35 @@ import { PieceType } from 'src/constants/piece-type';
 import { AssignWinnerDTO } from 'src/game/dto/assign-winner.dto';
 import { UpdateFieldElementDTO } from 'src/game/dto/update-field-element.dto';
 import { GameService } from 'src/game/game.service';
-import { Room } from 'src/room/models/room.model';
+import { CreatePlayerDTO } from 'src/player/dto/create-player.dto';
+import { JoinRoomDTO } from 'src/player/dto/join-room.dto';
+import { Player } from 'src/player/models/player.model';
+import { PlayerService } from 'src/player/player.service';
 import { RoomService } from 'src/room/room.service';
 import { WinCheckService } from 'src/shared-services/win-check.service';
 import {
   TAssignWinner,
   TCheckGameEnd,
   TMakeMove,
+  TMakeRandomMove,
   TPlayAgain,
   TResetGameResponse,
   TStartGame,
 } from 'src/types/types';
 import { TransactionService } from 'src/utils/services/transaction.service';
-import { CreatePlayerDTO } from '../player/dto/create-player.dto';
-import { JoinRoomDTO } from '../player/dto/join-room.dto';
-import { Player } from '../player/models/player.model';
-import { PlayerService } from '../player/player.service';
 
 @Injectable()
 export class GameSessionService {
   constructor(
-    @Inject(forwardRef(() => PlayerService))
     private readonly playerService: PlayerService,
-    @Inject(forwardRef(() => RoomService))
     private readonly roomService: RoomService,
-    @Inject(forwardRef(() => GameService))
     private readonly gameService: GameService,
-    @Inject(forwardRef(() => TransactionService))
     private readonly transactionService: TransactionService,
-    @Inject(forwardRef(() => WinCheckService))
     private readonly winCheckService: WinCheckService,
   ) {}
 
-  private validateMove(player: Player, room: Room) {
-    if (player.roomId !== room.id) {
+  private validateMove(player: Player, roomId: string | null) {
+    if (player.roomId !== roomId) {
       throw new NotFoundException(`Player is not in room`);
     }
 
@@ -260,7 +250,7 @@ export class GameSessionService {
       );
       const room = await this.roomService.findById(roomId, options);
 
-      this.validateMove(currentPlayer, room);
+      this.validateMove(currentPlayer, room.id);
 
       await this.gameService.updateFieldElement(roomId, data, options);
 
@@ -287,7 +277,11 @@ export class GameSessionService {
           if (winnerPlayer) {
             const endedGame = await this.gameService.update(
               roomId,
-              { winnerId: winnerPlayer.id, endType: GameEndType.NoMoves },
+              {
+                winnerId: winnerPlayer.id,
+                endType: GameEndType.NoMoves,
+                timeToTurn: null,
+              },
               options,
             );
 
@@ -306,8 +300,13 @@ export class GameSessionService {
         }
       }
 
+      const gameWithNewTimeToTurn = await this.gameService.updateTimeToTurn(
+        roomId,
+        options,
+      );
+
       return {
-        game,
+        game: gameWithNewTimeToTurn,
         players,
         room,
       };
@@ -382,6 +381,32 @@ export class GameSessionService {
       );
 
       return { game };
+    });
+  }
+
+  async makeRandomMove({
+    roomId,
+    data,
+  }: TMakeRandomMove): Promise<TMakeMove | TCheckGameEnd> {
+    return this.transactionService.useTransaction(async (transaction) => {
+      const options = { transaction };
+      const { playerId, piece } = data;
+
+      const { field, targetCard } = await this.gameService.findByRoomId(
+        roomId,
+        options,
+      );
+      const card = this.winCheckService.getRandomAvailableCard(
+        field,
+        targetCard,
+      );
+      const moveData: UpdateFieldElementDTO = {
+        playerId,
+        pieceIdx: card.idInField,
+        piece,
+      };
+
+      return await this.makePlayerMove(roomId, moveData);
     });
   }
 }

@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppRoute } from "../../constants/app-route";
 import { SliceNamespace } from "../../constants/slice-namespace";
-import { TSocketState } from "../../types/services-types";
+import {
+  TMakeRandomMovePayload,
+  TRedirectPlayersPayload,
+  TSocketState,
+} from "../../types/services-types";
 
 const initialState: TSocketState = {
   isConnected: false,
@@ -30,9 +33,11 @@ const socketSlice = createSlice({
     getError: (state, { payload }: PayloadAction<{ error: string }>) => {
       state.error = payload.error;
     },
-    redirectPlayers: (_state, _action: PayloadAction<{ roomId: string, url: AppRoute }>) => {},
+    redirectPlayers: (_state, _action: PayloadAction<TRedirectPlayersPayload>) => {},
+    makeRandomMove: (_state, _action: PayloadAction<TMakeRandomMovePayload>) => {},
   },
 });
 
-export const { connect, connected, disconnected, getError, redirectPlayers } = socketSlice.actions;
+export const { connect, connected, disconnected, getError, redirectPlayers, makeRandomMove } =
+  socketSlice.actions;
 export default socketSlice.reducer;

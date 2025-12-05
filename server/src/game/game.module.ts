@@ -1,8 +1,8 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { GameSessionModule } from 'src/game-session/game-session.module';
 import { PlayerModule } from 'src/player/player.module';
 import { RoomModule } from 'src/room/room.module';
-import { GameSessionService } from 'src/shared-services/game-session.service';
 import { TurnTimerService } from 'src/shared-services/turn-time.service';
 import { SocketModule } from 'src/socket/socket.module';
 import { TransactionService } from 'src/utils/services/transaction.service';
@@ -15,14 +15,10 @@ import { Game } from './models/game.model';
     SequelizeModule.forFeature([Game]),
     forwardRef(() => PlayerModule),
     forwardRef(() => RoomModule),
+    forwardRef(() => GameSessionModule),
     SocketModule,
   ],
-  providers: [
-    GameService,
-    GameSessionService,
-    TransactionService,
-    TurnTimerService,
-  ],
+  providers: [GameService, TransactionService, TurnTimerService],
   controllers: [GameController],
   exports: [GameService],
 })

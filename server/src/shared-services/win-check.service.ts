@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
+  TAvailableCardToMove,
   TCard,
   TGameField,
   TGameFieldPiece,
@@ -207,5 +208,37 @@ export class WinCheckService {
 
   public checkDraw(field: TGameField) {
     return field.every((item) => 'type' in item && item.type !== null);
+  }
+
+  public findAvailableCardsToMove(field: TGameField, targetCard: TCard | null) {
+    const availableCards: TAvailableCardToMove[] = [];
+
+    for (let i = 0; i < field.length; i++) {
+      const item = field[i];
+
+      if ('types' in item) {
+        const isAvailable =
+          targetCard === null
+            ? true
+            : this.hasCommonElements<string>(item.types, targetCard.types);
+
+        if (isAvailable) {
+          availableCards.push({ card: item, idInField: i });
+        }
+      }
+    }
+
+    return availableCards;
+  }
+
+  public getRandomItemIndexInArr(arrayLength: number) {
+    return Math.floor(Math.random() * arrayLength);
+  }
+
+  public getRandomAvailableCard(field: TGameField, targetCard: TCard | null) {
+    const availableCards = this.findAvailableCardsToMove(field, targetCard);
+    const randomCardIdx = this.getRandomItemIndexInArr(availableCards.length);
+
+    return availableCards[randomCardIdx];
   }
 }

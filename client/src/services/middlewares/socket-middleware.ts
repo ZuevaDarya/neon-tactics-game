@@ -22,6 +22,7 @@ import {
   connected,
   disconnected,
   getError,
+  makeRandomMove,
   redirectPlayers,
 } from "../slices/socket-slice";
 import { RootState } from "../store";
@@ -198,6 +199,20 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
           console.log("Animate piece");
           dispatch(updateAnimatePieceIdx(data.pieceIdx));
         });
+
+        socket.on(SocketEvent.MakeRandomMove, (data: TMakeMoveResponse) => {
+          console.log("Make random move");
+
+          dispatch(updateGameState(data.game));
+
+          if ("room" in data) {
+            dispatch(updateRoomState(data.room));
+          }
+
+          if ("players" in data) {
+            data.players.map((player) => dispatch(setPlayer(player)));
+          }
+        });
       }
 
       if (redirectPlayers.match(action)) {
@@ -209,6 +224,17 @@ export function createSocketMiddleware(): Middleware<unknown, RootState> {
         const { roomId, url } = action.payload;
         socket.emit(SocketEvent.RedirectPlayers, { roomId, url });
         console.log("Redirect players");
+      }
+
+      if (makeRandomMove.match(action)) {
+        if (!socket?.connected) {
+          console.warn("Socket is not connected");
+          return next(action);
+        }
+
+        const { roomId, data } = action.payload;
+        socket.emit(SocketEvent.EndedTimeToTurn, { roomId, data });
+        console.log("Ended time to turn");
       }
 
       return next(action);

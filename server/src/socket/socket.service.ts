@@ -10,7 +10,8 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { SocketEvent } from 'src/constants/socket-event';
-import { TSocketEvent } from 'src/types/types';
+import { GameSessionService } from 'src/game-session/game-session.service';
+import { TMakeRandomMove, TSocketEvent } from 'src/types/types';
 
 @WebSocketGateway({
   cors: {
@@ -25,6 +26,8 @@ export class SocketService
 
   private roomSessions = new Map<string, Set<string>>(); //roomId -> Set(socketId)
   private playerSessions = new Map<string, string>(); //socketId -> playerId
+
+  constructor(private readonly gameSessionService: GameSessionService) {}
 
   afterInit() {
     console.log('WebSocket Gateway initialized');
@@ -154,5 +157,15 @@ export class SocketService
   @SubscribeMessage(SocketEvent.RedirectPlayers)
   handleStartGame(@MessageBody() payload: { roomId: string; url: string }) {
     this.emitToRoom(payload.roomId, SocketEvent.Redirect, { url: payload.url });
+  }
+
+  @SubscribeMessage(SocketEvent.EndedTimeToTurn)
+  async handleMakeRandomMove(@MessageBody() payload: TMakeRandomMove) {
+    try {
+      const data = await this.gameSessionService.makeRandomMove(payload);
+      this.emitToRoom(payload.roomId, SocketEvent.MakeRandomMove, data);
+    } catch (error) {
+      this.handleError(new Error(`Error making random move: ${error}`));
+    }
   }
 }

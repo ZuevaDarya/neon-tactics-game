@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 
 import { SocketEvent } from 'src/constants/socket-event';
-import { GameSessionService } from 'src/shared-services/game-session.service';
+import { GameSessionService } from 'src/game-session/game-session.service';
 import { SocketService } from 'src/socket/socket.service';
 import { TRoomStatus } from 'src/types/types';
 import { CreateRoomDTO } from './dto/create-room.dto';

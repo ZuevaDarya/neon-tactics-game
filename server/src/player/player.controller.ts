@@ -14,8 +14,8 @@ import {
 } from '@nestjs/common';
 import { SocketEvent } from 'src/constants/socket-event';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
+import { GameSessionService } from 'src/game-session/game-session.service';
 import { SocketService } from 'src/socket/socket.service';
-import { GameSessionService } from '../shared-services/game-session.service';
 import { CreatePlayerDTO } from './dto/create-player.dto';
 import { JoinRoomDTO } from './dto/join-room.dto';
 import { UpdatePlayerDTO } from './dto/update-player.dto';

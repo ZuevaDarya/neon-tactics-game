@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useDragLayer } from "react-dnd";
 import cn from "../../utils/functions/cn";
-import isTouchDevice from "../../utils/functions/isTouchDevice";
+import isTouchDevice from "../../utils/functions/is-touch-device";
 import st from "../game-piece/game-piece.module.css";
 
 const DragPiecePreview = () => {

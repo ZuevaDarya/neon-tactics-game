@@ -90,6 +90,7 @@ export type TProtectedRoute = {
 export type TWinnerModalProps = Pick<TModalProps, "onClose"> & {
   winner: TPlayer | null;
   gameEndType: TGameEndTypes | null;
+  isModalOpen?: boolean;
 };
 
 export type TNotificationModalProps = Pick<TModalProps, "onClose"> & {

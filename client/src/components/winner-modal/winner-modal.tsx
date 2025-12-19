@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+import { SOUND_EFFECTS_PATHS } from "../../constants/audio-paths";
 import { GameEndType } from "../../constants/game-end-type";
 import useActivePlayer from "../../hooks/use-active-player";
+import useSoundEffect from "../../hooks/use-sound-effect";
 import mx from "../../mixins.module.css";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { playAgain } from "../../services/thunks";
@@ -11,11 +14,24 @@ import Modal from "../modal/modal";
 import WinnerModalContent from "../winner-modal-content/winner-modal-content";
 import st from "./winner-modal.module.css";
 
-function WinnerModal({ winner, gameEndType }: TWinnerModalProps) {
+function WinnerModal({ winner, gameEndType, isModalOpen }: TWinnerModalProps) {
   const dispatch = useAppDispatch();
   const { id } = useAppSelector((state) => state.room);
   const { creator, player } = useAppSelector((state) => state.players);
   const { currentPlayerId } = useActivePlayer();
+  const { play, stop } = useSoundEffect({
+    pathToAudio: SOUND_EFFECTS_PATHS.winSound,
+  });
+
+  useEffect(() => {
+    const soundPlay = async () => await play();
+
+    if (isModalOpen) {
+      soundPlay();
+    } else {
+      stop();
+    }
+  }, [isModalOpen]);
 
   const handleClickPlayAgainBtn = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();

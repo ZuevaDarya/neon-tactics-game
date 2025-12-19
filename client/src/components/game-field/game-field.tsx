@@ -1,8 +1,10 @@
 import { memo, useCallback, useEffect, useMemo } from "react";
+import { SOUND_EFFECTS_PATHS } from "../../constants/audio-paths";
 import { GameEndType } from "../../constants/game-end-type";
 import useActivePlayer from "../../hooks/use-active-player";
 import useGameEndAnimation from "../../hooks/use-game-end-animation";
 import useModal from "../../hooks/use-modal";
+import useSoundEffect from "../../hooks/use-sound-effect";
 import { updateAnimatePieceIdx } from "../../services/slices/game-slice";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { decrementPieceCount, makePlayerMove } from "../../services/thunks";
@@ -24,11 +26,18 @@ function GameField() {
   const { isAnimationStart, isWinnerModalOpen } = useGameEndAnimation({
     durationMs: 1900,
   });
+  const { play, stop } = useSoundEffect({
+    pathToAudio: SOUND_EFFECTS_PATHS.droppedSmallObjOnFloor,
+  });
 
   useEffect(() => {
+    const soundPlay = async () => await play();
+
     if (animatePieceIdx !== null) {
+      soundPlay();
       const timer = setTimeout(() => {
         dispatch(updateAnimatePieceIdx(null));
+        stop();
       }, 500);
 
       return () => clearTimeout(timer);
@@ -91,7 +100,9 @@ function GameField() {
 
   return (
     <>
-      {isWinnerModalOpen && <WinnerModal winner={winner} gameEndType={endType} />}
+      {isWinnerModalOpen && (
+        <WinnerModal winner={winner} gameEndType={endType} isModalOpen={isWinnerModalOpen} />
+      )}
       {error && (
         <PopupNotification closeModal={closeModal} isPopupOpen={isModalOpen}>
           {translateError(error)}

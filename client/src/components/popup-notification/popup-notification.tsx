@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import { SOUND_EFFECTS_PATHS } from "../../constants/audio-paths";
 import useProgress from "../../hooks/use-progress";
+import useSoundEffect from "../../hooks/use-sound-effect";
 import mx from "../../mixins.module.css";
 import { TPopupNotificationProps } from "../../types/components-types";
 import cn from "../../utils/functions/cn";
@@ -17,21 +19,29 @@ function PopupNotification({
   durationS = 2,
 }: TPopupNotificationProps) {
   const { start, progressPercent, reset, isCompleted, pause, resume } = useProgress({ durationS });
+  const { play, stop } = useSoundEffect({
+    pathToAudio: SOUND_EFFECTS_PATHS.notificationEcho,
+  });
 
   useEffect(() => {
+    const audioPlay = async () => await play();
+
     if (isPopupOpen) {
       reset();
       start();
+      audioPlay();
     } else {
       reset();
+      stop();
     }
   }, [isPopupOpen]);
 
   useEffect(() => {
     if (isCompleted) {
       closeModal();
+      stop();
     }
-  }, [isCompleted, closeModal]);
+  }, [isCompleted, closeModal, stop]);
 
   return createPortal(
     <div

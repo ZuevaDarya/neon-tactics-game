@@ -5,12 +5,6 @@
   --recommendFontSize: 18;
   --lineHeightRatio: var(--text-20px--line-height-ratio);
 
-  position: absolute;
-  top: 5%;
-  right: 5%;
-  left: clamp(5%, calc(100vw - var(--maxWidth) - 5%), 95%);
-  z-index: 90;
-
   background-color: var(--start-modal-background);
   border-radius: var(--radius);
 
@@ -22,7 +16,9 @@
   justify-content: space-between;
 
   max-width: var(--maxWidth);
+  min-width: 250px;
   overflow-x: hidden;
+  overflow-y: hidden;
 
   transform: translateY(-100%);
   opacity: 0;

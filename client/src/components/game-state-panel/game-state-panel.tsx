@@ -16,7 +16,7 @@ import st from "./game-state-panel.module.css";
 
 function GameStatePanel() {
   const dispatch = useAppDispatch();
-  const { targetCard, timeToTurn, turnDuration } = useAppSelector((state) => state.game);
+  const { targetCard, timeToTurn, turnDuration, endType } = useAppSelector((state) => state.game);
   const { id } = useAppSelector((state) => state.room);
   const { activePlayer, isCurrentDevicePlayer, currentPlayerId } = useActivePlayer();
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -50,7 +50,7 @@ function GameStatePanel() {
 
   return (
     <>
-      {isCurrentDevicePlayer && (
+      {isCurrentDevicePlayer && !endType && (
         <PopupNotification closeModal={closeModal} isPopupOpen={isModalOpen}>
           Время вышло! Делаем автоматический ход...
         </PopupNotification>
@@ -74,9 +74,9 @@ function GameStatePanel() {
         </div>
         <div className={st["state-panel__progress-info"]}>
           <span className={cn(st.text, st["text__time"], mx["responsiveFont"])}>
-            {timeToTurn ? remainingFormatted : ""}
+            {timeToTurn && !endType ? remainingFormatted : "00:00"}
           </span>
-          <Progressbar progressPercent={progressPercent} mode="sync" />
+          <Progressbar progressPercent={!endType ? progressPercent : 0} mode="sync" />
         </div>
       </div>
     </>

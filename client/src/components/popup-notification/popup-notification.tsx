@@ -10,7 +10,7 @@ import Button from "../button/button";
 import Progressbar from "../progressbar/progressbar";
 import st from "./popup-notification.module.css";
 
-const modalRoot = document.getElementById("modals") as HTMLElement;
+const notificationRoot = document.getElementById("notification") as HTMLElement;
 
 function PopupNotification({
   children,
@@ -63,7 +63,7 @@ function PopupNotification({
       </p>
       <Progressbar progressPercent={progressPercent} />
     </div>,
-    modalRoot
+    notificationRoot
   );
 }
 

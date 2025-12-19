@@ -276,6 +276,8 @@ body {
     linear-gradient(90deg, var(--background-cell-color) 1px, transparent 1px);
   background-size: var(--cell-size) var(--cell-size);
   font-family: var(--font-orbitron);
+
+  overflow-y: hidden;
 }
 
 @font-face {
@@ -324,4 +326,20 @@ body {
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+
+#notification {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  left: clamp(5%, calc(100vw - var(--maxWidth) - 5%), 95%);
+
+  height: 100dvh;
+  width: auto;
+
+  z-index: 90;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

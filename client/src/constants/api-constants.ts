@@ -1,5 +1,5 @@
 export const BASE_URL = "http://localhost:3000";
-export const DEV_URL = "http://192.168.0.100:3000";
+export const DEV_URL = "http://192.168.1.178:3000";
 
 export const API_PATHS = {
   rooms: "/rooms",

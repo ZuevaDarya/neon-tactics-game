@@ -17,6 +17,7 @@ import {
   TCheckGameEnd,
   TMakeMove,
   TMakeRandomMove,
+  TMakeRandomMoveResponse,
   TPlayAgain,
   TResetGameResponse,
   TStartGame,
@@ -387,7 +388,7 @@ export class GameSessionService {
   async makeRandomMove({
     roomId,
     data,
-  }: TMakeRandomMove): Promise<TMakeMove | TCheckGameEnd> {
+  }: TMakeRandomMove): Promise<TMakeRandomMoveResponse> {
     return this.transactionService.useTransaction(async (transaction) => {
       const options = { transaction };
       const { playerId, piece } = data;
@@ -406,7 +407,10 @@ export class GameSessionService {
         piece,
       };
 
-      return await this.makePlayerMove(roomId, moveData);
+      return {
+        ...(await this.makePlayerMove(roomId, moveData)),
+        pieceIdx: card.idInField,
+      };
     });
   }
 }

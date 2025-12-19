@@ -97,3 +97,7 @@ export type TMakeRandomMove = {
     piece: TGameFieldPiece;
   };
 };
+
+export type TMakeRandomMoveResponse = (TMakeMove | TCheckGameEnd) & {
+  pieceIdx: number;
+};

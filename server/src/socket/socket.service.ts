@@ -162,8 +162,10 @@ export class SocketService
   @SubscribeMessage(SocketEvent.EndedTimeToTurn)
   async handleMakeRandomMove(@MessageBody() payload: TMakeRandomMove) {
     try {
-      const data = await this.gameSessionService.makeRandomMove(payload);
+      const { pieceIdx, ...data } =
+        await this.gameSessionService.makeRandomMove(payload);
       this.emitToRoom(payload.roomId, SocketEvent.MakeRandomMove, data);
+      this.emitToRoom(payload.roomId, SocketEvent.AnimatePiece, { pieceIdx });
     } catch (error) {
       this.handleError(new Error(`Error making random move: ${error}`));
     }

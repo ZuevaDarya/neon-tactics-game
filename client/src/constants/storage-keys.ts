@@ -6,4 +6,5 @@ export enum StorageKey {
   HasAnimationPlayed = "hasAnimationPlayed",
   IsWinnerModalOpen = "isWinnerModalOpen",
   IsHintOn = "isHintOn",
+  IsSoundOn = "isSoundOn",
 }

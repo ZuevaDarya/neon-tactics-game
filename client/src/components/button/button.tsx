@@ -22,6 +22,8 @@ const buttonVariants = cva(st.button, {
       ],
       clearCyan: [st["button--clear"], st["button--clear-cyan"]],
       clearPink: [st["button--clear"], st["button--clear-pink"]],
+      soundOn: [st["button--sound"], st["button--sound-on"]],
+      soundOff: [st["button--sound"], st["button--sound-off"]],
     },
   },
   defaultVariants: {

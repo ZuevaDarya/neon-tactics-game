@@ -17,6 +17,7 @@ function StartPage() {
     sessionStorage.setItem(StorageKey.HasAnimationPlayed, String(false));
     sessionStorage.setItem(StorageKey.IsWinnerModalOpen, String(false));
     sessionStorage.setItem(StorageKey.IsHintOn, String(false));
+    sessionStorage.setItem(StorageKey.IsSoundOn, String(true));
   }, []);
 
   return (

@@ -161,3 +161,12 @@ export type TProgressBarProps = {
 };
 
 export type TProgressBarMode = "local" | "sync";
+
+export type TSoundToggleProps = {
+  isPlaying: boolean;
+  handleClick: () => void;
+};
+
+export type TGameControlsProps = {
+  soundToggleProps: TSoundToggleProps;
+};

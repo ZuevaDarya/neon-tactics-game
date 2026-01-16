@@ -170,7 +170,8 @@
 }
 
 .button--toggle-theme,
-.button--hint {
+.button--hint,
+.button--sound {
   position: relative;
   mask-image: var(--svgIconPath);
   mask-size: contain;
@@ -179,6 +180,11 @@
   width: 30px;
   height: 30px;
   background-color: var(--button-theme-icon-color);
+}
+
+.button--sound {
+  width: 25px;
+  height: 25px;
 }
 
 .button--toggle-theme-light {
@@ -203,4 +209,20 @@
   --hoverBackgroundColor: var(--button-background-pink);
   --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
   --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
+}
+
+.button--sound-on {
+  --svgIconPath: url("../../assets/icons/sound.png");
+  --backgroundColor: var(--button-background-pink);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
+  --hoverBackgroundColor: var(--button-background-pink);
+}
+
+.button--sound-off {
+  --svgIconPath: url("../../assets/icons/sound-off.png");
+  --backgroundColor: var(--button-background-pink);
+  --hoverBackgroundGradientStartColor: var(--button-hover-background-gradient-start-pink);
+  --hoverBackgroundGradientEndColor: var(--button-hover-background-gradient-end-pink);
+  --hoverBackgroundColor: var(--button-background-pink);
 }

@@ -25,6 +25,8 @@ export type TGameState = TGame &
     animatePieceIdx: number | null;
     isHintOn: boolean;
     turnDuration: number | null;
+    isMoveRequest: boolean;
+    isPlayAgainRequest: boolean;
   };
 
 export type TPreloadedState = {

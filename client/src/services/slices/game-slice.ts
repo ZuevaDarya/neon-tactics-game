@@ -32,6 +32,8 @@ export const initialState: TGameState = {
   isHintOn: false,
   timeToTurn: null,
   turnDuration: null,
+  isMoveRequest: false,
+  isPlayAgainRequest: false,
 };
 
 const gameFieldSlice = createSlice({
@@ -64,6 +66,9 @@ const gameFieldSlice = createSlice({
     setIsHintOn: (state, { payload }: PayloadAction<boolean>) => {
       state.isHintOn = payload;
       sessionStorage.setItem(StorageKey.IsHintOn, String(payload));
+    },
+    setIsMoveRequest: (state, { payload }: PayloadAction<boolean>) => {
+      state.isMoveRequest = payload;
     },
   },
   extraReducers: (builder) => {
@@ -239,16 +244,19 @@ const gameFieldSlice = createSlice({
         state.isRequest = true;
         state.isSuccess = false;
         state.error = null;
+        state.isMoveRequest = true;
       })
       .addCase(makePlayerMove.rejected, (state, { error }) => {
         state.isRequest = false;
         state.isSuccess = false;
         state.error = String(error.message);
+        state.isMoveRequest = false;
       })
       .addCase(makePlayerMove.fulfilled, (state, { payload }) => {
         state.isRequest = false;
         state.isSuccess = true;
         state.error = null;
+        state.isMoveRequest = false;
 
         state.field = payload.game.field;
         state.targetCard = payload.game.targetCard;
@@ -281,10 +289,12 @@ const gameFieldSlice = createSlice({
       .addCase(playAgain.rejected, (state, { error }) => {
         state.isRequest = false;
         state.isSuccess = false;
+        state.isPlayAgainRequest = false;
         state.error = String(error.message);
       })
       .addCase(playAgain.fulfilled, (state, { payload }) => {
         state.isRequest = false;
+        state.isPlayAgainRequest = false;
         state.isSuccess = true;
         state.error = null;
         state.field = payload.game.field;
@@ -298,6 +308,7 @@ const gameFieldSlice = createSlice({
         state.isRequest = true;
         state.isSuccess = false;
         state.error = null;
+        state.isPlayAgainRequest = true;
       })
       .addCase(assignWinner.pending, (state) => {
         state.isRequest = true;
@@ -337,7 +348,7 @@ const gameFieldSlice = createSlice({
         state.error = null;
         state.timeToTurn = payload.timeToTurn;
       })
-        .addCase(getTurnDuration.pending, (state) => {
+      .addCase(getTurnDuration.pending, (state) => {
         state.isRequest = true;
         state.isSuccess = false;
         state.error = null;

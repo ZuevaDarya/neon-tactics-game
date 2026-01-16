@@ -17,6 +17,7 @@ import st from "./winner-modal.module.css";
 function WinnerModal({ winner, gameEndType, isModalOpen }: TWinnerModalProps) {
   const dispatch = useAppDispatch();
   const { id } = useAppSelector((state) => state.room);
+  const { isPlayAgainRequest } = useAppSelector((state) => state.game);
   const { creator, player } = useAppSelector((state) => state.players);
   const { currentPlayerId } = useActivePlayer();
   const { play, stop } = useSoundEffect({
@@ -37,7 +38,7 @@ function WinnerModal({ winner, gameEndType, isModalOpen }: TWinnerModalProps) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!id) return;
+    if (!id || isPlayAgainRequest) return;
     await dispatch(playAgain({ id })).unwrap();
   };
 

@@ -19,7 +19,9 @@ import st from "./game-field.module.css";
 
 function GameField() {
   const dispatch = useAppDispatch();
-  const { field, error, animatePieceIdx, endType } = useAppSelector((state) => state.game);
+  const { field, error, animatePieceIdx, endType, isMoveRequest } = useAppSelector(
+    (state) => state.game
+  );
   const { id } = useAppSelector((state) => state.room);
   const { currentPlayerId, winner, activePlayer } = useActivePlayer();
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -52,7 +54,7 @@ function GameField() {
 
   const handleDrop = useCallback(
     async (cardIdx: number, piece: TGameFieldPiece) => {
-      if (!currentPlayerId || !id) return;
+      if (!currentPlayerId || !id || isMoveRequest) return;
 
       try {
         await dispatch(
@@ -69,7 +71,7 @@ function GameField() {
         dispatch(updateAnimatePieceIdx(null));
       }
     },
-    [currentPlayerId, id, dispatch, openModal]
+    [currentPlayerId, id, dispatch, openModal, isMoveRequest]
   );
 
   const fieldElements = useMemo(() => {

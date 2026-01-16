@@ -18,6 +18,8 @@ const preloadedState: TPreloadedState = {
     isHintOn: false,
     timeToTurn: null,
     turnDuration: null,
+    isMoveRequest: false,
+    isPlayAgainRequest: false,
   },
   players: {
     creator: null,

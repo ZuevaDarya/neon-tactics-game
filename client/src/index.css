@@ -338,6 +338,7 @@ body {
   width: auto;
 
   z-index: 90;
+  pointer-events: none;
 
   display: flex;
   flex-direction: column;

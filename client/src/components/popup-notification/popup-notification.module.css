@@ -24,6 +24,8 @@
   opacity: 0;
 
   transition: transform 0.5s ease, opacity 0.5s ease;
+
+  pointer-events: auto;
 }
 
 .notification__text {
